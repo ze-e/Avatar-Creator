@@ -1,0 +1,13 @@
+.footer {
+  width: 100%;
+  margin-top: 20px;
+  &__purpleBlock {
+    height: 53px;
+    background-color: #36213e;
+  }
+
+  &__blackBlock {
+    height: 13px;
+    background-color: #000;
+  }
+}

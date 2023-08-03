@@ -1,0 +1,25 @@
+.banner {
+  background-color: #36213e;
+  height: 128px;
+  padding: 22px;
+  font-size: 64px;
+  font-family: "IM Fell Great Primer SC", sans-serif;
+  text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.5), 4px 4px 10px rgba(0, 0, 0, 0.5);
+  text-transform: uppercase;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  & a {
+    color: #ffd600;
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .banner {
+    justify-content: center;
+    &__loginButton {
+      display: none;
+    }
+  }
+}

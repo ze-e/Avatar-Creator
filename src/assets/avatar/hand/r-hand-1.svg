@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg" xmlnsBx="https://boxy-svg.com">
+  <path style="fill: rgb(216, 216, 216); stroke: rgb(0, 0, 0); visibility: hidden;" d="M 247.256 100 C 247.256 100 310.9677590780905 124.05573965032411 327.735 155.58 C 354.6999047171093 206.27699186439278 368.1494373732728 370.5251937448074 330.583 408.517 C 299.7712433035454 439.67764158978997 191.06237263061766 439.6861329999698 160.417 408.517 C 123.02416182783955 370.4850804576033 137.13119922072346 205.78957491240195 164.71 155.204 C 181.97629922919347 123.5338167999158 247.256 100 247.256 100 C 247.256 100 247.25599999999997 99.99999999999999 247.256 100" bxD="M 247.256 100 R 327.735 155.58 R 330.583 408.517 R 160.417 408.517 R 164.71 155.204 R 247.256 100 Z 1@42b9876b"/>
+  <g style="visibility: hidden;">
+    <ellipse style="fill: rgb(216, 216, 216); stroke: rgb(0, 0, 0);" cx="245.944" cy="135.504" rx="98.772" ry="91.327"/>
+    <g style="visibility: hidden;" transform="matrix(1, 0, 0, 1, -7.87048, -0.000004)">
+      <polygon style="fill: rgb(216, 216, 216); stroke: rgb(0, 0, 0);" points="186.503 78.337 137.723 44.177 150.726 114.333 176.196 100"/>
+      <polyline style="fill: rgb(216, 216, 216); stroke: rgb(0, 0, 0);" points="146.007 65.567 164.608 75.415 165.702 89.274"/>
+    </g>
+    <g style="visibility: hidden;" transform="matrix(-1, 0, 0, 1, 500.975311, -0.000004)">
+      <polygon style="fill: rgb(216, 216, 216); stroke: rgb(0, 0, 0);" points="186.503 78.337 137.723 44.177 150.726 114.333 176.196 100"/>
+      <polyline style="fill: rgb(216, 216, 216); stroke: rgb(0, 0, 0);" points="146.007 65.567 164.608 75.415 165.702 89.274"/>
+    </g>
+  </g>
+  <ellipse style="fill: rgb(216, 216, 216); stroke: rgb(0, 0, 0); visibility: hidden;" cx="136.585" cy="247.031" rx="36.585" ry="36.585"/>
+  <ellipse style="fill: rgb(216, 216, 216); stroke: rgb(0, 0, 0);" cx="363.415" cy="247.031" rx="36.585" ry="36.585"/>
+  <ellipse style="fill: rgb(216, 216, 216); stroke: rgb(0, 0, 0); visibility: hidden;" cx="183.757" cy="447.03" rx="36.585" ry="36.585"/>
+  <ellipse style="fill: rgb(216, 216, 216); stroke: rgb(0, 0, 0); visibility: hidden;" cx="317.15" cy="447.03" rx="36.585" ry="36.585"/>
+</svg>

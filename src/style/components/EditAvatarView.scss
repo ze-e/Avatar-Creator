@@ -1,0 +1,20 @@
+.editAvatarView {
+  text-align: center;
+  &__button-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  &__button {
+    &--L {
+      margin-right: 8px;
+    }
+    &--R {
+      margin-left: 8px;
+    }
+    &--submit {
+      margin-bottom: 16px;
+    }
+  }
+}

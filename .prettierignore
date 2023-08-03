@@ -1,0 +1,5 @@
+# Ignore artifacts:
+build
+backup
+node_modules
+.vscode

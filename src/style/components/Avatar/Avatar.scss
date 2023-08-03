@@ -1,0 +1,17 @@
+.avatar {
+  #canvas {
+    border: 2px solid black;
+    background-color: white;
+  }
+  position: relative;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+
+  &__edit {
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    z-index: 1;
+  }
+}

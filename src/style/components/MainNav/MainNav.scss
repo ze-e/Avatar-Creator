@@ -1,0 +1,20 @@
+.mainNav {
+  background-color: #63768d;
+  padding: 12px;
+  display: flex;
+  justify-content: flex-end;
+  &--gear {
+    justify-content: space-between;
+  }
+  &__items {
+    display: flex;
+    align-items: center;
+  }
+
+  &__item {
+    margin-right: 4px;
+    &:last-of-type {
+      margin: 0;
+    }
+  }
+}
