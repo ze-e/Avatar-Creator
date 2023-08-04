@@ -1,9 +1,10 @@
+/* eslint-disable */
+
 import React, { useState, useContext } from 'react'
-import { ModalContext } from 'contexts/ModalContext'
 
 export default function ModalQuestAdd () {
-  const { setModalOpen } = useContext(ModalContext)
   const [selected, setSelected] = useState('http://localhost:3000/')
+  const [message, setMessage] = useState('')
 
   const socialIcons = [
     {
@@ -24,34 +25,38 @@ export default function ModalQuestAdd () {
   ]
 
   const copyToClipboard = () => {
+    setMessage('')
     const copyText = document.getElementById('shareLink')
+    copyText.focus();
     copyText.select()
     copyText.setSelectionRange(0, 99999)
     navigator.clipboard.writeText(copyText.value)
-    alert('Copied to clipboard!')
+    setMessage('Copied to clipboard!')
+  }
+
+  const iconSelect = (newVal) => {
+    setMessage('')
+    setSelected(newVal)
   }
 
   return (
     <div className='m-abs-container'>
-      <button
-        className="m-abs-upper-right m-skillListButton button"
-        onClick={() => setModalOpen(false)}
-      >
-        X
-      </button>
-      <div className='m-flex'>
-        {socialIcons.map(i => <i
+      <div className='m-flex '>
+        {socialIcons?.map(i => <i
           key={i.name}
-          className={i.icon}
-          style="font-size:24px"
-          onClick={ setSelected(i.link) }
-        ></i>)}
+          className={`m-social-icon ${i.icon}`}
+          onClick={() => iconSelect(i.link)}
+          ></i>
+        )}
       </div>
       <input
+        className='modal__input'
         type="text"
+        readOnly
         value={selected} id="shareLink"
-        onClick={copyToClipboard}
+        onClick={() => copyToClipboard()}
       />
+      <span className='message'>{ message }</span>
     </div>
   )
 }
