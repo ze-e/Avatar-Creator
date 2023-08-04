@@ -9,12 +9,13 @@
   }
 
   &__img {
-    flex: 1 1 0;
+    // flex: 1 1 0;
     min-width: 400px;
   }
 
   &__info {
-    flex: 2 2 auto;
+    // flex: 2 2 auto;
     margin-left: 24px;
+    max-width: 600px;
   }
 }

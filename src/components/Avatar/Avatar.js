@@ -7,9 +7,10 @@ import { UserContext } from 'contexts/UserContext'
 import Badge from 'components/Badge/Badge'
 import { ModalContext } from 'contexts/ModalContext'
 import { ModalShare } from 'components/Modal/ModalTypes'
+import { NavLink } from 'react-router-dom'
 
 export default function Avatar ({ avatar, gear, edit }) {
-  const { state, dispatch, ACTIONS } = useContext(DataContext)
+  const { state } = useContext(DataContext)
   const { user } = useContext(UserContext)
   const { setModalOpen, setModalContent } = useContext(ModalContext)
 
@@ -28,6 +29,17 @@ export default function Avatar ({ avatar, gear, edit }) {
   return (
     <div className="avatar">
       <canvas id="canvas"></canvas>
+      {!!edit &&
+        (<div className='m-abs-upper-left'>
+          <NavLink
+            className={`mainNav__link m-navLink ${(isActive) =>
+              isActive && 'active'}`}
+            to="profile"
+          >
+            <button className="m-button">Edit </button>
+          </NavLink>
+        </div>)
+      }
       <div className='m-abs-upper-right'>
         <button className='button' onClick={openShareModal}>🔗</button>
       </div>
@@ -42,37 +54,6 @@ export default function Avatar ({ avatar, gear, edit }) {
             <p className='m-title-stoke-white'>Lv.{user.data.level}</p>
           </Badge>
         </div>
-
-      {edit && (
-        <>
-          <div className="avatar__edit">
-            <button
-              className="m-button"
-              type="button"
-              onClick={async () => {
-                await dispatch({
-                  type: ACTIONS.CHANGE_AVATAR,
-                  payload: { userName: user.admin.userName, changeBy: -1 }
-                })
-              }}
-            >
-              ◀
-            </button>
-            <button
-              className="m-button"
-              type="button"
-              onClick={async () => {
-                await dispatch({
-                  type: ACTIONS.CHANGE_AVATAR,
-                  payload: { userName: user.admin.userName, changeBy: 1 }
-                })
-              }}
-            >
-              ▶
-            </button>
-          </div>
-        </>
-      )}
     </div>
   )
 }

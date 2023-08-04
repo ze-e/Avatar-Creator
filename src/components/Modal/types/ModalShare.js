@@ -42,11 +42,13 @@ export default function ModalQuestAdd () {
   return (
     <div className='m-abs-container'>
       <div className='m-flex '>
-        {socialIcons?.map(i => <i
-          key={i.name}
-          className={`m-social-icon ${i.icon}`}
-          onClick={() => iconSelect(i.link)}
+        {socialIcons?.map(i =>
+          <button className='modal__social-button' aria-label={i.name} onClick={() => iconSelect(i.link)}>
+            <i
+            key={i.name}
+            className={`m-social-icon  ${i.icon}`}
           ></i>
+        </button>
         )}
       </div>
       <input

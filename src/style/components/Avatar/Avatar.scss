@@ -1,4 +1,5 @@
 .avatar {
+  max-width: 400px;
   #canvas {
     border: 2px solid black;
     background-color: white;
@@ -9,11 +10,4 @@
   position: relative;
   z-index: 0;
   border-radius: 10px;
-
-  &__edit {
-    position: absolute;
-    top: 5px;
-    left: 5px;
-    z-index: 1;
-  }
 }

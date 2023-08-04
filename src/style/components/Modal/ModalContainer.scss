@@ -51,3 +51,10 @@
 .modal__input {
   width: 100%;
 }
+
+.modal__social-button {
+  margin-right: 10px;
+  &:last-of-type {
+    margin-right: none;
+  }
+}

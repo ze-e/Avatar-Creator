@@ -1,7 +1,8 @@
 .banner {
   background-color: #36213e;
-  height: 128px;
-  padding: 22px;
+  // height: 128px;
+  // padding: 22px;
+  padding: 12px 16px 12px 16px;
   font-size: 64px;
   font-family: "IM Fell Great Primer SC", sans-serif;
   text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.5), 4px 4px 10px rgba(0, 0, 0, 0.5);
@@ -10,8 +11,16 @@
   justify-content: space-between;
   align-items: center;
 
-  & a {
+  &__subtitle, & a {
     color: #ffd600;
+  }
+
+  &__subtitle {
+    text-transform: uppercase;
+    font-size: 18px;
+    font-family: 'Monda', sans-serif;
+    margin-top: 0;
+    margin-bottom: 0;
   }
 }
 

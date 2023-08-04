@@ -52,15 +52,6 @@ export default function MainNav () {
             <button className="m-button">Gear</button>
           </NavLink>
         </li>
-        <li className="mainNav__item">
-          <NavLink
-            className={`mainNav__navLink m-navLink ${(isActive) =>
-              isActive && 'active'}`}
-            to="./skills"
-          >
-            <button className="m-button">Skills</button>
-          </NavLink>
-        </li>
         {user?.admin?.userType === 'teacher' && (
           <li className="mainNav__item">
             <NavLink

@@ -10,7 +10,7 @@ export default function ProfileInfo ({ data }) {
   const { user } = useContext(UserContext)
 
   function profiledata () {
-    const exclude = ['img', 'type', 'level', 'xp', 'gold', 'description']
+    const exclude = ['img', 'type', 'level', 'xp', 'gold']
     return Object.entries(data)
       .map((i) => {
         return { key: i[0], value: i[1] }
@@ -38,7 +38,7 @@ export default function ProfileInfo ({ data }) {
         <div>
           <h2 className="profileInfo__title">{`${data.name}${
             data.epiphet && ' the '
-          }${data.epiphet}`}</h2>
+            }${data.epiphet}`}</h2>
           <h3 className="profileInfo__subtitle">{`(Lv. ${data.level} ${data.type} ${data.job})`}</h3>
         </div>
       </div>
