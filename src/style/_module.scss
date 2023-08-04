@@ -25,6 +25,10 @@
   justify-content: center;
 }
 
+.m-input-button {
+  height: 20px;
+}
+
 .m-navLink {
   &.active {
     & button {
@@ -45,6 +49,7 @@
 
 .m-flex {
   display: flex;
+  align-items: center;
 }
 
 .m-flexColumn {

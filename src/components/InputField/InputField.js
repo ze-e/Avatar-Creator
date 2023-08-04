@@ -15,11 +15,7 @@ export default function InputField ({ itemData, onSubmit }) {
     }
   }
   return (
-    <li
-      onClick={(e) => {
-        handleSubmit(e)
-      }}
-    >
+    <li className='m-flex' style={{ marginBottom: '12px' }}>
       <em>{itemData.key[0].toUpperCase() + itemData.key.substring(1)}: </em>
       {edit ? (
         <form
@@ -35,15 +31,17 @@ export default function InputField ({ itemData, onSubmit }) {
               setState(e.target.value)
             }}
           />
+          <button type='submit' className='m-input-button'>Submit</button>
         </form>
       ) : (
-        <span
-          onClick={() => {
-            setEditState(true)
-          }}
-        >
-          {itemData.key === 'birthday' ? formattedDate(state) : state}
-        </span>
+          <div className='m-flex'>
+            <span style={{ marginRight: '12px', marginLeft: '12px' }}>
+              {itemData.key === 'birthday' ? formattedDate(state) : state}
+            </span>
+            <button type='button' className='m-input-button' onClick={(e) => {
+              setEditState(true)
+            }}>edit</button>
+          </div>
       )}
     </li>
   )

@@ -38,16 +38,12 @@ export default function ProfileInfo ({ data }) {
         <div>
           <h2 className="profileInfo__title">{`${data.name}${
             data.epiphet && ' the '
-            }${data.epiphet}`}</h2>
+          }${data.epiphet}`}</h2>
           <h3 className="profileInfo__subtitle">{`(Lv. ${data.level} ${data.type} ${data.job})`}</h3>
         </div>
       </div>
       <div className="profileInfo__data m-flex">
         <ul className="profileInfo__list">{profiledata()}</ul>
-        <p className="profileInfo__listItem profileInfo__description">
-          <em>Description: </em>
-          {data.description}
-        </p>
       </div>
     </div>
   )
