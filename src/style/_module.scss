@@ -111,3 +111,32 @@
 
   }
 }
+
+.m-abs-container {
+  position: relative;
+}
+
+.m-abs-upper-left {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+}
+
+.m-abs-lower-left {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  margin-bottom: 4px;
+}
+.m-abs-upper-right {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+
+.m-abs-lower-right {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  margin-bottom: 4px;
+}
