@@ -87,6 +87,47 @@ function approveQuest(state, { userName, questId }) {
   return stateCopy;
 }
 
+// increase xp and gold by amount
+function gainXP(state, { userName, amount }) {
+  const stateCopy = { ...state };
+  const user = stateCopy.userData.find(
+    (i) => i.admin.userName.toLowerCase() === userName.toLowerCase()
+  );
+  user.data.gold += amount;
+  user.data.xp += amount;
+  user.data.level = gainLevel(state, user);
+  stateCopy.userData = updateUser(stateCopy, userName, user);
+
+  return stateCopy;
+}
+
+// save last state
+function saveLastState(state, { userName, prevData }) {
+  const stateCopy = { ...state };
+  const user = stateCopy.userData.find(
+    (i) => i.admin.userName.toLowerCase() === userName.toLowerCase()
+  );
+  if (user.admin.prevData.includes(prevData.key)) user['admin']['prevData'][key] = prevData;
+  else user.admin.prevData = [user.admin.prevData, ...prevData];
+  user.admin.lastUpdated = new Date.now();
+  stateCopy.userData = updateUser(stateCopy, userName, user);
+  return stateCopy;
+}
+
+function undo(state, { userName, key, admin = false }) {
+  const stateCopy = { ...state };
+  const user = stateCopy.userData.find(
+    (i) => i.admin.userName.toLowerCase() === userName.toLowerCase()
+  );
+
+  const type = admin ? 'admin' : 'data';
+  user[type][key] = user.admin.prevData.value
+  user.admin.prevData = user.admin.prevData.filter(i => i.key !== key)
+
+  stateCopy.userData = updateUser(stateCopy, userName, user);
+  return stateCopy;
+}
+
 function gainLevel(state, user) {
   const nextLevel = getNextLevel(state.gameData.userLevels, user.data.xp);
   return user.data.level < nextLevel.name
@@ -100,4 +141,7 @@ export default {
   submitQuest,
   approveQuest,
   changeAvatar,
+  gainXP,
+  saveLastState,
+  undo
 };

@@ -125,8 +125,8 @@ export const userData = [
         '3acc1285-a613-475c-9626-5880b561efb4',
         '80c8be0e-e682-49f7-ab9a-5b939923c0b2'
       ],
-      currentQuest: '',
-      submittedQuest: ''
+      lastUpdated: null,
+      prevData: []
     },
     avatar: 2,
     gear: {
@@ -164,8 +164,8 @@ export const userData = [
         '0166b45e-9b46-413e-951c-e4a8b0932c59',
         '3acc1285-a613-475c-9626-5880b561efb4'
       ],
-      currentQuest: '',
-      submittedQuest: ''
+      lastUpdated: null,
+      prevData: []
     },
     avatar: 2,
     gear: {
