@@ -8,6 +8,13 @@
     grid-template-columns: repeat(auto-fit, minmax(1px, 1fr));
   }
 
+  &__listItem {
+    margin-top: 10px;
+    &:first-child {
+      margin-top: 0;
+    }
+  }
+
   &__label,
   &__value {
     border: 1px solid black;
