@@ -1,83 +1,46 @@
+/* eslint-disable react/prop-types */
+// import React, { useContext, useState, useEffect } from 'react'
 import React, { useContext } from 'react'
 import { DataContext } from 'contexts/DataContext'
-import { formattedDate } from 'utils/date'
-import { getQuestById } from 'utils/quest'
 
 export default function UserListView () {
-  const { state, dispatch, ACTIONS } = useContext(DataContext)
+  // const { state, dispatch, ACTIONS } = useContext(DataContext)
+  const { state } = useContext(DataContext)
+
+  // const [inputValue, setInputValue] = useState(0);
+
+  // useEffect(() => {
+  //   setInputValue(state.userData.data.xp)
+  // }, [state.userData.data]);
+
+  function userData () {
+    const include = ['name', 'level', 'xp', 'gold']
+    const data = state.userData.map(i => i.data)
+    return data.map(i => Object.entries(i)
+      .map(j => { return { key: j[0], value: j[1] } })
+      .filter((i) => include.includes(i.key)))
+  }
+
+  // function UserElement ({ userData }) {
+  //   return (
+  //     <>
+  //       <em>{userData.key}</em> - <span>{userData.value}</span>
+  //       {/* <input type='text' placeholder='Amount of XP to add'>{inputValue}</input> */}
+  //       {/* <button onClick={() => console.log('add xp')}>Add XP</button> */}
+  //     </>
+  //   )
+  // }
 
   return (
-    <ul className="userListView">
-      <ul className="userListView__labelList">
-        {state?.userData.length > 0 &&
-          Object.keys(state.userData[0].data).map(
-            (label) =>
-              label !== 'img' && (
-                <li className="userListView__label" key={label}>
-                  <em>{label}</em>
-                </li>
-              )
-          )}
-        {
-          <li className="userListView__label">
-            <em>Current quest:</em>
+    <ul>
+      {
+        userData().map((u, i) =>
+          <li key={i}>
+            {u.map(k => <em key={k.key}>{k.key}</em>)}
+            {u.map(v => <p key={v.value}>{v.value}</p>)}
           </li>
-        }
-      </ul>
-      {state?.userData.length > 0 &&
-        state.userData.map((user) => {
-          return (
-            <ul key={user.data.userName} className="userListView__valueList">
-              {Object.entries(user.data)
-                .map(
-                  (keyVal) =>
-                    keyVal[0] !== 'img' &&
-                    (keyVal[0] === 'birthday'
-                      ? formattedDate(keyVal[1])
-                      : keyVal[1])
-                )
-                .map((field) => {
-                  return (
-                    <li className="userListView__value" key={field}>
-                      {field}
-                    </li>
-                  )
-                })}
-              {
-                <li className="userListView__value">
-                  {' '}
-                  {user.admin.submittedQuest && (
-                    <>
-                      <p>
-                        {
-                          getQuestById(
-                            state.data.levels,
-                            user.admin.submittedQuest
-                          )?.name
-                        }
-                      </p>{' '}
-                      <button
-                        className="userListView__submitButton"
-                        type="button"
-                        onClick={() =>
-                          dispatch({
-                            type: ACTIONS.APPROVE_QUEST,
-                            payload: {
-                              userName: user.admin.userName,
-                              questId: user.admin.currentQuest
-                            }
-                          })
-                        }
-                      >
-                        Approve Assignment
-                      </button>
-                    </>
-                  )}
-                </li>
-              }
-            </ul>
-          )
-        })}
+        )
+      }
     </ul>
   )
 }
