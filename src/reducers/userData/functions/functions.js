@@ -1,8 +1,5 @@
 /* eslint-disable */
 
-// import { debug } from '../../../utils/debug'
-import { getQuestById } from "utils/quest";
-import { getNextLevel } from "utils/gameData";
 import { getAvatarData } from "utils/avatar";
 
 import { updateUser } from "utils/user";
@@ -27,7 +24,6 @@ function editAdmin(state, { userName, field, newVal }) {
   return stateCopy;
 }
 
-/* for type based avatars */
 function changeAvatar(state, { userName, changeBy }) {
   const stateCopy = { ...state };
   const user = stateCopy.userData.find(
@@ -47,57 +43,17 @@ function changeAvatar(state, { userName, changeBy }) {
   return stateCopy;
 }
 
-/* for mix and match avatars */
-// function changeAvatar (state, { userName, newVals }) {
-//   const stateCopy = { ...state }
-//   const user = stateCopy.userData.find(i => i.admin.userName.toLowerCase() === userName.toLowerCase())
-//   Object.keys(user.avatar).forEach(key => { if (user.avatar[key] !== newVals[key]) user.avatar[key] = newVals[key] })
-//   stateCopy.userData = updateUser(stateCopy, userName, user)
-//   return stateCopy
-// }
-
-function submitQuest(state, { userName, questId }) {
-  const stateCopy = { ...state };
-  const user = stateCopy.userData.find(
-    (i) => i.admin.userName.toLowerCase() === userName.toLowerCase()
-  );
-  user.admin.submittedQuest = questId;
-  stateCopy.userData = updateUser(stateCopy, userName, user);
-
-  return stateCopy;
-}
-
-function approveQuest(state, { userName, questId }) {
-  const stateCopy = { ...state };
-  const user = stateCopy.userData.find(
-    (i) => i.admin.userName.toLowerCase() === userName.toLowerCase()
-  );
-  user.admin.completedQuests.push(questId);
-  user.admin.currentQuest = "";
-  user.admin.submittedQuest = "";
-
-  // TODO: Make teacher/approver also gain xp
-  // increase xp and gold by quest values
-  const questData = getQuestById(stateCopy.data.levels, questId);
-  user.data.gold = user.data.xp + questData.skills.length * 10;
-  user.data.xp = user.data.xp + questData.skills.length * 10;
-  user.data.level = gainLevel(state, user);
-  stateCopy.userData = updateUser(stateCopy, userName, user);
-
-  return stateCopy;
-}
-
 // increase xp and gold by amount
 function gainXP(state, { userName, amount }) {
   const stateCopy = { ...state };
   const user = stateCopy.userData.find(
     (i) => i.admin.userName.toLowerCase() === userName.toLowerCase()
   );
-  user.data.gold += amount;
-  user.data.xp += amount;
-  user.data.level = gainLevel(state, user);
+  const prevXP = user.data.xp;
+  user.data.gold = parseInt(user.data.gold) + parseInt(amount);
+  user.data.xp = parseInt(user.data.xp) + parseInt(amount);;
+  user.data.level = gainLevel(user, prevXP, user.data.xp);
   stateCopy.userData = updateUser(stateCopy, userName, user);
-
   return stateCopy;
 }
 
@@ -108,8 +64,8 @@ function saveLastState(state, { userName, prevData }) {
     (i) => i.admin.userName.toLowerCase() === userName.toLowerCase()
   );
   if (user.admin.prevData.includes(prevData.key)) user['admin']['prevData'][key] = prevData;
-  else user.admin.prevData = [user.admin.prevData, ...prevData];
-  user.admin.lastUpdated = new Date.now();
+  else user.admin.prevData = user.admin.prevData.concat(prevData);
+  user.admin.lastUpdated = new Date();
   stateCopy.userData = updateUser(stateCopy, userName, user);
   return stateCopy;
 }
@@ -128,9 +84,9 @@ function undo(state, { userName, key, admin = false }) {
   return stateCopy;
 }
 
-function gainLevel(state, user) {
-  const nextLevel = getNextLevel(state.gameData.userLevels, user.data.xp);
-  return user.data.level < nextLevel.name
+function gainLevel(user, prevXP, newXP) {
+  // each time the users xp doubles, it grows a level
+  return user.data.level > 0 && prevXP * 2 === newXP
     ? user.data.level + 1
     : user.data.level;
 }
@@ -138,8 +94,6 @@ function gainLevel(state, user) {
 export default {
   editData,
   editAdmin,
-  submitQuest,
-  approveQuest,
   changeAvatar,
   gainXP,
   saveLastState,

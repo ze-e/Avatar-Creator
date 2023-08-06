@@ -9,7 +9,7 @@ export default function UserListView () {
     <ul>
       {
         state.userData.map((u, i) =>
-          <li key={i} className={'userListView__listItem'}>
+          <li key={i + u.data.name} className={'userListView__listItem'}>
             <UserItem userData={u} />
           </li>
         )
