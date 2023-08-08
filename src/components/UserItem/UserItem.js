@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { DataContext } from 'contexts/DataContext'
 import { capitalize } from 'utils/string'
@@ -9,9 +9,11 @@ export default function UserItem ({ userData }) {
   const [loading, setLoading] = useState(false)
   const [cooldownTime, setCooldownTime] = useState(0)
 
-  const checkCooldownTime = (updatedAt, cooldownTime = 10) => {
-    const timeDifferenceInMs = new Date().getMinutes() - new Date(updatedAt).getMinutes()
+  const checkCooldownTime = (updatedAt, cooldownTime = 2) => {
+    const timeDifferenceInMs = (new Date().getMinutes() - new Date(updatedAt).getMinutes()) * 10
+    console.log(new Date().getMinutes(), new Date(updatedAt).getMinutes(), timeDifferenceInMs)
     const timeToUndoOver = cooldownTime - timeDifferenceInMs
+    console.log(timeToUndoOver)
     if (timeToUndoOver >= cooldownTime) {
       return timeToUndoOver
     } else {
@@ -21,10 +23,10 @@ export default function UserItem ({ userData }) {
 
   const checkCooldownAndUpdate = () => {
     const timeDifference = checkCooldownTime(userData.admin.lastUpdated)
+    setCooldownTime(timeDifference)
     if (timeDifference > 0) {
       setTimeout(checkCooldownAndUpdate, 60000) // Wait for 1 minute (60,000 milliseconds) and call the function again.
     }
-    setCooldownTime(timeDifference)
   }
 
   async function gainXP (amount) {
@@ -48,6 +50,7 @@ export default function UserItem ({ userData }) {
       }
     })
     setLoading(false)
+    setAmount(0)
     checkCooldownAndUpdate()
   }
 
@@ -73,6 +76,10 @@ export default function UserItem ({ userData }) {
 
   const displayData = getDisplayData()
 
+  useEffect(() => {
+    if (userData.admin.lastUpdated !== null) checkCooldownAndUpdate()
+  }, [])
+
   return (
     <div>
       <div className={'userListView__labelList'}>
@@ -90,7 +97,7 @@ export default function UserItem ({ userData }) {
           >Undo</button>
         </div>
         : <form>
-            <input type='number' value={amount} onChange={(e) => setAmount(e.target.value)}/>
+            <input type='number' min={1} max={100} value={amount} onChange={(e) => setAmount(e.target.value)}/>
             <button
               type="submit"
             onClick={(e) => { e.preventDefault(); if (!loading) gainXP(amount) }}
