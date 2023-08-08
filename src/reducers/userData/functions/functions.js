@@ -98,7 +98,6 @@ function undo (state, { userName, key }) {
     // erase from prevData
     user.admin.prevData = user.admin.prevData.filter(i => i.key !== key)
   }
-  console.log(user['admin']['prevData'])
   stateCopy.userData = updateUser(stateCopy, userName, user)
   return stateCopy
 }

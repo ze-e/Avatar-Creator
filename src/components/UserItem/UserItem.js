@@ -1,29 +1,40 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { DataContext } from 'contexts/DataContext'
 import { capitalize } from 'utils/string'
 
 export default function UserItem ({ userData }) {
-  // const { state, dispatch, ACTIONS } = useContext(DataContext)
   const { dispatch, ACTIONS } = useContext(DataContext)
   const [amount, setAmount] = useState(0)
-  const [done, setDone] = useState(false)
-  const [prev, setPrev] = useState('')
   const [loading, setLoading] = useState(false)
+  const [cooldownOn, setCooldownOn] = useState(true)
 
-  // function checkCooldownTime (updatedAt) {
-  //   if (updatedAt === null) return 0
-  //   const updatedAtDate = new Date(updatedAt)
-  //   const currentDate = new Date()
+  const checkCooldownTime = (updatedAt, cooldownTime = 10) => {
+    const currentTime = new Date()
+    const timeDifferenceInMs = currentTime - updatedAt
+    const timeDifferenceInMinutes = Math.floor(timeDifferenceInMs / (1000 * 60))
 
-  //   // calculate the time difference in milliseconds
-  //   const timeDifferenceMs = currentDate - updatedAtDate
+    if (timeDifferenceInMinutes >= cooldownTime) {
+      return timeDifferenceInMinutes - cooldownTime
+    } else {
+      return 0
+    }
+  }
 
-  //   // calculate the time difference in hours
-  //   const timeDifferenceHours = timeDifferenceMs / (1000 * 60 * 60)
+  const checkCooldownAndUpdate = () => {
+    const timeDifference = checkCooldownTime(userData.admin.lastUpdated)
+    if (timeDifference > 0) {
+      setTimeout(checkCooldownAndUpdate, 60000) // Wait for 1 minute (60,000 milliseconds) and call the function again.
+    } else {
+      setCooldownOn(false) // Cooldown time is over, set cooldownOn to false.
+    }
+  }
 
-  //   return timeDifferenceHours >= 1 ? new Date(timeDifferenceHours).getMinutes() : 0
-  // }
+  useEffect(() => {
+    if (cooldownOn) {
+      checkCooldownAndUpdate()
+    }
+  }, [cooldownOn])
 
   async function gainXP (amount) {
     setLoading(true)
@@ -38,8 +49,6 @@ export default function UserItem ({ userData }) {
       }
     })
 
-    setDone(true)
-
     await dispatch({
       type: ACTIONS.SAVE_LAST_STATE,
       payload: {
@@ -47,7 +56,6 @@ export default function UserItem ({ userData }) {
         prevData: [{ key: 'xp', value: prevXP }, { key: 'level', value: prevLVL }, { key: 'gold', value: prevGold }] // also add previous level
       }
     })
-    setPrev(userData.admin.prevData)
     setLoading(false)
   }
 
@@ -61,7 +69,6 @@ export default function UserItem ({ userData }) {
       }
     })
 
-    setPrev(userData.admin.prevData)
     setLoading(false)
   }
 
@@ -82,11 +89,9 @@ export default function UserItem ({ userData }) {
       <div className={'userListView__valueList'}>
           {displayData.map((v, i) => <p className={'userListView__value'} key={i}>{v.value}</p>)}
       </div>
-      {/* {!!checkCooldownTime(state.userData.admin.lastUpdated) */}
-      {!!done
+      {!!checkCooldownAndUpdate
         ? <div>
-          {/* <p>Please wait {checkCooldownTime(state.userData.admin.lastUpdated)} minutes to add xp again</p> */}
-          { JSON.stringify(prev) }
+          <p>Please wait {checkCooldownAndUpdate} minutes to add xp again</p>
           <button
             type="button"
             onClick={() => { if (!loading) undo(['xp', 'gold', 'level']) }}
