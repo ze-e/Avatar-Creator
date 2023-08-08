@@ -9,6 +9,7 @@ export default function UserItem ({ userData }) {
   const [amount, setAmount] = useState(0)
   const [done, setDone] = useState(false)
   const [prev, setPrev] = useState('')
+  const [loading, setLoading] = useState(false)
 
   // function checkCooldownTime (updatedAt) {
   //   if (updatedAt === null) return 0
@@ -25,7 +26,9 @@ export default function UserItem ({ userData }) {
   // }
 
   async function gainXP (amount) {
+    setLoading(true)
     const prevXP = userData.data.xp
+    const prevGold = userData.data.gold
     const prevLVL = userData.data.level
     await dispatch({
       type: ACTIONS.GAIN_XP,
@@ -41,55 +44,59 @@ export default function UserItem ({ userData }) {
       type: ACTIONS.SAVE_LAST_STATE,
       payload: {
         userName: userData.admin.userName,
-        prevData: [{ key: 'xp', value: prevXP }, { key: 'level', value: prevLVL }], // also add previous level
-        admin: true
+        prevData: [{ key: 'xp', value: prevXP }, { key: 'level', value: prevLVL }, { key: 'gold', value: prevGold }] // also add previous level
       }
     })
     setPrev(userData.admin.prevData)
+    setLoading(false)
   }
 
-  // async function undo () {
-  //   await dispatch({
-  //     type: ACTIONS.UNDO,
-  //     payload: {
-  //       userName: user.admin.userName,
-  //       key: 'xp'
-  //     }
-  //   })
-  // }
+  async function undo (key) {
+    setLoading(true)
+    await dispatch({
+      type: ACTIONS.UNDO,
+      payload: {
+        userName: userData.admin.userName,
+        key
+      }
+    })
 
-  function getUserData () {
+    setPrev(userData.admin.prevData)
+    setLoading(false)
+  }
+
+  function getDisplayData () {
     const include = ['name', 'level', 'xp', 'gold']
     return Object.entries(userData.data)
       .map(d => { return { key: d[0], value: d[1] } })
       .filter((i) => include.includes(i.key))
   }
 
-  const user = getUserData()
+  const displayData = getDisplayData()
 
   return (
     <div>
       <div className={'userListView__labelList'}>
-        {user.map(k => <em className={'userListView__label'} key={k.key}>{capitalize(k.key)}</em>)}
+        {displayData.map(k => <em className={'userListView__label'} key={k.key}>{capitalize(k.key)}</em>)}
       </div>
       <div className={'userListView__valueList'}>
-          {user.map(v => <p className={'userListView__value'} key={v.value}>{v.value}</p>)}
+          {displayData.map((v, i) => <p className={'userListView__value'} key={i}>{v.value}</p>)}
       </div>
       {/* {!!checkCooldownTime(state.userData.admin.lastUpdated) */}
       {!!done
         ? <div>
-          {/* <p>Please wait {checkCooldownTime(state.userData.admin.lastUpdated)} minutes to add xp again</p>
+          {/* <p>Please wait {checkCooldownTime(state.userData.admin.lastUpdated)} minutes to add xp again</p> */}
+          { JSON.stringify(prev) }
           <button
             type="button"
-            onClick={() => undo('xp')}
-          >Undo</button> */}
-          {JSON.stringify(prev)}
+            onClick={() => { if (!loading) undo(['xp', 'gold', 'level']) }}
+          >Undo</button>
         </div>
         : <>
           <input value={amount} onChange={(e) => setAmount(e.target.value)}/>
           <button
             type="button"
-            onClick={() => gainXP(amount)}
+            onClick={() => { if (!loading) gainXP(amount) }}
           >
             Add XP
           </button>

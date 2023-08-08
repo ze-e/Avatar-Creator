@@ -8,8 +8,8 @@ export default function UserListView () {
   return (
     <ul>
       {
-        state.userData.map((u, i) =>
-          <li key={i + u.data.name} className={'userListView__listItem'}>
+        state.userData.filter(i => i.admin.userType !== 'teacher').map(u =>
+          <li key={u.admin.userName} className={'userListView__listItem'}>
             <UserItem userData={u} />
           </li>
         )
