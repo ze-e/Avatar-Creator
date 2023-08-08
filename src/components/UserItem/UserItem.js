@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from 'react'
+import React, { useContext, useState } from 'react'
 import PropTypes from 'prop-types'
 import { DataContext } from 'contexts/DataContext'
 import { capitalize } from 'utils/string'
@@ -7,16 +7,13 @@ export default function UserItem ({ userData }) {
   const { dispatch, ACTIONS } = useContext(DataContext)
   const [amount, setAmount] = useState(0)
   const [loading, setLoading] = useState(false)
-  const [cooldownOn, setCooldownOn] = useState(false)
   const [cooldownTime, setCooldownTime] = useState(0)
 
   const checkCooldownTime = (updatedAt, cooldownTime = 10) => {
-    const currentTime = new Date()
-    const timeDifferenceInMs = currentTime - updatedAt
-    const timeDifferenceInMinutes = Math.floor(timeDifferenceInMs / (1000 * 60))
-
-    if (timeDifferenceInMinutes >= cooldownTime) {
-      return timeDifferenceInMinutes - cooldownTime
+    const timeDifferenceInMs = new Date().getMinutes() - new Date(updatedAt).getMinutes()
+    const timeToUndoOver = cooldownTime - timeDifferenceInMs
+    if (timeToUndoOver >= cooldownTime) {
+      return timeToUndoOver
     } else {
       return 0
     }
@@ -26,17 +23,9 @@ export default function UserItem ({ userData }) {
     const timeDifference = checkCooldownTime(userData.admin.lastUpdated)
     if (timeDifference > 0) {
       setTimeout(checkCooldownAndUpdate, 60000) // Wait for 1 minute (60,000 milliseconds) and call the function again.
-    } else {
-      setCooldownOn(false) // Cooldown time is over, set cooldownOn to false.
     }
     setCooldownTime(timeDifference)
   }
-
-  useEffect(() => {
-    if (cooldownOn) {
-      checkCooldownAndUpdate()
-    }
-  }, [cooldownOn])
 
   async function gainXP (amount) {
     setLoading(true)
@@ -59,7 +48,7 @@ export default function UserItem ({ userData }) {
       }
     })
     setLoading(false)
-    setCooldownOn(true)
+    checkCooldownAndUpdate()
   }
 
   async function undo (key) {
@@ -100,15 +89,16 @@ export default function UserItem ({ userData }) {
             onClick={() => { if (!loading) undo(['xp', 'gold', 'level']) }}
           >Undo</button>
         </div>
-        : <>
-          <input value={amount} onChange={(e) => setAmount(e.target.value)}/>
-          <button
-            type="button"
-            onClick={() => { if (!loading) gainXP(amount) }}
-          >
-            Add XP
+        : <form>
+            <input type='number' value={amount} onChange={(e) => setAmount(e.target.value)}/>
+            <button
+              type="submit"
+            onClick={(e) => { e.preventDefault(); if (!loading) gainXP(amount) }}
+            >
+              Add XP
           </button>
-        </>
+          <p>{cooldownTime}</p>
+        </form>
       }
     </div>
   )
