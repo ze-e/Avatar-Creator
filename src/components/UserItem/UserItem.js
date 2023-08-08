@@ -97,7 +97,6 @@ export default function UserItem ({ userData }) {
             >
               Add XP
           </button>
-          <p>{cooldownTime}</p>
         </form>
       }
     </div>
