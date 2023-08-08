@@ -7,7 +7,8 @@ export default function UserItem ({ userData }) {
   const { dispatch, ACTIONS } = useContext(DataContext)
   const [amount, setAmount] = useState(0)
   const [loading, setLoading] = useState(false)
-  const [cooldownOn, setCooldownOn] = useState(true)
+  const [cooldownOn, setCooldownOn] = useState(false)
+  const [cooldownTime, setCooldownTime] = useState(0)
 
   const checkCooldownTime = (updatedAt, cooldownTime = 10) => {
     const currentTime = new Date()
@@ -28,6 +29,7 @@ export default function UserItem ({ userData }) {
     } else {
       setCooldownOn(false) // Cooldown time is over, set cooldownOn to false.
     }
+    setCooldownTime(timeDifference)
   }
 
   useEffect(() => {
@@ -57,6 +59,7 @@ export default function UserItem ({ userData }) {
       }
     })
     setLoading(false)
+    setCooldownOn(true)
   }
 
   async function undo (key) {
@@ -89,9 +92,9 @@ export default function UserItem ({ userData }) {
       <div className={'userListView__valueList'}>
           {displayData.map((v, i) => <p className={'userListView__value'} key={i}>{v.value}</p>)}
       </div>
-      {!!checkCooldownAndUpdate
+      {cooldownTime > 0
         ? <div>
-          <p>Please wait {checkCooldownAndUpdate} minutes to add xp again</p>
+          <p>Please wait {cooldownTime} minutes to add xp again</p>
           <button
             type="button"
             onClick={() => { if (!loading) undo(['xp', 'gold', 'level']) }}
