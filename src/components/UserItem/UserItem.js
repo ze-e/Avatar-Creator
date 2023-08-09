@@ -7,7 +7,10 @@ export default function UserItem ({ userData }) {
   const { dispatch, ACTIONS } = useContext(DataContext)
   const [amount, setAmount] = useState(0)
   const [loading, setLoading] = useState(false)
+
+  // cooldown
   const [cooldownTime, setCooldownTime] = useState(0)
+  const [coolDownFunc, setCoolDownFunc] = useState(null)
 
   const checkCooldownTime = (updatedAt, cooldownTime = 2) => {
     const timeDifferenceInMs = (new Date().getMinutes() - new Date(updatedAt).getMinutes())
@@ -23,7 +26,8 @@ export default function UserItem ({ userData }) {
     const timeDifference = checkCooldownTime(userData.admin.lastUpdated)
     setCooldownTime(timeDifference)
     if (timeDifference > 0) {
-      setTimeout(checkCooldownAndUpdate, 60000) // Wait for 1 minute (60,000 milliseconds) and call the function again.
+      const cooldown = setTimeout(checkCooldownAndUpdate, 60000) // Wait for 1 minute (60,000 milliseconds) and call the function again.
+      setCoolDownFunc(cooldown)
     }
   }
 
@@ -63,6 +67,9 @@ export default function UserItem ({ userData }) {
     })
 
     setLoading(false)
+    setCooldownTime(0)
+    clearTimeout(coolDownFunc)
+    setCoolDownFunc(null)
   }
 
   function getDisplayData () {
