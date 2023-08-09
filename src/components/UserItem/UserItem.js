@@ -10,11 +10,9 @@ export default function UserItem ({ userData }) {
   const [cooldownTime, setCooldownTime] = useState(0)
 
   const checkCooldownTime = (updatedAt, cooldownTime = 2) => {
-    const timeDifferenceInMs = (new Date().getMinutes() - new Date(updatedAt).getMinutes()) * 10
-    console.log(new Date().getMinutes(), new Date(updatedAt).getMinutes(), timeDifferenceInMs)
+    const timeDifferenceInMs = (new Date().getMinutes() - new Date(updatedAt).getMinutes())
     const timeToUndoOver = cooldownTime - timeDifferenceInMs
-    console.log(timeToUndoOver)
-    if (timeToUndoOver >= cooldownTime) {
+    if (timeToUndoOver <= cooldownTime) {
       return timeToUndoOver
     } else {
       return 0
