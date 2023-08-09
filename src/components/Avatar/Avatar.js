@@ -12,7 +12,7 @@ import { NavLink } from 'react-router-dom'
 export default function Avatar ({ avatar, gear, edit }) {
   const { state } = useContext(DataContext)
   const { user } = useContext(UserContext)
-  const { setModalOpen, setModalContent } = useContext(ModalContext)
+  const { setModalOpen, setModalContent, setModalStyle } = useContext(ModalContext)
 
   useEffect(() => {
     drawAvatarFull({
@@ -23,6 +23,7 @@ export default function Avatar ({ avatar, gear, edit }) {
 
   const openShareModal = () => {
     setModalOpen(true)
+    setModalStyle('small')
     setModalContent(<ModalShare />)
   }
 

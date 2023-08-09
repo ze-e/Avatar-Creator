@@ -25,6 +25,10 @@
     position: relative;
     min-width: 50vw;
     min-height: 50vh;
+
+    &--small {
+      min-height: 0;
+    }
   }
 
   &__close {
