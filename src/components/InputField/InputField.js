@@ -9,10 +9,8 @@ export default function InputField ({ itemData, onSubmit }) {
 
   function handleSubmit (e) {
     e.preventDefault()
-    if (edit && e.target.name !== itemData.key) {
-      onSubmit(itemData.key, state)
-      setEditState(false)
-    }
+    onSubmit(itemData.key, state)
+    setEditState(false)
   }
   return (
     <li className='m-flex' style={{ marginBottom: '12px' }}>
@@ -23,14 +21,22 @@ export default function InputField ({ itemData, onSubmit }) {
             handleSubmit(e)
           }}
         >
-          <input
+          {itemData.key === 'description'
+            ? <textarea
+            name={itemData.key}
+            value={state}
+            onChange={(e) => {
+              setState(e.target.value)
+            }}
+            />
+            : <input
             name={itemData.key}
             type={itemData.key === 'birthday' ? 'date' : 'text'}
             value={state}
             onChange={(e) => {
               setState(e.target.value)
             }}
-          />
+          />}
           <button type='submit' className='m-input-button'>Submit</button>
         </form>
       ) : (

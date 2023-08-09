@@ -6,8 +6,16 @@ import { UserContext } from 'contexts/UserContext'
 import { DataContext } from 'contexts/DataContext'
 
 export default function ProfileInfo ({ data }) {
-  const { dispatch, ACTIONS } = useContext(DataContext)
-  const { user } = useContext(UserContext)
+  const { state, dispatch, ACTIONS } = useContext(DataContext)
+  const { user, setUser } = useContext(UserContext)
+
+  function reloadUser () {
+    const userData = state.userData.find(
+      (i) => i.admin.userName.toLowerCase() === user.admin.userName.toLowerCase()
+    )
+    localStorage.setItem('user', JSON.stringify(userData))
+    setUser(userData)
+  }
 
   function profiledata () {
     const exclude = ['img', 'type', 'level', 'xp', 'gold']
@@ -30,6 +38,7 @@ export default function ProfileInfo ({ data }) {
       type: ACTIONS.EDIT_DATA,
       payload: { userName: user.admin.userName, field, newVal }
     })
+    reloadUser()
   }
 
   return (

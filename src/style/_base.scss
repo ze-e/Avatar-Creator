@@ -122,7 +122,7 @@ em {
   background: transparent;
 }
 
-input {
+input, textarea {
   font-family: "Monda", sans-serif;
   font-size: 18px;
   padding: 12px;
@@ -134,6 +134,10 @@ input {
   &::placeholder {
     color: rgba(0, 0, 0, 0.5);
   }
+}
+
+textarea {
+  width: 100%;
 }
 
 select[multiple] {
