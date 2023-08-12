@@ -15,12 +15,12 @@ export default function EditButton ({ beforeEdit, afterEdit, handleSubmit }) {
       {!edit
         ? <>
           {beforeEdit}
-          <button type='button' className='m-input-button' onClick={(e) => {
+          <button style={{ marginRight: '12px', marginLeft: '12px' }} type='button' className='m-input-button' onClick={(e) => {
             setEdit(true)
           }}>edit</button>
         </>
         : <>
-          <form onSubmit={submit}>
+          <form className='m-flex' onSubmit={submit}>
             {afterEdit}
             <button type='submit' className='m-input-button'>submit</button>
           </form>

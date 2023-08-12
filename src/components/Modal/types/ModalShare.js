@@ -1,33 +1,32 @@
-/* eslint-disable */
 
-import React, { useState, useContext } from 'react'
+import React, { useState } from 'react'
 
 export default function ModalQuestAdd () {
-  const [selected, setSelected] = useState('http://localhost:3000/')
+  const [selected, setSelected] = useState('http://localhost:3000/myavatar')
   const [message, setMessage] = useState('')
 
   const socialIcons = [
     {
       name: 'facebook',
       icon: 'fa fa-facebook-official',
-      link: 'https://www.facebook.com/'
+      link: 'https://www.facebook.com/myavatar'
     },
     {
       name: 'twitter',
       icon: 'fa fa-twitter-square',
-      link: 'https://www.twitter.com/'
+      link: 'https://www.twitter.com/myavatar'
     },
     {
       name: 'youtube',
       icon: 'fa fa-youtube-play',
-      link: 'https://www.youtube.com/'
+      link: 'https://www.youtube.com/myavatar'
     }
   ]
 
   const copyToClipboard = () => {
     setMessage('')
     const copyText = document.getElementById('shareLink')
-    copyText.focus();
+    copyText.focus()
     copyText.select()
     copyText.setSelectionRange(0, 99999)
     navigator.clipboard.writeText(copyText.value)
@@ -43,9 +42,8 @@ export default function ModalQuestAdd () {
     <div className='m-abs-container'>
       <div className='m-flex '>
         {socialIcons?.map(i =>
-          <button className='modal__social-button' aria-label={i.name} onClick={() => iconSelect(i.link)}>
+          <button key={i.name} className='modal__social-button' aria-label={i.name} onClick={() => iconSelect(i.link)}>
             <i
-            key={i.name}
             className={`m-social-icon  ${i.icon}`}
           ></i>
         </button>
@@ -58,7 +56,9 @@ export default function ModalQuestAdd () {
         value={selected} id="shareLink"
         onClick={() => copyToClipboard()}
       />
-      <span className='message'>{ message }</span>
+      <span>{message}</span>
+      <br />
+      <span className='m-error'>The actual url does not work yet</span>
     </div>
   )
 }
