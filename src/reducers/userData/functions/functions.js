@@ -24,21 +24,18 @@ function editAdmin (state, { userName, field, newVal }) {
   return stateCopy
 }
 
-function changeAvatar (state, { userName, changeBy }) {
+function changeAvatar (state, { userName, changeTo }) {
   const stateCopy = { ...state }
   const user = stateCopy.userData.find(
     (i) => i.admin.userName.toLowerCase() === userName.toLowerCase()
   )
-  const avatarLength = state.avatarData.full.length
-  const currentAvatar = user.avatar
-  if (currentAvatar + changeBy < 1) user.avatar = avatarLength
-  else if (currentAvatar + changeBy > avatarLength) user.avatar = 1
-  else user.avatar = user.avatar + changeBy
+  user.avatar = changeTo
   user.data.type = getAvatarData(
     stateCopy.avatarData,
     'full',
     user.avatar
   ).name
+
   stateCopy.userData = updateUser(stateCopy, userName, user)
   return stateCopy
 }

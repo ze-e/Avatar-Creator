@@ -14,9 +14,17 @@ function DataLayer ({ children }) {
   const [modalContent, setModalContent] = useState(<></>)
   const [modalStyle, setModalStyle] = useState('normal')
 
+  function reloadUser () {
+    const userData = state.userData.find(
+      (i) => i.admin.userName.toLowerCase() === user.admin.userName.toLowerCase()
+    )
+    localStorage.setItem('user', JSON.stringify(userData))
+    setUser(userData)
+  }
+
   return (
     <DataContext.Provider value={{ state, dispatch, ACTIONS }}>
-      <UserContext.Provider value={{ user, setUser }}>
+      <UserContext.Provider value={{ user, setUser, reloadUser }}>
         <ModalContext.Provider
           value={{ modalOpen, setModalOpen, modalContent, setModalContent, modalStyle, setModalStyle }}
         >

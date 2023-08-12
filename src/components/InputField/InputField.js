@@ -5,12 +5,12 @@ import { formattedDate } from 'utils/date'
 
 export default function InputField ({ itemData, onSubmit }) {
   const [state, setState] = useState(itemData.value)
-  const [edit, setEditState] = useState(false)
+  const [edit, setEdit] = useState(false)
 
   function handleSubmit (e) {
     e.preventDefault()
     onSubmit(itemData.key, state)
-    setEditState(false)
+    setEdit(false)
   }
   return (
     <li className='m-flex' style={{ marginBottom: '12px' }}>
@@ -45,7 +45,7 @@ export default function InputField ({ itemData, onSubmit }) {
               {itemData.key === 'birthday' ? formattedDate(state) : state}
             </span>
             <button type='button' className='m-input-button' onClick={(e) => {
-              setEditState(true)
+              setEdit(true)
             }}>edit</button>
           </div>
       )}

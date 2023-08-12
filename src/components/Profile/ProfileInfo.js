@@ -4,18 +4,11 @@ import PropTypes from 'prop-types'
 import InputField from 'components/InputField/InputField'
 import { UserContext } from 'contexts/UserContext'
 import { DataContext } from 'contexts/DataContext'
+import AvatarChange from 'components/Avatar/AvatarChange'
 
 export default function ProfileInfo ({ data }) {
-  const { state, dispatch, ACTIONS } = useContext(DataContext)
-  const { user, setUser } = useContext(UserContext)
-
-  function reloadUser () {
-    const userData = state.userData.find(
-      (i) => i.admin.userName.toLowerCase() === user.admin.userName.toLowerCase()
-    )
-    localStorage.setItem('user', JSON.stringify(userData))
-    setUser(userData)
-  }
+  const { dispatch, ACTIONS } = useContext(DataContext)
+  const { user, reloadUser } = useContext(UserContext)
 
   function profiledata () {
     const exclude = ['img', 'type', 'level', 'xp', 'gold']
@@ -51,6 +44,7 @@ export default function ProfileInfo ({ data }) {
           <h3 className="profileInfo__subtitle">{`(Lv. ${data.level} ${data.type} ${data.job})`}</h3>
         </div>
       </div>
+      <AvatarChange />
       <div className="profileInfo__data m-flex">
         <ul className="profileInfo__list">{profiledata()}</ul>
       </div>
