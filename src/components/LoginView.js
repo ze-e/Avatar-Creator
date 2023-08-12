@@ -12,8 +12,7 @@ export default function LoginView () {
       setModalOpen(true)
       setModalContent(
         <ModalLogin
-          handleSubmit={(e) => {
-            e.preventDefault()
+          handleSubmit={() => {
             setModalOpen(false)
           }}
         />
