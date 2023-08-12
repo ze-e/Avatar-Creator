@@ -6,7 +6,7 @@ export default function ModalLogin ({ handleSubmit }) {
 
   return (
     <form
-      onSubmit={handleSubmit}
+      onSubmit={(e) => { if (e.target.checkValidity() === true) handleSubmit() }}
       onChange={(e) => {
         setIsValid(e.target.value)
       }}
@@ -18,16 +18,20 @@ export default function ModalLogin ({ handleSubmit }) {
         <input
           name="name"
           placeholder="Enter username"
+          required
           minLength={3}
           maxLength={15}
         />
         <input
           name="password"
+          type="password"
           placeholder="Enter password"
+          required
           minLength={3}
           maxLength={15}
         />
       </div>
+      <p className="m-error"></p>
       <button className="m-modalButton" type="submit" disabled={!isValid}>
         Submit
       </button>
