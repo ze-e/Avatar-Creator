@@ -29,6 +29,7 @@ export default function LoginButton () {
         className="loginButton"
         onClick={() => {
           setUser({})
+          localStorage.removeItem('user')
         }}
       >
         Log Out

@@ -150,7 +150,7 @@ export const itemData = [
     cost: 10
   },
   {
-    id: '60b2888e-1b33-419d-a970-89312ac10e1d',
+    id: '60b2888e-1b33-419d-a970-89312ac10e1x',
     name: 'shirt 3',
     location: 'body',
     src: gear.shirt3,
@@ -304,14 +304,14 @@ export const itemData = [
     cost: 10
   },
   {
-    id: '71b1788e-1b88-419d-a970-89312ac10e1d',
+    id: '71b1788e-1b88-419d-a970-89312ac10e1q',
     name: 'blue pants',
     location: 'legs',
     src: gear.pants2,
     cost: 10
   },
   {
-    id: '60b2888e-1b99-419d-a970-89312ac10e1d',
+    id: '60b2888e-1b99-419d-a970-89312ac10e1r',
     name: 'white pants',
     location: 'legs',
     src: gear.pants3,
