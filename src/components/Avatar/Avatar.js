@@ -19,7 +19,7 @@ export default function Avatar ({ avatar, gear, edit }) {
       avatar: getAvatarData(state.avatarData, 'full', avatar),
       gear: gear ? getGearData(state.itemData, Object.values(gear)) : null
     })
-  }, [avatar, state.userData])
+  }, [avatar, state])
 
   const openShareModal = () => {
     setModalOpen(true)

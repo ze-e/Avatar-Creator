@@ -18,7 +18,7 @@ export default function LoginView () {
         />
       )
     }
-  }, [user])
+  }, [user, setModalContent, setModalOpen])
 
   return !user?.data ? <div className="loginView">Please log in...</div> : <Navigate to="/profile" />
 }
