@@ -22,7 +22,6 @@ export default function UserItem ({ userData }) {
     }
   }
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   const checkCooldownAndUpdate = () => {
     const timeDifference = checkCooldownTime(userData.admin.lastUpdated)
     setCooldownTime(timeDifference)
@@ -84,7 +83,7 @@ export default function UserItem ({ userData }) {
 
   useEffect(() => {
     if (userData.admin.lastUpdated !== null) checkCooldownAndUpdate()
-  }, [userData, ])
+  }, [])
 
   return (
     <div>

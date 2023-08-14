@@ -14,7 +14,7 @@ export default function Header () {
       setUser(savedUser)
       navigate('/profile')
     }
-  }, [navigate, setUser])
+  }, [])
 
   return (
     <div className="header">
