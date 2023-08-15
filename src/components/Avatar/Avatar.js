@@ -26,7 +26,9 @@ export default function Avatar ({ avatar, gear, edit }) {
   const openShareModal = () => {
     setModalOpen(true)
     setModalStyle('small')
-    setModalContent(<ModalShare />)
+    const canvas = document.querySelector('canvas')
+    const data = canvas.toDataURL('image/png')
+    setModalContent(<ModalShare imageLink={ data }/>)
   }
 
   return (

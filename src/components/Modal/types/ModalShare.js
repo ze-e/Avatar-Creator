@@ -1,27 +1,11 @@
 
 import React, { useState } from 'react'
+import PropTypes from 'prop-types'
 
-export default function ModalQuestAdd () {
-  const [selected, setSelected] = useState('http://localhost:3000/myavatar')
+export default function ModalShare ({ imageLink }) {
+  const [iframe, setIframe] = useState(true)
   const [message, setMessage] = useState('')
-
-  const socialIcons = [
-    {
-      name: 'facebook',
-      icon: 'fa fa-facebook-official',
-      link: 'https://www.facebook.com/myavatar'
-    },
-    {
-      name: 'twitter',
-      icon: 'fa fa-twitter-square',
-      link: 'https://www.twitter.com/myavatar'
-    },
-    {
-      name: 'youtube',
-      icon: 'fa fa-youtube-play',
-      link: 'https://www.youtube.com/myavatar'
-    }
-  ]
+  const imageIframe = createIframe(imageLink)
 
   const copyToClipboard = () => {
     setMessage('')
@@ -33,32 +17,36 @@ export default function ModalQuestAdd () {
     setMessage('Copied to clipboard!')
   }
 
-  const iconSelect = (newVal) => {
-    setMessage('')
-    setSelected(newVal)
+  function openImage () {
+    const newWindow = window.open()
+    newWindow.document.write(imageIframe)
+  }
+
+  function createIframe (imageLink) {
+    return '<iframe src="' + imageLink + '" frameborder="0" style="border:0; top:0px; left:0px; bottom:0px; right:0px; width:100%; height:100%;" allowfullscreen></iframe>'
   }
 
   return (
     <div className='m-abs-container'>
-      <div className='m-flex '>
-        {socialIcons?.map(i =>
-          <button key={i.name} className='modal__social-button' aria-label={i.name} onClick={() => iconSelect(i.link)}>
-            <i
-            className={`m-social-icon  ${i.icon}`}
-          ></i>
-        </button>
-        )}
-      </div>
       <input
         className='modal__input'
         type="text"
         readOnly
-        value={selected} id="shareLink"
+        value={iframe ? imageLink : imageIframe} id="shareLink"
         onClick={() => copyToClipboard()}
       />
+      <br />
       <span>{message}</span>
       <br />
-      <span className='m-error'>The actual url does not work yet</span>
+      <br />
+      <div className='m-flex'>
+        <button onClick={() => setIframe(!iframe)}>{!iframe ? 'Convert to link' : 'Convert to embed'}</button>
+        <button onClick={() => openImage(imageLink)}>Open image in new window</button>
+      </div>
     </div>
   )
+}
+
+ModalShare.propTypes = {
+  imageLink: PropTypes.any.isRequired
 }
