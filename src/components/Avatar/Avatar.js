@@ -17,9 +17,12 @@ export default function Avatar ({ avatar, gear, edit }) {
   useEffect(() => {
     drawAvatarFull({
       avatar: getAvatarData(state.avatarData, 'full', avatar),
-      gear: gear ? getGearData(state.itemData, Object.values(gear)) : null
+      gear: gear ? getGearData(state.itemData, Object.values(gear)) : null,
+      title: user.data.name + " the " + user.data.epiphet,
+      subtitle: "Lv " + user.data.level + " " + user.data.type + " " + user.data.job,
+      level: "Lv " + user.data.level
     })
-  }, [avatar, state])
+  }, [avatar, state, gear, user])
 
   const openShareModal = () => {
     setModalOpen(true)
@@ -44,17 +47,6 @@ export default function Avatar ({ avatar, gear, edit }) {
       <div className='m-abs-upper-right'>
         <button className='button' onClick={openShareModal}>🔗</button>
       </div>
-      <div className='m-abs-lower-left'>
-          <Badge>
-            <p className='badge__text_bold'><strong>{user.data.name} the { user.data.epiphet}</strong></p>
-            <p className='badge__text_normal'>Lv.{user.data.level} {' '} { user.data.type} {' '} { user.data.job}</p>
-          </Badge>
-        </div>
-        <div className='m-abs-lower-right'>
-          <Badge>
-            <p className='m-title-stoke-white'>Lv.{user.data.level}</p>
-          </Badge>
-        </div>
     </div>
   )
 }

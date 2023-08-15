@@ -109,7 +109,7 @@ export function drawAvatarBody ({ body, head, hand, foot, gear }) {
   }
 }
 
-export function drawAvatarFull ({ avatar, gear }) {
+export function drawAvatarFull ({ avatar, gear, title, subtitle, level }) {
   if (gear !== null) {
     Object.keys(gear).forEach((k) => gear[k] == null && delete gear[k])
   }
@@ -146,7 +146,51 @@ export function drawAvatarFull ({ avatar, gear }) {
         ctx.drawImage(img, 0, 0, 400, 400)
       })
     }
+
+    buildBadge(canvas, ctx)
+
+    buildText(canvas, ctx);
   }
+
+  function buildText(canvas, ctx) {
+    ctx.fillStyle = "black";
+    ctx.font = "bold 20px sans-serif"
+    ctx.font = "bold 20px Monda"
+    ctx.textAlign = "center";
+    ctx.fillText(title, canvas.width / 2, canvas.height - 38)
+
+    ctx.font = "normal 20px sans-serif"
+    ctx.font = "normal 20px Monda"
+    ctx.textAlign = "center";
+    ctx.fillText(subtitle, canvas.width / 2, canvas.height - 18)
+
+    ctx.font = "bold 42px sans-serif"
+    ctx.font = "bold 42px Monda"
+    ctx.textAlign = "left";
+    ctx.fillText( level, 20, 50)
+  }
+}
+
+function buildBadge(canvas, ctx) {
+    ctx.globalAlpha = 0.8
+    // Draw the grey rectangle with rounded corners and a black border
+    ctx.fillStyle = "#d3d3d3"
+    ctx.strokeStyle = "black"
+    ctx.lineWidth = 2
+    ctx.beginPath()
+    ctx.moveTo(10, canvas.height - 16)
+    ctx.lineTo(10, canvas.height - 50)
+    ctx.quadraticCurveTo(10, canvas.height - 60, 20, canvas.height - 60)
+    ctx.lineTo(380, canvas.height - 60)
+    ctx.quadraticCurveTo(390, canvas.height - 60, 390, canvas.height - 50)
+    ctx.lineTo(390, canvas.height - 16)
+    ctx.quadraticCurveTo(390, canvas.height - 10, 380, canvas.height - 10)
+    ctx.lineTo(20, canvas.height - 10)
+    ctx.quadraticCurveTo(10, canvas.height - 10, 10, canvas.height - 16)
+    ctx.closePath()
+    ctx.fill()
+    ctx.stroke()
+    ctx.globalAlpha = 1.0
 }
 
 export function drawHex ({
