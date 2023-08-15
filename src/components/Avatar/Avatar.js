@@ -17,9 +17,9 @@ export default function Avatar ({ avatar, gear, edit }) {
     drawAvatarFull({
       avatar: getAvatarData(state.avatarData, 'full', avatar),
       gear: gear ? getGearData(state.itemData, Object.values(gear)) : null,
-      title: user.data.name + " the " + user.data.epiphet,
-      subtitle: "Lv " + user.data.level + " " + user.data.type + " " + user.data.job,
-      level: "Lv " + user.data.level
+      title: user.data.name + ' the ' + user.data.epiphet,
+      subtitle: 'Lv ' + user.data.level + ' ' + user.data.type + ' ' + user.data.job,
+      level: 'Lv ' + user.data.level
     })
   }, [avatar, state, gear, user])
 
