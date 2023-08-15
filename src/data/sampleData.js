@@ -1,5 +1,6 @@
 import avatar from './avatarData'
 import gear from './gearData'
+import { levelTable } from './gameData'
 
 export const userData = [
   {
@@ -48,9 +49,9 @@ export const userData = [
   {
     data: {
       name: 'User',
-      level: 2,
-      xp: 80,
-      gold: 80,
+      level: 1,
+      xp: 50,
+      gold: 50,
       epiphet: 'fearless',
       type: 'elf',
       job: 'wizard',
@@ -346,3 +347,5 @@ export const itemData = [
     cost: 10
   }
 ]
+
+export const gameData = { levelTable }

@@ -1,19 +1,14 @@
-export function getNextLevel (userLevels, xp) {
-  return userLevels.find((level) => level.xp > xp)
-}
+export function getLevelByXP (levelData, xp) {
+  let closestKey = null
+  let closestDistance = Infinity
 
-export function isCompleted (user, quest) {
-  return (
-    user.admin?.userType === 'student' &&
-    user.admin?.completedQuests.includes(quest.id)
-  )
-}
-
-export function getAvailable (user, quest) {
-  return (
-    isCompleted(user, quest) === false &&
-    quest.parents?.every((p) => user.admin.completedQuests.includes(p)) &&
-    quest.descendants.length > 0 &&
-    !quest.descendants.some((p) => user.admin.completedQuests.includes(p))
-  )
+  levelData.forEach(row => {
+    Object.entries(row).forEach(([key, value]) => {
+      if (value <= xp && (xp - value) < closestDistance) {
+        closestKey = parseInt(key)
+        closestDistance = xp - value
+      }
+    })
+  })
+  return parseInt(closestKey)
 }

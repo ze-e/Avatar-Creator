@@ -1,7 +1,7 @@
 import React, { useContext, useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { DataContext } from 'contexts/DataContext'
-import { capitalize } from 'utils/string'
+import { capitalize, checkPlural } from 'utils/string'
 
 export default function UserItem ({ userData }) {
   const { dispatch, ACTIONS } = useContext(DataContext)
@@ -31,7 +31,10 @@ export default function UserItem ({ userData }) {
     }
   }
 
-  async function gainXP (amount) {
+  async function handleSubmit (e, amount) {
+    e.preventDefault()
+    if (e.target.checkValidity() === false) return
+    if (loading) return
     setLoading(true)
     const prevXP = userData.data.xp
     const prevGold = userData.data.gold
@@ -95,17 +98,16 @@ export default function UserItem ({ userData }) {
       </div>
       {cooldownTime > 0
         ? <div>
-          <p>Please wait {cooldownTime} minutes to add xp again</p>
+          <p>Please wait {cooldownTime} {checkPlural('minute', cooldownTime)} to add xp again</p>
           <button
             type="button"
             onClick={() => { if (!loading) undo(['xp', 'gold', 'level']) }}
           >Undo</button>
         </div>
-        : <form>
+        : <form onSubmit={(e) => { handleSubmit(e, amount) }}>
             <input type='number' min={1} max={100} value={amount} onChange={(e) => setAmount(e.target.value)}/>
             <button
               type="submit"
-            onClick={(e) => { e.preventDefault(); if (!loading) gainXP(amount) }}
             >
               Add XP
           </button>

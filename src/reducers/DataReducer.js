@@ -1,7 +1,8 @@
 import {
   userData,
   itemData,
-  avatarData
+  avatarData,
+  gameData
 } from '../data/sampleData'
 
 // actions
@@ -15,7 +16,8 @@ import itemFunctions from './itemData/functions/functions'
 export const initialState = {
   userData,
   avatarData,
-  itemData
+  itemData,
+  gameData
 }
 
 export const ACTIONS = {

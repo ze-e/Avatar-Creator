@@ -1,8 +1,8 @@
 /* eslint-disable dot-notation */
 
 import { getAvatarData } from 'utils/avatar'
-
 import { updateUser } from 'utils/user'
+import { getLevelByXP } from 'utils/gameData'
 
 function editData (state, { userName, field, newVal }) {
   const stateCopy = { ...state }
@@ -46,10 +46,9 @@ function gainXP (state, { userName, amount }) {
   const user = stateCopy.userData.find(
     (i) => i.admin.userName.toLowerCase() === userName.toLowerCase()
   )
-  const prevXP = user.data.xp
   user.data.gold = parseInt(user.data.gold) + parseInt(amount)
   user.data.xp = parseInt(user.data.xp) + parseInt(amount)
-  user.data.level = gainLevel(user, prevXP, user.data.xp)
+  user.data.level = gainLevel(stateCopy.gameData.levelTable, user.data.xp, user.data.level)
   stateCopy.userData = updateUser(stateCopy, userName, user)
   return stateCopy
 }
@@ -99,11 +98,14 @@ function undo (state, { userName, key }) {
   return stateCopy
 }
 
-function gainLevel (user, prevXP, newXP) {
+function gainLevel (leveldata, xp, userLevel) {
   // each time the users xp doubles, it grows a level
-  return user.data.level > 0 && prevXP * 2 === newXP
-    ? user.data.level + 1
-    : user.data.level
+  const newLevel = getLevelByXP(leveldata, xp)
+  if (newLevel > userLevel) {
+    console.log('User gained a level!')
+    return newLevel
+  }
+  return userLevel
 }
 
 export default {
