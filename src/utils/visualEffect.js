@@ -140,6 +140,11 @@ export function drawAvatarFull ({ avatar, gear, title, subtitle, level }) {
     const ctx = canvas.getContext('2d')
     canvas.width = 400
     canvas.height = 400
+
+    // draw bg
+    buildBG(canvas, ctx)
+
+    // draw image
     ctx.drawImage(avatarImg, 0, 0, 400, 400)
     if (gear !== null) {
       gearImg.forEach((img) => {
@@ -147,12 +152,37 @@ export function drawAvatarFull ({ avatar, gear, title, subtitle, level }) {
       })
     }
 
+    // draw text
     buildBadge(canvas, ctx)
-
     buildText(canvas, ctx);
   }
 
+  function buildBG(canvas, ctx) {
+        ctx.fillStyle = "white"
+        ctx.fillRect(2, 2, canvas.width - 4, canvas.height - 4)
+
+        // Set the stroke color to black and line width to 2px
+        ctx.strokeStyle = "black"
+        ctx.lineWidth = 2
+
+        // Draw a rounded rectangle border around the canvas
+        var cornerRadius = 10
+        ctx.beginPath()
+        ctx.moveTo(cornerRadius, 0)
+        ctx.lineTo(canvas.width - cornerRadius, 0)
+        ctx.arcTo(canvas.width, 0, canvas.width, cornerRadius, cornerRadius)
+        ctx.lineTo(canvas.width, canvas.height - cornerRadius)
+        ctx.arcTo(canvas.width, canvas.height, canvas.width - cornerRadius, canvas.height, cornerRadius)
+        ctx.lineTo(cornerRadius, canvas.height)
+        ctx.arcTo(0, canvas.height, 0, canvas.height - cornerRadius, cornerRadius)
+        ctx.lineTo(0, cornerRadius)
+        ctx.arcTo(0, 0, cornerRadius, 0, cornerRadius)
+        ctx.closePath()
+        ctx.stroke()
+  }
+
   function buildText(canvas, ctx) {
+    // char info
     ctx.fillStyle = "black";
     ctx.font = "bold 20px sans-serif"
     ctx.font = "bold 20px Monda"
@@ -164,8 +194,10 @@ export function drawAvatarFull ({ avatar, gear, title, subtitle, level }) {
     ctx.textAlign = "center";
     ctx.fillText(subtitle, canvas.width / 2, canvas.height - 18)
 
-    ctx.font = "bold 42px sans-serif"
-    ctx.font = "bold 42px Monda"
+    // level
+    ctx.fillStyle = "black";
+    ctx.font = "bold 46px sans-serif"
+    ctx.font = "bold 46px Monda"
     ctx.textAlign = "left";
     ctx.fillText( level, 20, 50)
   }
