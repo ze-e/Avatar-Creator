@@ -13,11 +13,13 @@ export default function Avatar ({ avatar, gear, edit }) {
   const { user } = useContext(UserContext)
   const { setModalOpen, setModalContent, setModalStyle } = useContext(ModalContext)
 
+  const fullName = user.data.name + ' the ' + user.data.epiphet
+
   useEffect(() => {
     drawAvatarFull({
       avatar: getAvatarData(state.avatarData, 'full', avatar),
       gear: gear ? getGearData(state.itemData, Object.values(gear)) : null,
-      title: user.data.name + ' the ' + user.data.epiphet,
+      title: fullName,
       subtitle: 'Lv ' + user.data.level + ' ' + user.data.type + ' ' + user.data.job,
       level: 'Lv ' + user.data.level
     })
@@ -28,7 +30,7 @@ export default function Avatar ({ avatar, gear, edit }) {
     setModalStyle('small')
     const canvas = document.querySelector('canvas')
     const data = canvas.toDataURL('image/png')
-    setModalContent(<ModalShare imageLink={ data }/>)
+    setModalContent(<ModalShare imageLink={data} imageName={fullName} />)
   }
 
   return (
