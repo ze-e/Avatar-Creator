@@ -154,75 +154,75 @@ export function drawAvatarFull ({ avatar, gear, title, subtitle, level }) {
 
     // draw text
     buildBadge(canvas, ctx)
-    buildText(canvas, ctx);
+    buildText(canvas, ctx)
   }
 
-  function buildBG(canvas, ctx) {
-        ctx.fillStyle = "white"
-        ctx.fillRect(2, 2, canvas.width - 4, canvas.height - 4)
+  function buildBG (canvas, ctx) {
+    ctx.fillStyle = 'white'
+    ctx.fillRect(2, 2, canvas.width - 4, canvas.height - 4)
 
-        // Set the stroke color to black and line width to 2px
-        ctx.strokeStyle = "black"
-        ctx.lineWidth = 2
+    // Set the stroke color to black and line width to 2px
+    ctx.strokeStyle = 'black'
+    ctx.lineWidth = 2
 
-        // Draw a rounded rectangle border around the canvas
-        var cornerRadius = 10
-        ctx.beginPath()
-        ctx.moveTo(cornerRadius, 0)
-        ctx.lineTo(canvas.width - cornerRadius, 0)
-        ctx.arcTo(canvas.width, 0, canvas.width, cornerRadius, cornerRadius)
-        ctx.lineTo(canvas.width, canvas.height - cornerRadius)
-        ctx.arcTo(canvas.width, canvas.height, canvas.width - cornerRadius, canvas.height, cornerRadius)
-        ctx.lineTo(cornerRadius, canvas.height)
-        ctx.arcTo(0, canvas.height, 0, canvas.height - cornerRadius, cornerRadius)
-        ctx.lineTo(0, cornerRadius)
-        ctx.arcTo(0, 0, cornerRadius, 0, cornerRadius)
-        ctx.closePath()
-        ctx.stroke()
+    // Draw a rounded rectangle border around the canvas
+    const cornerRadius = 10
+    ctx.beginPath()
+    ctx.moveTo(cornerRadius, 0)
+    ctx.lineTo(canvas.width - cornerRadius, 0)
+    ctx.arcTo(canvas.width, 0, canvas.width, cornerRadius, cornerRadius)
+    ctx.lineTo(canvas.width, canvas.height - cornerRadius)
+    ctx.arcTo(canvas.width, canvas.height, canvas.width - cornerRadius, canvas.height, cornerRadius)
+    ctx.lineTo(cornerRadius, canvas.height)
+    ctx.arcTo(0, canvas.height, 0, canvas.height - cornerRadius, cornerRadius)
+    ctx.lineTo(0, cornerRadius)
+    ctx.arcTo(0, 0, cornerRadius, 0, cornerRadius)
+    ctx.closePath()
+    ctx.stroke()
   }
 
-  function buildText(canvas, ctx) {
+  function buildText (canvas, ctx) {
     // char info
-    ctx.fillStyle = "black";
-    ctx.font = "bold 20px sans-serif"
-    ctx.font = "bold 20px Monda"
-    ctx.textAlign = "center";
+    ctx.fillStyle = 'black'
+    ctx.font = 'bold 20px sans-serif'
+    ctx.font = 'bold 20px Monda'
+    ctx.textAlign = 'center'
     ctx.fillText(title, canvas.width / 2, canvas.height - 38)
 
-    ctx.font = "normal 20px sans-serif"
-    ctx.font = "normal 20px Monda"
-    ctx.textAlign = "center";
+    ctx.font = 'normal 20px sans-serif'
+    ctx.font = 'normal 20px Monda'
+    ctx.textAlign = 'center'
     ctx.fillText(subtitle, canvas.width / 2, canvas.height - 18)
 
     // level
-    ctx.fillStyle = "black";
-    ctx.font = "bold 46px sans-serif"
-    ctx.font = "bold 46px Monda"
-    ctx.textAlign = "left";
-    ctx.fillText( level, 20, 50)
+    ctx.fillStyle = 'black'
+    ctx.font = 'bold 46px sans-serif'
+    ctx.font = 'bold 46px Monda'
+    ctx.textAlign = 'left'
+    ctx.fillText(level, 20, 50)
   }
 }
 
-function buildBadge(canvas, ctx) {
-    ctx.globalAlpha = 0.8
-    // Draw the grey rectangle with rounded corners and a black border
-    ctx.fillStyle = "#d3d3d3"
-    ctx.strokeStyle = "black"
-    ctx.lineWidth = 2
-    ctx.beginPath()
-    ctx.moveTo(10, canvas.height - 16)
-    ctx.lineTo(10, canvas.height - 50)
-    ctx.quadraticCurveTo(10, canvas.height - 60, 20, canvas.height - 60)
-    ctx.lineTo(380, canvas.height - 60)
-    ctx.quadraticCurveTo(390, canvas.height - 60, 390, canvas.height - 50)
-    ctx.lineTo(390, canvas.height - 16)
-    ctx.quadraticCurveTo(390, canvas.height - 10, 380, canvas.height - 10)
-    ctx.lineTo(20, canvas.height - 10)
-    ctx.quadraticCurveTo(10, canvas.height - 10, 10, canvas.height - 16)
-    ctx.closePath()
-    ctx.fill()
-    ctx.stroke()
-    ctx.globalAlpha = 1.0
+function buildBadge (canvas, ctx) {
+  ctx.globalAlpha = 0.8
+  // Draw the grey rectangle with rounded corners and a black border
+  ctx.fillStyle = '#d3d3d3'
+  ctx.strokeStyle = 'black'
+  ctx.lineWidth = 2
+  ctx.beginPath()
+  ctx.moveTo(10, canvas.height - 16)
+  ctx.lineTo(10, canvas.height - 50)
+  ctx.quadraticCurveTo(10, canvas.height - 60, 20, canvas.height - 60)
+  ctx.lineTo(380, canvas.height - 60)
+  ctx.quadraticCurveTo(390, canvas.height - 60, 390, canvas.height - 50)
+  ctx.lineTo(390, canvas.height - 16)
+  ctx.quadraticCurveTo(390, canvas.height - 10, 380, canvas.height - 10)
+  ctx.lineTo(20, canvas.height - 10)
+  ctx.quadraticCurveTo(10, canvas.height - 10, 10, canvas.height - 16)
+  ctx.closePath()
+  ctx.fill()
+  ctx.stroke()
+  ctx.globalAlpha = 1.0
 }
 
 export function drawHex ({
