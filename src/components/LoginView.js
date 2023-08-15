@@ -20,5 +20,7 @@ export default function LoginView () {
     }
   }, [user])
 
-  return !user?.data ? <div className="loginView">Please log in...</div> : <Navigate to="/profile" />
+  return !user?.data ? <div className="loginView">
+      <p style={{ color: 'white' }}>{'This app is still be created and is in demo mode only. Data will not save! Try it with test user "user" and password "password123"'}</p>
+</div> : <Navigate to="/profile" />
 }
