@@ -51,7 +51,7 @@ export const userData = [
       name: 'User',
       level: 1,
       xp: 50,
-      gold: 50,
+      gold: 500,
       epiphet: 'fearless',
       type: 'elf',
       job: 'wizard',
