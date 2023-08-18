@@ -1,0 +1,21 @@
+
+// Small Screen
+@mixin small-screen {
+  @media (max-width: 767px) {
+    @content;
+  }
+}
+
+// Medium Screen
+@mixin medium-screen {
+  @media (min-width: 768px) and (max-width: 1199px) {
+    @content;
+  }
+}
+
+// Large Screen
+@mixin large-screen {
+  @media (min-width: 1200px) {
+    @content;
+  }
+}

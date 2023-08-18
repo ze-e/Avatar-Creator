@@ -42,7 +42,7 @@ export default function ModalLogin ({ handleSubmit }) {
       }}
     >
       <div className="m-flexColumnCenter">
-        <h2 className="m-title-stroke-black" htmlFor="password">
+        <h2 className="m-title-stroke-black modal__header">
           Log In
         </h2>
         <input
