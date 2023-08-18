@@ -1,20 +1,28 @@
+@import '../mixins';
+
 .gearView {
   padding: 10px;
+
+  @include small-screen {
+    flex-direction: column;
+  }
 
   &__top {
     display: flex;
     margin: auto;
     width: 100%;
     height: 400px;
+    @include small-screen {
+      flex-direction: column;
+      height: auto;
+    }
   }
 
   &__img {
-    // flex: 1 1 0;
-    min-width: 400px;
+    max-width: 400px;
   }
 
   &__info {
-    // flex: 2 2 auto;
     margin-left: 24px;
     max-width: 600px;
   }
