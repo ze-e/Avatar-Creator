@@ -1,3 +1,5 @@
+@import "../../module";
+
 .modalContainer {
   position: fixed;
   background-color: rgba(0, 0, 0, 0.5);
@@ -26,8 +28,16 @@
     min-width: 50vw;
     min-height: 50vh;
 
+    width: calc(100% - 60px);
+    margin-left: 30px;
+    margin-right: 30px;
+
     &--small {
       min-height: 0;
+    }
+
+    @include small-screen {
+      padding: 4px;
     }
   }
 
@@ -54,6 +64,12 @@
 
 .modal__input {
   width: 100%;
+
+  @include small-screen {
+    width: calc(100% - 12px);
+    margin-left: 6px;
+    margin-right: 6px;
+  }
 }
 
 .modal__social-button {

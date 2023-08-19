@@ -1,3 +1,5 @@
+@import "./mixins";
+
 html {
   font-size: 1vw;
   background-color: black;
@@ -79,6 +81,11 @@ button {
   &:hover {
     cursor: pointer;
     opacity: 0.8;
+  }
+
+  @include small-screen {
+    padding: 4px;
+    font-size: 10px;
   }
 }
 

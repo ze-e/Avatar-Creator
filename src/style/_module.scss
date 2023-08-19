@@ -1,3 +1,5 @@
+@import "./mixins";
+
 .m-button {
   appearance: none;
   border: 1px solid black;
@@ -15,6 +17,12 @@
     background-color: #e3e3e3;
     color: black;
     opacity: 1;
+  }
+
+  @include small-screen {
+    padding: 4px;
+    font-size: 10px;
+    border-radius: 6px;
   }
 }
 
@@ -157,6 +165,13 @@
 
   &:last-of-type {
     margin-right: 0;
+  }
+
+  @include small-screen {
+    margin-right: 4px;
+    &:last-of-type {
+      margin-right: 0;
+    }
   }
 }
 
