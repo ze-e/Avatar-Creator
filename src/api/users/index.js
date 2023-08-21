@@ -43,7 +43,6 @@ const loginUser = async ({ userName, password }) => {
 
   try {
     const res = await axiosInstance.post('/login', loginData)
-    console.log(res)
     return res.data
   } catch (error) {
     console.error('Error logging in:', error)
@@ -59,8 +58,7 @@ const loadUser = async (token) => {
 
   try {
     const res = await axiosInstance.get('/user', config)
-    console.log('Loaded user:', res.data)
-    return res.data
+    return res.data.user
   } catch (error) {
     console.error('Error loading user:', error)
   }

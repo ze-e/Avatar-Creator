@@ -83,7 +83,13 @@
     font-size: 24px;
 }
 
+.modal__link_container {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
 .modal__link {
-    margin: 0 auto;
-    color: #ffd600;
+  color: #ffd600;
+  text-decoration: underline;
 }

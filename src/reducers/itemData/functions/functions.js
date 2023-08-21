@@ -8,7 +8,7 @@ function buyItem(state, { userName, item }) {
     (i) => i.admin.userName.toLowerCase() === userName.toLowerCase()
   );
   user.data.gold = user.data.gold - item.cost;
-  user.inventory = [...user.inventory, item.id];
+  user.data.inventory = [...user.data.inventory, item.id];
   stateCopy.userData = updateUser(stateCopy, userName, user);
   return stateCopy;
 }

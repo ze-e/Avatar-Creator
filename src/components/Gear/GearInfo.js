@@ -9,7 +9,7 @@ export default function GearInfo () {
   const { state, dispatch, ACTIONS } = useContext(DataContext)
 
   function equippedData () {
-    return Object.entries(user.gear)
+    return Object.entries(user?.data?.gear)
       .map((i) => {
         return { key: i[0], value: i[1] }
       })

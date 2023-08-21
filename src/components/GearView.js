@@ -12,13 +12,13 @@ export default function GearView () {
       <div className="gearView__top">
         {user.data && (
           <div className="gearView__img">
-            <Avatar avatar={user.avatar} gear={user.gear} />
+            <Avatar avatar={user.data.avatar} gear={user.data.gear} />
           </div>
         )}
         <div className="gearView__info">
           {user.data && (
             <div className="gearView__info">
-              <GearInfo data={user.data} />
+              <GearInfo />
             </div>
           )}
         </div>

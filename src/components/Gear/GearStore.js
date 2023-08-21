@@ -22,8 +22,8 @@ export default function GearStore () {
         {state.itemData.map((item) => (
           <li key={item.id}>
             <em>${item.cost}</em> {item.name}{' '}
-            {user.inventory.includes(item.id) && (
-              <em> -- owned x{count(user.inventory, item.id)}</em>
+            {user.data.inventory.includes(item.id) && (
+              <em> -- owned x{count(user.data.inventory, item.id)}</em>
             )}{' '}
             <button type="button" onClick={() => buy(item)}>
               Buy

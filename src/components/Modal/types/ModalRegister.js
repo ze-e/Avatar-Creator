@@ -87,8 +87,10 @@ export default function ModalRegister () {
       <button className="m-modalButton" type="submit" disabled={!isValid}>
         Register
       </button>
-      <span>
-        Or <a className='modal__link' onClick={() => openLogin()}>Login</a>
+      <span className="modal__link_container">
+        <a className="modal__link" onClick={() => openLogin()}>
+          Or Login An Existing User
+        </a>
       </span>
     </form>
   )

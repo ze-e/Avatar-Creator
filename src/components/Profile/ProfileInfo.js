@@ -11,7 +11,7 @@ export default function ProfileInfo ({ data }) {
   const { user, reloadUser } = useContext(UserContext)
 
   function profiledata () {
-    const exclude = ['img', 'type', 'level', 'xp', 'gold']
+    const exclude = ['img', 'type', 'level', 'xp', 'gold', 'gear', 'inventory', 'avatar']
     return Object.entries(data)
       .map((i) => {
         return { key: i[0], value: i[1] }

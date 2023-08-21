@@ -8,10 +8,10 @@ export default function GearInventory () {
   const { state, dispatch, ACTIONS } = useContext(DataContext)
   const { user } = useContext(UserContext)
   function inventoryData () {
-    return user.inventory.map((item) => {
+    return user.data.inventory.map((item) => {
       return {
         data: getGearData(state.itemData, item),
-        equipped: Object.values(user.gear).includes(item)
+        equipped: Object.values(user.data.gear).includes(item)
       }
     })
   }
