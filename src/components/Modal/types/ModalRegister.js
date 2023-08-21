@@ -1,21 +1,18 @@
 import React, { useState, useContext } from 'react'
 import PropTypes from 'prop-types'
-import { UserContext } from 'contexts/UserContext'
-import { useNavigate } from 'react-router-dom'
 import { ModalContext } from 'contexts/ModalContext'
-import { ModalRegister } from 'components/Modal/ModalTypes'
+import { ModalLogin } from 'components/Modal/ModalTypes'
+
 import { UserApi } from 'api'
-export default function ModalLogin ({ handleSubmit }) {
+export default function ModalRegister ({ handleSubmit }) {
   const [isValid, setIsValid] = useState(false)
   const [error, setError] = useState('')
-  const { setUser } = useContext(UserContext)
   const { setModalOpen, setModalContent } = useContext(ModalContext)
-  const navigate = useNavigate()
 
-  function openRegister () {
+  function openLogin () {
     setModalOpen(true)
     setModalContent(
-      <ModalRegister
+      <ModalLogin
         handleSubmit={() => {
           setModalOpen(false)
         }}
@@ -23,20 +20,21 @@ export default function ModalLogin ({ handleSubmit }) {
     )
   }
 
-  async function login (e) {
+  async function register (e) {
     const userInput = e.target[0]
-    const passwordInput = e.target[1]
+    const emailInput = e.target[1]
+    const passwordInput = e.target[2]
     const userName = userInput.value
+    const email = emailInput.value
     const password = passwordInput.value
     try {
-      const res = await UserApi.loginUser({ userName, password })
-      if (res.token) localStorage.setItem('token', JSON.stringify(res.token))
-      else return 'Could not login'
-      if (res.data) {
-        setUser(res.data)
-        navigate('/profile')
-      }
-      return null
+      const res = await UserApi.registerUser({
+        userName,
+        email,
+        password
+      })
+      if (!res) return 'Could not register new user'
+      else return openLogin()
     } catch (e) {
       return 'Error connecting to server'
     }
@@ -45,26 +43,34 @@ export default function ModalLogin ({ handleSubmit }) {
   return (
     <form
       onSubmit={(e) => {
-        e.preventDefault();
+        e.preventDefault()
         if (e.target.checkValidity() === true) {
-          const error = login(e);
+          const error = register(e)
           if (!error) {
-            handleSubmit();
-          } else setError(error);
+            handleSubmit()
+          } else setError(error)
         }
       }}
       onChange={(e) => {
-        setIsValid(e.target.checkValidity());
+        setIsValid(e.target.checkValidity())
       }}
     >
       <div className="m-flexColumnCenter">
         <h2 className="m-title-stroke-black modal__header">Log In</h2>
         <input
           name="name"
-          placeholder="Enter username or email"
+          placeholder="Enter username"
           required
           minLength={3}
           maxLength={15}
+        />
+        <input
+          name="email"
+          placeholder="Enter email"
+          required
+          minLength={3}
+          maxLength={15}
+          pattern={/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/}
         />
         <input
           name="password"
@@ -79,13 +85,11 @@ export default function ModalLogin ({ handleSubmit }) {
       <button className="m-modalButton" type="submit" disabled={!isValid}>
         Submit
       </button>
-      <span>
-        Or <a onClick={() => openRegister()}>Register</a>
-      </span>
+      <span>Or <a onClick={() => openLogin() }>Login</a></span>
     </form>
-  );
+  )
 }
 
-ModalLogin.propTypes = {
+ModalRegister.propTypes = {
   handleSubmit: PropTypes.func
 }
