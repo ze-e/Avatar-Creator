@@ -35,11 +35,10 @@ const registerUser = async ({ userName, email, password }) => {
   }
 }
 
-const loginUser = async ({ userName, password, loadUser = true }) => {
+const loginUser = async ({ userName, password }) => {
   const loginData = {
     userName,
-    password,
-    loadUser
+    password
   }
 
   try {
@@ -59,7 +58,7 @@ const loadUser = async (token) => {
   }
 
   try {
-    const res = await axiosInstance.get('/loadUser', config)
+    const res = await axiosInstance.get('/user', config)
     console.log('Loaded user:', res.data)
     return res.data
   } catch (error) {

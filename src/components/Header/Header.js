@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 import React, { useContext, useEffect } from 'react'
 import { UserContext } from 'contexts/UserContext'
 import { useNavigate } from 'react-router-dom'
@@ -10,13 +12,15 @@ export default function Header () {
   const navigate = useNavigate()
 
   async function loginSavedUser (token) {
-    const savedUser = UserApi.loadUser(token)
+    const savedUser = await UserApi.loadUser(token)
     setUser(savedUser)
     navigate('/profile')
+    console.log(savedUser)
   }
 
   useEffect(() => {
     const token = JSON.parse(localStorage.getItem('token'))
+    console.log(token)
     if (token) {
       loginSavedUser(token)
     }

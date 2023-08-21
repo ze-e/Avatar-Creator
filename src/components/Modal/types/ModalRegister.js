@@ -88,7 +88,7 @@ export default function ModalRegister () {
         Register
       </button>
       <span>
-        Or <a onClick={() => openLogin()}>Login</a>
+        Or <a className='modal__link' onClick={() => openLogin()}>Login</a>
       </span>
     </form>
   )
