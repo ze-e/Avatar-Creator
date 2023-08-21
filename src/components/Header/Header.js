@@ -1,16 +1,15 @@
-/* eslint-disable */
-
 import React, { useContext, useEffect } from 'react'
 import { UserContext } from 'contexts/UserContext'
-import { ModalContext } from "contexts/ModalContext";
-import { useNavigate } from "react-router-dom";
+import { ModalContext } from 'contexts/ModalContext'
+import { useNavigate } from 'react-router-dom'
 import { UserApi } from 'api'
 
 import MainNav from 'components/MainNav/MainNav'
 import Banner from 'components/Banner/Banner'
+
 export default function Header () {
-  const { setModalOpen } = useContext(ModalContext);
-  const { user, setUser } = useContext(UserContext);
+  const { setModalOpen } = useContext(ModalContext)
+  const { user, setUser } = useContext(UserContext)
   const navigate = useNavigate()
 
   async function loginSavedUser (token) {

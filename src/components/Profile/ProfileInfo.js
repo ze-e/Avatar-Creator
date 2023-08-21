@@ -3,11 +3,9 @@ import PropTypes from 'prop-types'
 
 import InputField from 'components/InputField/InputField'
 import { UserContext } from 'contexts/UserContext'
-import { DataContext } from 'contexts/DataContext'
 import AvatarChange from 'components/Avatar/AvatarChange'
-
+import { UserApi } from 'api'
 export default function ProfileInfo ({ data }) {
-  const { dispatch, ACTIONS } = useContext(DataContext)
   const { user, reloadUser } = useContext(UserContext)
 
   function profiledata () {
@@ -26,11 +24,8 @@ export default function ProfileInfo ({ data }) {
       ))
   }
 
-  function changeValue (field, newVal) {
-    dispatch({
-      type: ACTIONS.EDIT_DATA,
-      payload: { userName: user.admin.userName, field, newVal }
-    })
+  async function changeValue (key, value) {
+    await UserApi.editUser(user._id, { newVals: { key, value } })
     reloadUser()
   }
 

@@ -28,7 +28,6 @@ const registerUser = async ({ userName, email, password }) => {
 
   try {
     const res = await axiosInstance.post('/register', userData)
-    console.log(res)
     return res.data
   } catch (error) {
     console.error('Error registering user:', error)
@@ -64,11 +63,21 @@ const loadUser = async (token) => {
   }
 }
 
+const editUser = async (userId, newVals) => {
+  try {
+    const res = await axiosInstance.post(`/user/${userId}`, newVals)
+    return res.data
+  } catch (error) {
+    console.error('Error updating user:', error)
+  }
+}
+
 const userAPi = {
   getUsers,
   registerUser,
   loginUser,
-  loadUser
+  loadUser,
+  editUser
 }
 
 export default userAPi
