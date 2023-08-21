@@ -1,6 +1,7 @@
 import axios from 'axios'
+import CONFIG from 'api/config'
 
-const BASEURL = process.env.BACKEND_URL
+const BASEURL = CONFIG.backendURL
 
 const axiosInstance = axios.create({
   baseURL: BASEURL,

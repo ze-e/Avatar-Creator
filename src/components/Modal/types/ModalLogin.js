@@ -45,16 +45,16 @@ export default function ModalLogin ({ handleSubmit }) {
   return (
     <form
       onSubmit={(e) => {
-        e.preventDefault();
+        e.preventDefault()
         if (e.target.checkValidity() === true) {
-          const error = login(e);
+          const error = login(e)
           if (!error) {
-            handleSubmit();
-          } else setError(error);
+            handleSubmit()
+          } else setError(error)
         }
       }}
       onChange={(e) => {
-        setIsValid(e.target.checkValidity());
+        setIsValid(e.target.checkValidity())
       }}
     >
       <div className="m-flexColumnCenter">
@@ -83,7 +83,7 @@ export default function ModalLogin ({ handleSubmit }) {
         Or <a onClick={() => openRegister()}>Register</a>
       </span>
     </form>
-  );
+  )
 }
 
 ModalLogin.propTypes = {
