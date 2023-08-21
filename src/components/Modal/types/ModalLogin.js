@@ -26,9 +26,8 @@ export default function ModalLogin ({ handleSubmit }) {
       const res = await UserApi.loginUser({ userName, password })
       if (res.token) {
         localStorage.setItem('token', JSON.stringify(res.token))
-        navigate('/profile')
       }
-      return null
+      navigate('/profile')
     } catch (e) {
       return 'Error connecting to server'
     }

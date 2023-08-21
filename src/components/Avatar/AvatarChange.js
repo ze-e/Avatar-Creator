@@ -14,8 +14,11 @@ export default function AvatarChange () {
   }
 
   async function changeAvatar (changeTo) {
-    const newInt = parseInt(changeTo)
-    await UserApi.editUser(user._id, { key: 'avatar', value: newInt })
+    const token = JSON.parse(localStorage.getItem('token'))
+    if (token) {
+      const newInt = parseInt(changeTo)
+      await UserApi.editUser(token, user._id, { key: 'avatar', value: newInt })
+    }
     reloadUser()
   }
 

@@ -14,7 +14,7 @@ export default function Header () {
 
   async function loginSavedUser (token) {
     const savedUser = await UserApi.loadUser(token)
-    if (savedUser.data) {
+    if (savedUser?.data) {
       setUser(savedUser)
       setModalOpen(false)
       navigate('/profile')

@@ -49,13 +49,13 @@ const loginUser = async ({ userName, password }) => {
 }
 
 const loadUser = async (token) => {
-  const config = {
-    headers: {
-      Authorization: `Bearer ${token}`
-    }
-  }
-
   try {
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`
+      }
+    }
     const res = await axiosInstance.get('/user', config)
     return res.data.user
   } catch (error) {
@@ -63,9 +63,16 @@ const loadUser = async (token) => {
   }
 }
 
-const editUser = async (userId, newVals) => {
+const editUser = async (token, userId, newVals) => {
   try {
-    const res = await axiosInstance.post(`/user/${userId}`, newVals)
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`
+      }
+    }
+
+    const res = await axiosInstance.patch(`/user/${userId}`, newVals, config)
     return res.data
   } catch (error) {
     console.error('Error updating user:', error)

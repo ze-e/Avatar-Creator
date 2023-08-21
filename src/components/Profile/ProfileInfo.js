@@ -25,8 +25,11 @@ export default function ProfileInfo ({ data }) {
   }
 
   async function changeValue (key, value) {
-    await UserApi.editUser(user._id, { newVals: { key, value } })
-    reloadUser()
+    const token = JSON.parse(localStorage.getItem('token'))
+    if (token) {
+      await UserApi.editUser(token, user._id, { newVals: { key, value } })
+      reloadUser()
+    }
   }
 
   return (
