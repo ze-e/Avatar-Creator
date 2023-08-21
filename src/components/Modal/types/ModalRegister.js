@@ -4,7 +4,7 @@ import { ModalContext } from 'contexts/ModalContext'
 import { ModalLogin } from 'components/Modal/ModalTypes'
 
 import { UserApi } from 'api'
-export default function ModalRegister ({ handleSubmit }) {
+export default function ModalRegister () {
   const [isValid, setIsValid] = useState(false)
   const [error, setError] = useState('')
   const { setModalOpen, setModalContent } = useContext(ModalContext)
@@ -34,21 +34,23 @@ export default function ModalRegister ({ handleSubmit }) {
         password
       })
       if (!res) return 'Could not register new user'
-      else return openLogin()
+      else return null
     } catch (e) {
-      return 'Error connecting to server'
+      return `Error connecting to server ${e}`
     }
   }
 
   return (
     <form
-      onSubmit={(e) => {
+      onSubmit={async (e) => {
         e.preventDefault()
         if (e.target.checkValidity() === true) {
-          const error = register(e)
+          const error = await register(e)
           if (!error) {
-            handleSubmit()
-          } else setError(error)
+            openLogin()
+          } else {
+            setError(error)
+          }
         }
       }}
       onChange={(e) => {
@@ -56,7 +58,7 @@ export default function ModalRegister ({ handleSubmit }) {
       }}
     >
       <div className="m-flexColumnCenter">
-        <h2 className="m-title-stroke-black modal__header">Log In</h2>
+        <h2 className="m-title-stroke-black modal__header">Create New User</h2>
         <input
           name="name"
           placeholder="Enter username"
@@ -66,11 +68,11 @@ export default function ModalRegister ({ handleSubmit }) {
         />
         <input
           name="email"
+          type="email"
           placeholder="Enter email"
           required
           minLength={3}
-          maxLength={15}
-          pattern={/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/}
+          maxLength={100}
         />
         <input
           name="password"
@@ -81,11 +83,13 @@ export default function ModalRegister ({ handleSubmit }) {
           maxLength={15}
         />
       </div>
-      <p className="m-error">{error}</p>
+      <p className="m-error">{typeof error === 'string' && error}</p>
       <button className="m-modalButton" type="submit" disabled={!isValid}>
-        Submit
+        Register
       </button>
-      <span>Or <a onClick={() => openLogin() }>Login</a></span>
+      <span>
+        Or <a onClick={() => openLogin()}>Login</a>
+      </span>
     </form>
   )
 }

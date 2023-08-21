@@ -15,11 +15,7 @@ export default function ModalLogin ({ handleSubmit }) {
   function openRegister () {
     setModalOpen(true)
     setModalContent(
-      <ModalRegister
-        handleSubmit={() => {
-          setModalOpen(false)
-        }}
-      />
+      <ModalRegister/>
     )
   }
 
@@ -75,7 +71,7 @@ export default function ModalLogin ({ handleSubmit }) {
           maxLength={15}
         />
       </div>
-      <p className="m-error">{error}</p>
+      <p className="m-error">{typeof error === 'string' && error}</p>
       <button className="m-modalButton" type="submit" disabled={!isValid}>
         Submit
       </button>
