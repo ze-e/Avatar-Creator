@@ -18,7 +18,7 @@ export default function App () {
       <Layout>
         <Routes>
           <Route index path="/" element={<Navigate to="/login" />} />
-          <Route path="/users/:userId" element={<PublicProfileView />} />
+          <Route path="/user/:userId" element={<PublicProfileView />} />
           <Route exact path="login" element={<LoginView />} />
           <Route
             exact

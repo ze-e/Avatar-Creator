@@ -40,7 +40,7 @@ export default function Avatar ({ avatar, user, gear, edit }) {
       .writeText(routeURL)
       .then(() => {
         alert('Profile copied to clipboard')
-        navigate(`/users/${userId}`)
+        navigate(`/user/${userId}`)
       })
       .catch((error) => {
         console.error('Error copying to clipboard:', error)
