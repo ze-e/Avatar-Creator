@@ -1,13 +1,16 @@
 import React, { useContext, useState } from 'react'
 import EditButton from 'components/EditButton/EditButton'
 import { UserContext } from 'contexts/UserContext'
+import { DataContext } from 'contexts/DataContext'
 import { UserApi } from 'api'
 import { avatarData } from 'data/sampleData'
 import { capitalize } from 'utils/string'
+import { getTypeFromAvatarData } from 'utils/avatar'
 
 export default function AvatarChange () {
   const { user, reloadUser } = useContext(UserContext)
-  const [selectedOption, setSelectedOption] = useState(user?.avatar)
+  const { state } = useContext(DataContext)
+  const [selectedOption, setSelectedOption] = useState(user?.data.avatar)
 
   const handleOptionChange = (event) => {
     setSelectedOption(event.target.value)
@@ -17,9 +20,10 @@ export default function AvatarChange () {
     const token = JSON.parse(localStorage.getItem('token'))
     if (token) {
       const newInt = parseInt(changeTo)
-      await UserApi.editUser(token, user._id, { key: 'avatar', value: newInt })
+      const newVals = { newVals: [{ key: 'avatar', value: newInt }, { key: 'type', value: getTypeFromAvatarData(state.avatarData, 'full', newInt) }] }
+      await UserApi.editUser(token, user._id, newVals)
+      reloadUser()
     }
-    reloadUser()
   }
 
   return (

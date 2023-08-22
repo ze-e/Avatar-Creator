@@ -79,12 +79,73 @@ const editUser = async (token, userId, newVals) => {
   }
 }
 
+// inventory and gear
+const addToInventory = async (token, userId, item) => {
+  try {
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`
+      }
+    }
+
+    console.log(item)
+    const res = await axiosInstance.patch(`/user/${userId}/inventory`, item, config)
+    return res.data
+  } catch (error) {
+    console.error('Error adding item to inventory:', error)
+  }
+}
+
+const equipItem = async (token, userId, item) => {
+  try {
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`
+      }
+    }
+
+    const res = await axiosInstance.patch(
+      `/user/${userId}/gear/equip`,
+      item,
+      config
+    )
+    return res.data
+  } catch (error) {
+    console.error('Error equipping item:', error)
+  }
+}
+
+const unequipItem = async (token, userId, item) => {
+  try {
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`
+      }
+    }
+
+    const res = await axiosInstance.patch(
+      `/user/${userId}/gear/unequip`,
+      item,
+      config
+    )
+    return res.data
+  } catch (error) {
+    console.error('Error unequipping item', error)
+  }
+}
+
 const userAPi = {
   getUsers,
   registerUser,
   loginUser,
   loadUser,
-  editUser
+  editUser,
+  addToInventory,
+  equipItem,
+  unequipItem
 }
 
 export default userAPi

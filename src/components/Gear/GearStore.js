@@ -2,17 +2,19 @@ import React, { useContext } from 'react'
 import { UserContext } from 'contexts/UserContext'
 import { DataContext } from 'contexts/DataContext'
 import { canBuyItem, count } from 'utils/item'
+import { UserApi } from 'api'
 
 export default function GearStore () {
-  const { state, dispatch, ACTIONS } = useContext(DataContext)
-  const { user } = useContext(UserContext)
+  const { user, reloadUser } = useContext(UserContext)
+  const { state } = useContext(DataContext)
 
   async function buy (item) {
     if (canBuyItem(item, user.data.gold)) {
-      await dispatch({
-        type: ACTIONS.BUY_ITEM,
-        payload: { userName: user.admin.userName, item }
-      })
+      const token = JSON.parse(localStorage.getItem('token'))
+      if (token) {
+        await UserApi.addToInventory(token, user._id, { item })
+        reloadUser()
+      }
     } else alert('Not enough gold to buy!')
   }
   return (

@@ -3,10 +3,11 @@ import { UserContext } from 'contexts/UserContext'
 import { DataContext } from 'contexts/DataContext'
 
 import { getGearData } from 'utils/avatar'
+import { UserApi } from 'api'
 
 export default function GearInventory () {
-  const { state, dispatch, ACTIONS } = useContext(DataContext)
-  const { user } = useContext(UserContext)
+  const { state } = useContext(DataContext)
+  const { user, reloadUser } = useContext(UserContext)
   function inventoryData () {
     return user.data.inventory.map((item) => {
       return {
@@ -15,6 +16,15 @@ export default function GearInventory () {
       }
     })
   }
+
+  async function equipItem (item) {
+    const token = JSON.parse(localStorage.getItem('token'))
+    if (token) {
+      await UserApi.equipItem(token, user._id, { item: item.data })
+      reloadUser()
+    }
+  }
+
   return (
     <ul>
       {inventoryData().map((item) => (
@@ -25,12 +35,7 @@ export default function GearInventory () {
           ) : (
             <button
               type="button"
-              onClick={async () =>
-                await dispatch({
-                  type: ACTIONS.EQUIP_ITEM,
-                  payload: { userName: user.admin.userName, item }
-                })
-              }
+              onClick={ () => equipItem(item) }
             >
               Equip
             </button>

@@ -2,11 +2,20 @@ import React, { useContext } from 'react'
 import { UserContext } from 'contexts/UserContext'
 import { DataContext } from 'contexts/DataContext'
 import { getGearData } from 'utils/avatar'
+import { UserApi } from 'api'
 import AvatarChange from 'components/Avatar/AvatarChange'
 
 export default function GearInfo () {
-  const { user } = useContext(UserContext)
-  const { state, dispatch, ACTIONS } = useContext(DataContext)
+  const { user, reloadUser } = useContext(UserContext)
+  const { state } = useContext(DataContext)
+
+  async function unequipItem (item) {
+    const token = JSON.parse(localStorage.getItem('token'))
+    if (token) {
+      await UserApi.unequipItem(token, user._id, { item })
+      reloadUser()
+    }
+  }
 
   function equippedData () {
     return Object.entries(user?.data?.gear)
@@ -22,14 +31,7 @@ export default function GearInfo () {
               <br />{' '}
               <button
                 type="button"
-                onClick={async () =>
-                  await dispatch({
-                    type: ACTIONS.UNEQUIP_ITEM,
-                    payload: {
-                      userName: user.admin.userName,
-                      item: getGearData(state.itemData, j.value)
-                    }
-                  })
+                onClick={ () => unequipItem(getGearData(state.itemData, j.value))
                 }
               >
                 Remove
