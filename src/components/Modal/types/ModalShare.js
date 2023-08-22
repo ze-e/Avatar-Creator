@@ -40,19 +40,31 @@ export default function ModalShare ({ imageLink, imageName }) {
   }
 
   return (
-    <div className='m-abs-container'>
-      <div className='m-flex'>
-        <button className='m-share-link' onClick={() => setLink(imageIframe)}>Embed</button>
-        <button className='m-share-link' onClick={() => setLink(imageLink)}>Direct Link</button>
-        <button className='m-share-link' onClick={() => openImage(imageLink)}>Open image in new window</button>
-        <button className='m-share-link' onClick={() => downloadImage(imageLink, imageName)}>Download image</button>
+    <div className="m-abs-container">
+      <div className="m-flex">
+        <button className="m-share-link" onClick={() => setLink(imageIframe)}>
+          Embed
+        </button>
+        <button className="m-share-link" onClick={() => setLink(imageLink)}>
+          Direct Link
+        </button>
+        <button className="m-share-link" onClick={() => openImage(imageLink)}>
+          Open image in new window
+        </button>
+        <button
+          className="m-share-link"
+          onClick={() => downloadImage(imageLink, imageName)}
+        >
+          Download image
+        </button>
       </div>
       <br />
       <input
-        className='modal__input'
+        className="modal__input"
         type="text"
         readOnly
-        value={link} id="shareLink"
+        value={link}
+        id="shareLink"
         onClick={() => copyToClipboard()}
       />
       <br />

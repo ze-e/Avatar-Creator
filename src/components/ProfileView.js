@@ -13,7 +13,7 @@ export default function ProfileView () {
       <div className="profileView">
         {user.data && (
           <div className="profileView__img">
-            <Avatar avatar={user.data.avatar} gear={user.data.gear} />
+            <Avatar user={user} avatar={user.data.avatar} gear={user.data.gear} />
           </div>
         )}
         <div className="profileView__info">

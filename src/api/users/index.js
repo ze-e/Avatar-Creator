@@ -79,6 +79,15 @@ const editUser = async (token, userId, newVals) => {
   }
 }
 
+const getUserById = async (userId) => {
+  try {
+    const res = await axiosInstance.get(`/user/${userId}`)
+    return res.data.user
+  } catch (error) {
+    console.error('Error loading user:', error)
+  }
+}
+
 // inventory and gear
 const addToInventory = async (token, userId, item) => {
   try {
@@ -143,6 +152,7 @@ const userAPi = {
   loginUser,
   loadUser,
   editUser,
+  getUserById,
   addToInventory,
   equipItem,
   unequipItem

@@ -2,6 +2,7 @@ import React from 'react'
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import LoginView from 'components/LoginView'
 import ProfileView from 'components/ProfileView'
+import PublicProfileView from './PublicProfileView'
 import UserListView from './UserListView'
 
 import Layout from 'components/Layout/Layout'
@@ -16,7 +17,8 @@ export default function App () {
     <BrowserRouter>
       <Layout>
         <Routes>
-          <Route index path="/" element={ <Navigate to="/login" />} />
+          <Route index path="/" element={<Navigate to="/login" />} />
+          <Route path="/users/:userId" element={<PublicProfileView />} />
           <Route exact path="login" element={<LoginView />} />
           <Route
             exact

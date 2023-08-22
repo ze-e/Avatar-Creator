@@ -2,10 +2,11 @@ import React, { useContext } from 'react'
 import PropTypes from 'prop-types'
 
 import InputField from 'components/InputField/InputField'
+import DisplayField from 'components/DisplayField/DisplayField'
 import { UserContext } from 'contexts/UserContext'
 import AvatarChange from 'components/Avatar/AvatarChange'
 import { UserApi } from 'api'
-export default function ProfileInfo ({ data }) {
+export default function ProfileInfo ({ data, publicView = false }) {
   const { user, reloadUser } = useContext(UserContext)
 
   function profiledata () {
@@ -15,13 +16,7 @@ export default function ProfileInfo ({ data }) {
         return { key: i[0], value: i[1] }
       })
       .filter((i) => !exclude.includes(i.key))
-      .map((itemData) => (
-        <InputField
-          key={itemData.key}
-          itemData={itemData}
-          onSubmit={changeValue}
-        />
-      ))
+      .map((itemData) => (publicView ? <DisplayField key={itemData.key} itemData={itemData} /> : <InputField key={itemData.key} itemData={itemData} onSubmit={changeValue} />))
   }
 
   async function changeValue (key, value) {
@@ -42,7 +37,7 @@ export default function ProfileInfo ({ data }) {
           <h3 className="profileInfo__subtitle">{`(Lv. ${data.level} ${data.type} ${data.job})`}</h3>
         </div>
       </div>
-      <AvatarChange />
+      {!publicView && <AvatarChange />}
       <div className="profileInfo__data m-flex">
         <ul className="profileInfo__list">{profiledata()}</ul>
       </div>
@@ -51,5 +46,6 @@ export default function ProfileInfo ({ data }) {
 }
 
 ProfileInfo.propTypes = {
-  data: PropTypes.object
+  data: PropTypes.object,
+  publicView: PropTypes.bool
 }

@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom'
 import { ModalContext } from 'contexts/ModalContext'
 import { ModalRegister } from 'components/Modal/ModalTypes'
 import { UserApi } from 'api'
-export default function ModalLogin( { handleSubmit }) {
+export default function ModalLogin ({ handleSubmit }) {
   const [loading, setLoading] = useState(false)
   const [isValid, setIsValid] = useState(false)
   const [error, setError] = useState('')
@@ -38,12 +38,14 @@ export default function ModalLogin( { handleSubmit }) {
     <form
       onSubmit={(e) => {
         e.preventDefault()
+        setLoading(true)
         if (e.target.checkValidity() === true) {
           const error = login(e)
           if (!error) {
             handleSubmit()
           } else setError(error)
         }
+        setLoading(false)
       }}
       onChange={(e) => {
         setIsValid(e.target.checkValidity())

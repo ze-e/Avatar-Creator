@@ -83,6 +83,11 @@ button {
     opacity: 0.8;
   }
 
+  &:disabled {
+    color: grey;
+    opacity: 0.8;
+  }
+
   @include small-screen {
     padding: 4px;
     font-size: 10px;
