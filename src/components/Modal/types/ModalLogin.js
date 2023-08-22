@@ -4,7 +4,8 @@ import { useNavigate } from 'react-router-dom'
 import { ModalContext } from 'contexts/ModalContext'
 import { ModalRegister } from 'components/Modal/ModalTypes'
 import { UserApi } from 'api'
-export default function ModalLogin ({ handleSubmit }) {
+export default function ModalLogin( { handleSubmit }) {
+  const [loading, setLoading] = useState(false)
   const [isValid, setIsValid] = useState(false)
   const [error, setError] = useState('')
   const { setModalOpen, setModalContent } = useContext(ModalContext)
@@ -67,8 +68,8 @@ export default function ModalLogin ({ handleSubmit }) {
         />
       </div>
       <p className="m-error">{typeof error === 'string' && error}</p>
-      <button className="m-modalButton" type="submit" disabled={!isValid}>
-        Submit
+      <button className="m-modalButton" type="submit" disabled={!isValid || loading}>
+        {!loading ? 'Submit' : 'Loading...'}
       </button>
       <span className="modal__link_container">
         <a className="modal__link" onClick={() => openRegister()}>

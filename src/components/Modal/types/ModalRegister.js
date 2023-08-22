@@ -6,6 +6,7 @@ import { ModalLogin } from 'components/Modal/ModalTypes'
 import { UserApi } from 'api'
 export default function ModalRegister () {
   const [isValid, setIsValid] = useState(false)
+  const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
   const { setModalOpen, setModalContent } = useContext(ModalContext)
 
@@ -44,6 +45,7 @@ export default function ModalRegister () {
     <form
       onSubmit={async (e) => {
         e.preventDefault()
+        setLoading(true)
         if (e.target.checkValidity() === true) {
           const error = await register(e)
           if (!error) {
@@ -52,6 +54,7 @@ export default function ModalRegister () {
             setError(error)
           }
         }
+        setLoading(false)
       }}
       onChange={(e) => {
         setIsValid(e.target.checkValidity())
@@ -84,8 +87,8 @@ export default function ModalRegister () {
         />
       </div>
       <p className="m-error">{typeof error === 'string' && error}</p>
-      <button className="m-modalButton" type="submit" disabled={!isValid}>
-        Register
+      <button className="m-modalButton" type="submit" disabled={!isValid || loading}>
+        {!loading ? 'Register' : 'Loading...'}
       </button>
       <span className="modal__link_container">
         <a className="modal__link" onClick={() => openLogin()}>
