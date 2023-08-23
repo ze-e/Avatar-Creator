@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom'
 import Avatar from './Avatar/Avatar'
 import ProfileInfo from './Profile/ProfileInfo'
 import { UserApi } from 'api'
+import { getFullName, getUserDisplayLevel, getUserSubtitle } from 'utils/user'
 
 export default function PublicProfileView () {
   const { userId } = useParams()
@@ -20,20 +21,31 @@ export default function PublicProfileView () {
 
   return (
     <>
-      {user ? <div className="profileView">
-        {user.data && (
-          <div className="profileView__img">
-            <Avatar user={user} avatar={user.data.avatar} gear={user.data.gear} />
-          </div>
-        )}
-        <div className="profileView__info">
+      {user ? (
+        <div className="profileView">
           {user.data && (
-            <div className="profileView__info">
-              <ProfileInfo data={user.data} publicView={true} />
+            <div className="profileView__img">
+              <Avatar
+                fullName={getFullName(user.data)}
+                userSubtitle={getUserSubtitle(user.data)}
+                userLevel={getUserDisplayLevel(user.data)}
+                avatar={user.data.avatar}
+                gear={user.data.gear}
+                userId={user._id}
+              />{' '}
             </div>
           )}
+          <div className="profileView__info">
+            {user.data && (
+              <div className="profileView__info">
+                <ProfileInfo data={user.data} publicView={true} />
+              </div>
+            )}
+          </div>
         </div>
-      </div> : <p>Loading...</p>}
+      ) : (
+        <p>Loading...</p>
+      )}
     </>
   )
 }
