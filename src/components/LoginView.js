@@ -11,11 +11,7 @@ export default function LoginView () {
     if (!user?.data) {
       setModalOpen(true)
       setModalContent(
-        <ModalLogin
-          handleSubmit={() => {
-            setModalOpen(false)
-          }}
-        />
+        <ModalLogin />
       )
     }
   }, [user])

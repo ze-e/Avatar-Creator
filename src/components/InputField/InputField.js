@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 
-import { formattedDate } from 'utils/date'
+// import { formattedDate } from 'utils/date'
 
 export default function InputField ({ itemData, onSubmit }) {
   const [state, setState] = useState(itemData.value)
@@ -13,7 +13,7 @@ export default function InputField ({ itemData, onSubmit }) {
     setEdit(false)
   }
   return (
-    <li className='m-flex' style={{ marginBottom: '12px' }}>
+    <li className="m-flex" style={{ marginBottom: '12px' }}>
       <em>{itemData.key[0].toUpperCase() + itemData.key.substring(1)}: </em>
       {edit ? (
         <form
@@ -21,33 +21,44 @@ export default function InputField ({ itemData, onSubmit }) {
             handleSubmit(e)
           }}
         >
-          {itemData.key === 'description'
-            ? <textarea
-            name={itemData.key}
-            value={state}
-            onChange={(e) => {
-              setState(e.target.value)
-            }}
+          {itemData.key === 'description' ? (
+            <textarea
+              name={itemData.key}
+              value={state}
+              onChange={(e) => {
+                setState(e.target.value)
+              }}
             />
-            : <input
-            name={itemData.key}
-            type={itemData.key === 'birthday' ? 'date' : 'text'}
-            value={state}
-            onChange={(e) => {
-              setState(e.target.value)
-            }}
-          />}
-          <button type='submit' className='m-input-button'>Submit</button>
+          ) : (
+            <input
+              name={itemData.key}
+              type={itemData.key === 'birthday' ? 'date' : 'text'}
+              value={state}
+              onChange={(e) => {
+                setState(e.target.value)
+              }}
+            />
+          )}
+          <button type="submit" className="m-input-button">
+            Submit
+          </button>
         </form>
       ) : (
-          <div className='m-flex'>
-            <span style={{ marginRight: '12px', marginLeft: '12px' }}>
-              {itemData.key === 'birthday' ? formattedDate(state) : state}
-            </span>
-            <button type='button' className='m-input-button' onClick={(e) => {
+        <div className="m-flex">
+          <span style={{ marginRight: '12px', marginLeft: '12px' }}>
+            {/* {itemData.key === "birthday" ? formattedDate(state) : state} */}
+            {state}
+          </span>
+          <button
+            type="button"
+            className="m-input-button"
+            onClick={(e) => {
               setEdit(true)
-            }}>edit</button>
-          </div>
+            }}
+          >
+            edit
+          </button>
+        </div>
       )}
     </li>
   )

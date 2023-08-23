@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 import { drawAvatarFull } from 'utils/visualEffect'
 import { getAvatarData, getGearData } from 'utils/avatar'
@@ -9,12 +9,14 @@ import { NavLink, useNavigate } from 'react-router-dom'
 
 export default function Avatar ({ avatar, user, gear, edit }) {
   const { state } = useContext(DataContext)
+  const [loading, setLoading] = useState(true)
   // const { setModalOpen, setModalContent, setModalStyle } = useContext(ModalContext)
   const navigate = useNavigate()
 
   const fullName = user?.data.name + ' the ' + user?.data.epiphet
 
   useEffect(() => {
+    setLoading(true)
     drawAvatarFull({
       avatar: getAvatarData(state.avatarData, 'full', avatar),
       gear: gear ? getGearData(state.itemData, Object.values(gear)) : null,
@@ -22,6 +24,7 @@ export default function Avatar ({ avatar, user, gear, edit }) {
       subtitle: 'Lv ' + user?.data.level + ' ' + user?.data.type + ' ' + user?.data.job,
       level: 'Lv ' + user?.data.level
     })
+    setLoading(false)
   }, [avatar, state, gear, user])
 
   // const openShareModal = () => {
@@ -49,7 +52,7 @@ export default function Avatar ({ avatar, user, gear, edit }) {
 
   return (
     <>
-      {user ? (
+      {Boolean(user && !loading) ? (
         <div className="avatar">
           <canvas id="canvas"></canvas>
           {!!edit && (

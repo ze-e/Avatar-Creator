@@ -1,51 +1,55 @@
 import React, { useState, useContext } from 'react'
-import PropTypes from 'prop-types'
 import { useNavigate } from 'react-router-dom'
 import { ModalContext } from 'contexts/ModalContext'
 import { ModalRegister } from 'components/Modal/ModalTypes'
 import { UserApi } from 'api'
-export default function ModalLogin ({ handleSubmit }) {
+import { UserContext } from 'contexts/UserContext'
+
+export default function ModalLogin () {
   const [loading, setLoading] = useState(false)
   const [isValid, setIsValid] = useState(false)
   const [error, setError] = useState('')
+  const { setUser } = useContext(UserContext)
   const { setModalOpen, setModalContent } = useContext(ModalContext)
   const navigate = useNavigate()
 
   function openRegister () {
     setModalOpen(true)
-    setModalContent(
-      <ModalRegister/>
-    )
+    setModalContent(<ModalRegister />)
   }
 
   async function login (e) {
-    const userInput = e.target[0]
-    const passwordInput = e.target[1]
-    const userName = userInput.value
-    const password = passwordInput.value
-    try {
-      const res = await UserApi.loginUser({ userName, password })
-      if (res.token) {
-        localStorage.setItem('token', JSON.stringify(res.token))
+    setLoading(true)
+    setError('')
+    if (e.target.checkValidity() === true) {
+      const userInput = e.target[0]
+      const passwordInput = e.target[1]
+      const userName = userInput.value
+      const password = passwordInput.value
+      try {
+        const res = await UserApi.loginUser({ userName, password })
+        if (res.token) {
+          const token = res.token
+          localStorage.setItem('token', JSON.stringify(res.token))
+          const savedUser = await UserApi.loadUser(token)
+          if (savedUser?.data) {
+            setUser(savedUser)
+            setModalOpen(false)
+            navigate('/profile')
+          }
+        }
+      } catch (e) {
+        setError(e)
       }
-      navigate('/profile')
-    } catch (e) {
-      return 'Error connecting to server'
     }
+    setLoading(false)
   }
 
   return (
     <form
       onSubmit={(e) => {
         e.preventDefault()
-        setLoading(true)
-        if (e.target.checkValidity() === true) {
-          const error = login(e)
-          if (!error) {
-            handleSubmit()
-          } else setError(error)
-        }
-        setLoading(false)
+        login(e)
       }}
       onChange={(e) => {
         setIsValid(e.target.checkValidity())
@@ -70,7 +74,11 @@ export default function ModalLogin ({ handleSubmit }) {
         />
       </div>
       <p className="m-error">{typeof error === 'string' && error}</p>
-      <button className="m-modalButton" type="submit" disabled={!isValid || loading}>
+      <button
+        className="m-modalButton"
+        type="submit"
+        disabled={!isValid || loading}
+      >
         {!loading ? 'Submit' : 'Loading...'}
       </button>
       <span className="modal__link_container">
@@ -80,8 +88,4 @@ export default function ModalLogin ({ handleSubmit }) {
       </span>
     </form>
   )
-}
-
-ModalLogin.propTypes = {
-  handleSubmit: PropTypes.func
 }

@@ -13,11 +13,7 @@ export default function LoginButton () {
       onClick={() => {
         setModalOpen(true)
         setModalContent(
-          <ModalLogin
-            handleSubmit={() => {
-              setModalOpen(false)
-            }}
-          />
+          <ModalLogin />
         )
       }}
     >

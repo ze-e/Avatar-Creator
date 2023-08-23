@@ -13,11 +13,7 @@ export default function ModalRegister () {
   function openLogin () {
     setModalOpen(true)
     setModalContent(
-      <ModalLogin
-        handleSubmit={() => {
-          setModalOpen(false)
-        }}
-      />
+      <ModalLogin />
     )
   }
 
