@@ -7,7 +7,7 @@ import { UserContext } from 'contexts/UserContext'
 const ProtectedRoute = ({ Component }) => {
   const { user } = useContext(UserContext)
 
-  return user?.admin?.userType === 'teacher' ? (
+  return user?.admin?.userType === 'admin' ? (
     Component
   ) : (
     <Navigate to="/login" />

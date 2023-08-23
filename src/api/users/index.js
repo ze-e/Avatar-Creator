@@ -146,6 +146,58 @@ const unequipItem = async (token, userId, item) => {
   }
 }
 
+/* admin */
+const gainXP = async (token, userId, amount) => {
+  try {
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`
+      }
+    }
+
+    const res = await axiosInstance.patch(
+      `/user/${userId}/xp`,
+      amount,
+      config
+    )
+    return res.data
+  } catch (error) {
+    console.error('Error gaining xp', error)
+  }
+}
+
+const undo = async (token, userId, key) => {
+  try {
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`
+      }
+    }
+
+    const res = await axiosInstance.patch(`/user/${userId}/undo`, key, config)
+    return res.data
+  } catch (error) {
+    console.error('Error during undo', error)
+  }
+}
+
+const getUsersAdmin = async (token) => {
+  try {
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`
+      }
+    }
+    const response = await axiosInstance.get('/users', config)
+    return response.data
+  } catch (error) {
+    console.error('Error fetching users:', error)
+  }
+}
+
 const userAPi = {
   getUsers,
   registerUser,
@@ -155,7 +207,10 @@ const userAPi = {
   getUserById,
   addToInventory,
   equipItem,
-  unequipItem
+  unequipItem,
+  gainXP,
+  undo,
+  getUsersAdmin
 }
 
 export default userAPi

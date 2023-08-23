@@ -6,7 +6,7 @@ import { ModalContext } from 'contexts/ModalContext'
 import { UserContext } from 'contexts/UserContext'
 import { UserApi } from 'api'
 
-import DataReducer, { initialState, ACTIONS } from 'reducers/DataReducer'
+import DataReducer, { initialState } from 'reducers/DataReducer'
 
 function DataLayer ({ children }) {
   const [state, dispatch] = useReducer(DataReducer, initialState)
@@ -26,7 +26,7 @@ function DataLayer ({ children }) {
   }
 
   return (
-    <DataContext.Provider value={{ state, dispatch, ACTIONS }}>
+    <DataContext.Provider value={{ state, dispatch }}>
       <UserContext.Provider value={{ user, setUser, reloadUser }}>
         <ModalContext.Provider
           value={{ modalOpen, setModalOpen, modalContent, setModalContent, modalStyle, setModalStyle }}

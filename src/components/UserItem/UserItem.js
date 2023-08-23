@@ -1,10 +1,8 @@
-import React, { useContext, useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
-import { DataContext } from 'contexts/DataContext'
 import { capitalize, checkPlural } from 'utils/string'
-
+import { UserApi } from 'api'
 export default function UserItem ({ userData }) {
-  const { dispatch, ACTIONS } = useContext(DataContext)
   const [amount, setAmount] = useState(0)
   const [loading, setLoading] = useState(false)
 
@@ -35,44 +33,26 @@ export default function UserItem ({ userData }) {
     e.preventDefault()
     if (e.target.checkValidity() === false) return
     if (loading) return
-    setLoading(true)
-    const prevXP = userData.data.xp
-    const prevGold = userData.data.gold
-    const prevLVL = userData.data.level
-    await dispatch({
-      type: ACTIONS.GAIN_XP,
-      payload: {
-        userName: userData.admin.userName,
-        amount
-      }
-    })
-
-    await dispatch({
-      type: ACTIONS.SAVE_LAST_STATE,
-      payload: {
-        userName: userData.admin.userName,
-        prevData: [{ key: 'xp', value: prevXP }, { key: 'level', value: prevLVL }, { key: 'gold', value: prevGold }] // also add previous level
-      }
-    })
-    setLoading(false)
-    setAmount(0)
-    checkCooldownAndUpdate()
+    const token = JSON.parse(localStorage.getItem('token'))
+    if (token) {
+      setLoading(true)
+      await UserApi.gainXP(token, userData._id, amount)
+      setLoading(false)
+      setAmount(0)
+      checkCooldownAndUpdate()
+    }
   }
 
   async function undo (key) {
-    setLoading(true)
-    await dispatch({
-      type: ACTIONS.UNDO,
-      payload: {
-        userName: userData.admin.userName,
-        key
-      }
-    })
-
-    setLoading(false)
-    setCooldownTime(0)
-    clearTimeout(coolDownFunc)
-    setCoolDownFunc(null)
+    const token = JSON.parse(localStorage.getItem('token'))
+    if (token) {
+      setLoading(true)
+      await UserApi.undo(token, userData._id, key)
+      setLoading(false)
+      setCooldownTime(0)
+      clearTimeout(coolDownFunc)
+      setCoolDownFunc(null)
+    }
   }
 
   function getDisplayData () {
