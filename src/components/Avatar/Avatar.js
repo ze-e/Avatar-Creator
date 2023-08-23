@@ -50,6 +50,22 @@ export default function Avatar ({ avatar, user, gear, edit }) {
       })
   }
 
+  async function downloadImage () {
+    const canvas = document.querySelector('canvas')
+    const data = canvas.toDataURL('image/png')
+    const name = user?.data.name + ' the ' + user?.data.epiphet
+    const image = await fetch(data)
+    const imageBlog = await image.blob()
+    const imageURL = URL.createObjectURL(imageBlog)
+
+    const link = document.createElement('a')
+    link.href = imageURL
+    link.download = name
+    document.body.appendChild(link)
+    link.click()
+    document.body.removeChild(link)
+  }
+
   return (
     <>
       {Boolean(user && !loading) ? (
@@ -70,8 +86,11 @@ export default function Avatar ({ avatar, user, gear, edit }) {
             {/* <button className="button" onClick={openShareModal}>
           🔗
         </button> */}
-            <button className="button" onClick={share}>
-              🔗
+            <button onClick={share}>🔗</button>
+          </div>
+          <div className="m-flexCenter">
+            <button className="m-button" onClick={downloadImage}>
+              Download Image
             </button>
           </div>
         </div>

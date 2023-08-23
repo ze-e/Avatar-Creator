@@ -60,6 +60,12 @@
   align-items: center;
 }
 
+.m-flexCenter {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .m-flexColumn {
   display: flex;
   flex-direction: column;
