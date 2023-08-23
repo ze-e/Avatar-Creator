@@ -4,6 +4,7 @@ import Avatar from './Avatar/Avatar'
 import GearInfo from './Gear/GearInfo'
 import { Outlet } from 'react-router-dom'
 import { UserContext } from 'contexts/UserContext'
+import { getFullName, getUserDisplayLevel, getUserSubtitle } from 'utils/user'
 
 export default function GearView () {
   const { user } = useContext(UserContext)
@@ -12,7 +13,14 @@ export default function GearView () {
       <div className="gearView__top">
         {user.data && (
           <div className="gearView__img">
-            <Avatar user={user} avatar={user.data.avatar} gear={user.data.gear} />
+            <Avatar
+              fullName={getFullName(user.data)}
+              userSubtitle={getUserSubtitle(user.data)}
+              userLevel={getUserDisplayLevel(user.data)}
+              avatar={user.data.avatar}
+              gear={user.data.gear}
+              userId={user._id}
+            />
           </div>
         )}
         <div className="gearView__info">

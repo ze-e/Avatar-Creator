@@ -6,25 +6,22 @@ import { DataContext } from 'contexts/DataContext'
 // import { ModalContext } from 'contexts/ModalContext'
 // import { ModalShare } from 'components/Modal/ModalTypes'
 import { NavLink, useNavigate } from 'react-router-dom'
-
-export default function Avatar ({ avatar, user, gear, edit }) {
+export default function Avatar ({ avatar, fullName, userSubtitle, userLevel, userId, gear, edit }) {
   const { state } = useContext(DataContext)
   // const { setModalOpen, setModalContent, setModalStyle } = useContext(ModalContext)
   const navigate = useNavigate()
 
-  const fullName = user?.data.name + ' the ' + user?.data.epiphet
-
   useEffect(() => {
-    if (!user) return
+    if (!userId) return
     drawAvatarFull({
       canvas: document.getElementById('canvas'),
       avatar: getAvatarData(state.avatarData, 'full', avatar),
       gear: gear ? getGearData(state.itemData, Object.values(gear)) : null,
       title: fullName,
-      subtitle: 'Lv ' + user?.data.level + ' ' + user?.data.type + ' ' + user?.data.job,
-      level: 'Lv ' + user?.data.level
+      subtitle: userSubtitle,
+      level: userLevel
     })
-  }, [avatar, state, gear, user])
+  }, [avatar, state, gear, userId])
 
   // const openShareModal = () => {
   //   setModalOpen(true)
@@ -35,7 +32,6 @@ export default function Avatar ({ avatar, user, gear, edit }) {
   // }
 
   const share = () => {
-    const userId = user?._id
     const routeURL = `${window.location.origin}/user/${userId}`
 
     navigator.clipboard
@@ -52,14 +48,13 @@ export default function Avatar ({ avatar, user, gear, edit }) {
   async function downloadImage () {
     const canvas = document.querySelector('canvas')
     const data = canvas.toDataURL('image/png')
-    const name = user?.data.name + ' the ' + user?.data.epiphet
     const image = await fetch(data)
     const imageBlog = await image.blob()
     const imageURL = URL.createObjectURL(imageBlog)
 
     const link = document.createElement('a')
     link.href = imageURL
-    link.download = name
+    link.download = fullName
     document.body.appendChild(link)
     link.click()
     document.body.removeChild(link)
@@ -67,7 +62,7 @@ export default function Avatar ({ avatar, user, gear, edit }) {
 
   return (
     <>
-      {user ? (
+      {userId ? (
         <div className="avatar">
           <canvas id="canvas"></canvas>
           {!!edit && (
@@ -104,5 +99,9 @@ Avatar.propTypes = {
   avatar: PropTypes.number,
   gear: PropTypes.object,
   user: PropTypes.object,
-  edit: PropTypes.bool
+  edit: PropTypes.bool,
+  userId: PropTypes.string,
+  fullName: PropTypes.string,
+  userSubtitle: PropTypes.string,
+  userLevel: PropTypes.string
 }
