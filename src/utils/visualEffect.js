@@ -1,4 +1,6 @@
-export function drawLine (from, to, line, scrollX) {
+/* eslint-disable */
+
+export function drawLine(from, to, line, scrollX) {
   if (!from || !to || !line) return
   const fT = from.offsetTop + from.offsetHeight / 2
   const tT = to.offsetTop + to.offsetHeight / 2
@@ -109,38 +111,74 @@ export function drawAvatarBody ({ body, head, hand, foot, gear }) {
   }
 }
 
-export function drawAvatarFull ({ avatar, gear, title, subtitle, level }) {
+export function drawAvatarFull({canvas, avatar, gear, title, subtitle, level }) {
+
+  if(!canvas) return
+  const ctx = canvas.getContext("2d");
+  canvas.width = 400;
+  canvas.height = 400;
+
   if (gear !== null) {
     Object.keys(gear).forEach((k) => gear[k] == null && delete gear[k])
   }
+
+  // show loading screen
+  const loading = showLoading(canvas, ctx)
 
   // load
   const avatarImg = new Image()
   avatarImg.src = avatar.src
 
   avatarImg.onload = () => {
-    buildImage()
+    buildImage(canvas, ctx)
   }
 
   const gearImg = []
 
   if (gear !== null) {
     gear.forEach((item) => {
-      const itemImg = new Image()
-      itemImg.src = item.src
-      gearImg.push(itemImg)
+      const itemImg = new Image();
+      itemImg.src = item.src;
+      gearImg.push(itemImg);
       itemImg.onload = () => {
-        buildImage()
-      }
-    })
+        buildImage(canvas, ctx);
+      };
+    });
+    
+    // remove loading screen
+    removeLoading(ctx, loading);
   }
 
-  function buildImage () {
-    const canvas = document.getElementById('canvas')
-    const ctx = canvas.getContext('2d')
-    canvas.width = 400
-    canvas.height = 400
+    function showLoading(canvas, ctx) {
+      // Create the loading element
+      const loading = {
+        x: canvas.width / 2 - 100, // Rectangle x-coordinate
+        y: canvas.height / 2 - 50, // Rectangle y-coordinate
+        width: 200,
+        height: 100,
+        text: "Loading",
+      };
 
+      // Draw the rectangle
+      ctx.fillStyle = "#ffffff";
+      ctx.fillRect(loading.x, loading.y, loading.width, loading.height);
+
+      // Draw the text
+      ctx.font = "24px Arial";
+      ctx.fillStyle = "#000000";
+      ctx.textAlign = "center";
+      ctx.textBaseline = "middle";
+      ctx.fillText(loading.text, canvas.width / 2, canvas.height / 2);
+
+      return loading; // Return the loading element
+  }
+  
+    function removeLoading(ctx, loading) {
+      // Clear only the area occupied by the loading element
+      ctx.clearRect(loading.x, loading.y, loading.width, loading.height);
+    }
+
+  function buildImage (canvas, ctx) {
     // draw bg
     buildBG(canvas, ctx)
 
