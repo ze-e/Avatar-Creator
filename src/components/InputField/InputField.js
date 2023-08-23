@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 
-// import { formattedDate } from 'utils/date'
+import { formattedDate } from 'utils/date'
 
 export default function InputField ({ itemData, onSubmit }) {
   const [state, setState] = useState(itemData.value)
@@ -46,8 +46,8 @@ export default function InputField ({ itemData, onSubmit }) {
       ) : (
         <div className="m-flex">
           <span style={{ marginRight: '12px', marginLeft: '12px' }}>
-            {/* {itemData.key === "birthday" ? formattedDate(state) : state} */}
-            {state}
+            {itemData.key === 'birthday' ? formattedDate(state) : state}
+            {/* {state} */}
           </span>
           <button
             type="button"
