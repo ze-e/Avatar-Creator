@@ -222,12 +222,12 @@ export function drawAvatarFull ({ canvas, avatar, gear, title, subtitle, level }
     ctx.font = 'bold 20px sans-serif'
     ctx.font = 'bold 20px Monda'
     ctx.textAlign = 'center'
-    ctx.fillText(title, canvas.width / 2, canvas.height - 38)
+    ctx.fillText(title, canvas.width / 2, canvas.height - 42)
 
     ctx.font = 'normal 20px sans-serif'
     ctx.font = 'normal 20px Monda'
     ctx.textAlign = 'center'
-    ctx.fillText(subtitle, canvas.width / 2, canvas.height - 18)
+    ctx.fillText(subtitle, canvas.width / 2, canvas.height - 22)
 
     // level
     ctx.fillStyle = 'black'
