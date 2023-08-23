@@ -1,44 +1,7 @@
 /* eslint-disable dot-notation */
 
-import { getAvatarData } from 'utils/avatar'
 import { updateUser } from 'utils/user'
 import { getLevelByXP } from 'utils/gameData'
-
-function editData (state, { userName, field, newVal }) {
-  const stateCopy = { ...state }
-  const user = stateCopy.userData.find(
-    (i) => i.admin.userName.toLowerCase() === userName.toLowerCase()
-  )
-  user.data[field] = newVal
-  stateCopy.userData = updateUser(stateCopy, userName, user)
-  return stateCopy
-}
-
-function editAdmin (state, { userName, field, newVal }) {
-  const stateCopy = { ...state }
-  const user = stateCopy.userData.find(
-    (i) => i.admin.userName.toLowerCase() === userName.toLowerCase()
-  )
-  user.admin[field] = newVal
-  stateCopy.userData = updateUser(stateCopy, userName, user)
-  return stateCopy
-}
-
-function changeAvatar (state, { userName, changeTo }) {
-  const stateCopy = { ...state }
-  const user = stateCopy.userData.find(
-    (i) => i.admin.userName.toLowerCase() === userName.toLowerCase()
-  )
-  user.avatar = changeTo
-  user.data.type = getAvatarData(
-    stateCopy.avatarData,
-    'full',
-    user.avatar
-  ).name
-
-  stateCopy.userData = updateUser(stateCopy, userName, user)
-  return stateCopy
-}
 
 // increase xp and gold by amount
 function gainXP (state, { userName, amount }) {
@@ -109,9 +72,6 @@ function gainLevel (leveldata, xp, userLevel) {
 }
 
 export default {
-  editData,
-  editAdmin,
-  changeAvatar,
   gainXP,
   saveLastState,
   undo

@@ -6,6 +6,7 @@ import DisplayField from 'components/DisplayField/DisplayField'
 import { UserContext } from 'contexts/UserContext'
 import AvatarChange from 'components/Avatar/AvatarChange'
 import { UserApi } from 'api'
+import { Link } from 'react-router-dom'
 export default function ProfileInfo ({ data, publicView = false }) {
   const { user, reloadUser } = useContext(UserContext)
 
@@ -37,7 +38,16 @@ export default function ProfileInfo ({ data, publicView = false }) {
           <h3 className="profileInfo__subtitle">{`(Lv. ${data.level} ${data.type} ${data.job})`}</h3>
         </div>
       </div>
-      {!publicView && <AvatarChange />}
+      {publicView ? (
+        <>
+          <Link to="/profile">
+            <button>Edit Profile</button>
+          </Link>
+          <br/>
+        </>
+      ) : (
+        <AvatarChange />
+      )}
       <div className="profileInfo__data m-flex">
         <ul className="profileInfo__list">{profiledata()}</ul>
       </div>
