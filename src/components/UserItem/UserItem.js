@@ -37,7 +37,7 @@ export default function UserItem ({ userData }) {
     if (token) {
       setLoading(true)
       try {
-        await UserApi.gainXP(token, userData._id, amount)
+        await UserApi.gainXP(token, userData._id, { amount })
         setAmount(0)
         checkCooldownAndUpdate()
       } catch (e) {
@@ -52,7 +52,7 @@ export default function UserItem ({ userData }) {
     if (token) {
       setLoading(true)
       try {
-        await UserApi.undo(token, userData._id, key)
+        await UserApi.undo(token, userData._id, { key })
         setLoading(false)
         setCooldownTime(0)
         clearTimeout(coolDownFunc)
