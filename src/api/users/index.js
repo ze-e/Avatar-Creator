@@ -1,3 +1,4 @@
+/* eslint-disable quotes */
 import axios from 'axios'
 import CONFIG from 'api/config'
 
@@ -151,7 +152,7 @@ const gainXP = async (token, userId, amount) => {
   try {
     const config = {
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
         Authorization: `Bearer ${token}`
       }
     }
@@ -171,7 +172,7 @@ const undo = async (token, userId, key) => {
   try {
     const config = {
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
         Authorization: `Bearer ${token}`
       }
     }
