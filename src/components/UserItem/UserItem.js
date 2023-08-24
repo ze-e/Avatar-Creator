@@ -36,10 +36,14 @@ export default function UserItem ({ userData }) {
     const token = JSON.parse(localStorage.getItem('token'))
     if (token) {
       setLoading(true)
-      await UserApi.gainXP(token, userData._id, amount)
+      try {
+        await UserApi.gainXP(token, userData._id, amount)
+        setAmount(0)
+        checkCooldownAndUpdate()
+      } catch (e) {
+        console.log(`error adding xp ${e}`)
+      }
       setLoading(false)
-      setAmount(0)
-      checkCooldownAndUpdate()
     }
   }
 
@@ -47,11 +51,15 @@ export default function UserItem ({ userData }) {
     const token = JSON.parse(localStorage.getItem('token'))
     if (token) {
       setLoading(true)
-      await UserApi.undo(token, userData._id, key)
-      setLoading(false)
-      setCooldownTime(0)
-      clearTimeout(coolDownFunc)
-      setCoolDownFunc(null)
+      try {
+        await UserApi.undo(token, userData._id, key)
+        setLoading(false)
+        setCooldownTime(0)
+        clearTimeout(coolDownFunc)
+        setCoolDownFunc(null)
+      } catch (e) {
+        console.log(`error during undo ${e}`)
+      }
     }
   }
 
