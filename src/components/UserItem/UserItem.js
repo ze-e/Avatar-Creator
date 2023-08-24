@@ -98,8 +98,11 @@ export default function UserItem ({ userData, reload }) {
       {cooldownTime > 0 ? (
         <div>
           <p>
-            Please wait {cooldownTime} {checkPlural('minute', cooldownTime)} to
-            add xp again
+            Please wait {cooldownTime > 60 ? Math.round(cooldownTime / 60) : cooldownTime}{' '}
+            {cooldownTime > 60
+              ? checkPlural('hour', Math.round(cooldownTime / 60))
+              : checkPlural('minute', cooldownTime)}{' '}
+            to add xp again
           </p>
           <button
             type='button'
@@ -118,13 +121,13 @@ export default function UserItem ({ userData, reload }) {
           }}
         >
           <input
-            type="number"
+            type='number'
             min={1}
             max={100}
             value={amount}
             onChange={(e) => setAmount(e.target.value)}
           />
-          <button type="submit" disabled={loading}>
+          <button type='submit' disabled={loading}>
             {!loading ? 'Add XP' : 'Loading...'}
           </button>
         </form>
