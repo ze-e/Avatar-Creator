@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { capitalize, checkPlural } from 'utils/string'
 import { UserApi } from 'api'
+import SETTINGS from 'config/constants'
 export default function UserItem ({ userData, reload }) {
   const [amount, setAmount] = useState(0)
   const [loading, setLoading] = useState(false)
@@ -10,7 +11,7 @@ export default function UserItem ({ userData, reload }) {
   const [cooldownTime, setCooldownTime] = useState(0)
   const [coolDownFunc, setCoolDownFunc] = useState(null)
 
-  const checkCooldownTime = (updatedAt, cooldownTime = 2) => {
+  const checkCooldownTime = (updatedAt, cooldownTime = SETTINGS.UNDO_TIME) => {
     const timeDifferenceInMs = (new Date().getMinutes() - new Date(updatedAt).getMinutes())
     const timeToUndoOver = cooldownTime - timeDifferenceInMs
     if (timeToUndoOver <= cooldownTime) {
