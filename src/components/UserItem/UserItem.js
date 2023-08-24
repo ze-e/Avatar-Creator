@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { capitalize, checkPlural } from 'utils/string'
 import { UserApi } from 'api'
-export default function UserItem ({ userData }) {
+export default function UserItem ({ userData, reload }) {
   const [amount, setAmount] = useState(0)
   const [loading, setLoading] = useState(false)
 
@@ -40,6 +40,7 @@ export default function UserItem ({ userData }) {
         await UserApi.gainXP(token, userData._id, { amount })
         setAmount(0)
         checkCooldownAndUpdate()
+        reload()
       } catch (e) {
         console.log(`error adding xp ${e}`)
       }
@@ -57,6 +58,7 @@ export default function UserItem ({ userData }) {
         setCooldownTime(0)
         clearTimeout(coolDownFunc)
         setCoolDownFunc(null)
+        reload()
       } catch (e) {
         console.log(`error during undo ${e}`)
       }
@@ -74,37 +76,63 @@ export default function UserItem ({ userData }) {
 
   useEffect(() => {
     if (userData.admin.lastUpdated !== null) checkCooldownAndUpdate()
-  }, [])
+  }, [userData.admin.lastUpdated])
 
   return (
     <div>
       <div className={'userListView__labelList'}>
-        {displayData.map(k => <em className={'userListView__label'} key={k.key}>{capitalize(k.key)}</em>)}
+        {displayData.map((k) => (
+          <em className={'userListView__label'} key={k.key}>
+            {capitalize(k.key)}
+          </em>
+        ))}
       </div>
       <div className={'userListView__valueList'}>
-          {displayData.map((v, i) => <p className={'userListView__value'} key={i}>{v.value}</p>)}
+        {displayData.map((v, i) => (
+          <p className={'userListView__value'} key={i}>
+            {v.value}
+          </p>
+        ))}
       </div>
-      {cooldownTime > 0
-        ? <div>
-          <p>Please wait {cooldownTime} {checkPlural('minute', cooldownTime)} to add xp again</p>
+      {cooldownTime > 0 ? (
+        <div>
+          <p>
+            Please wait {cooldownTime} {checkPlural('minute', cooldownTime)} to
+            add xp again
+          </p>
           <button
-            type="button"
-            onClick={() => { if (!loading) undo(['xp', 'gold', 'level']) }}
-          >Undo</button>
+            type='button'
+            disabled={loading}
+            onClick={() => {
+              if (!loading) undo(['xp', 'gold', 'level'])
+            }}
+          >
+            {!loading ? 'Undo' : 'Loading...'}
+          </button>
         </div>
-        : <form onSubmit={(e) => { handleSubmit(e, amount) }}>
-            <input type='number' min={1} max={100} value={amount} onChange={(e) => setAmount(e.target.value)}/>
-            <button
-              type="submit"
-            >
-              Add XP
+      ) : (
+        <form
+          onSubmit={(e) => {
+            handleSubmit(e, amount)
+          }}
+        >
+          <input
+            type="number"
+            min={1}
+            max={100}
+            value={amount}
+            onChange={(e) => setAmount(e.target.value)}
+          />
+          <button type="submit" disabled={loading}>
+            {!loading ? 'Add XP' : 'Loading...'}
           </button>
         </form>
-      }
+      )}
     </div>
   )
 }
 
 UserItem.propTypes = {
-  userData: PropTypes.object.isRequired
+  userData: PropTypes.object.isRequired,
+  reload: PropTypes.func
 }

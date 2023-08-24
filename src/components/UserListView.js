@@ -20,14 +20,14 @@ export default function UserListView () {
     }
   }
 
-  useEffect(() => { getUsers() }, [])
+  useEffect(() => { getUsers() }, [users])
 
   return (
     <ul>
       {
         users.length > 0 ? users.filter(i => i.admin.userType !== 'admin').map(u =>
           <li key={u.admin.userName} className={'userListView__listItem'}>
-            <UserItem userData={u} />
+            <UserItem userData={u} reload={getUsers} />
           </li>
         )
           : <p>Loading...</p>}
