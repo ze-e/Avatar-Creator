@@ -17,6 +17,7 @@ export default function GearView () {
               fullName={getFullName(user.data)}
               userSubtitle={getUserSubtitle(user.data)}
               userLevel={getUserDisplayLevel(user.data)}
+              userType={user.admin.userType}
               avatar={user.data.avatar}
               gear={user.data.gear}
               userId={user._id}
@@ -33,5 +34,5 @@ export default function GearView () {
       </div>
       <Outlet />
     </div>
-  )
+  );
 }

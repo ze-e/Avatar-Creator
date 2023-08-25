@@ -7,62 +7,66 @@ export default function MainNav () {
   const { pathname } = useLocation()
 
   const gearPage = Boolean(pathname.includes('/gear'))
-  return !!user.data ? (<nav className={`mainNav ${!!gearPage && 'mainNav--gear'}`}>
+  return !!user.data ? (
+    <nav className={`mainNav ${!!gearPage && 'mainNav--gear'}`}>
       {gearPage && (
-        <ul className="mainNav__items">
-          <li className="mainNav__item">
+        <ul className='mainNav__items'>
+          <li className='mainNav__item'>
             <NavLink
               className={`mainNav__link m-navLink ${(isActive) =>
                 isActive && 'active'}`}
-              to="./gear/inventory"
+              to='./gear/inventory'
             >
               {' '}
-              <button className="m-button">Inventory </button>
+              <button className='m-button'>Inventory </button>
             </NavLink>
           </li>
-          <li className="mainNav__item">
+          <li className='mainNav__item'>
             <NavLink
               className={`mainNav__link m-navLink ${(isActive) =>
                 isActive && 'active'}`}
-              to="./gear/store"
+              to='./gear/store'
             >
               {' '}
-              <button className="m-button">Store </button>
+              <button className='m-button'>Store </button>
             </NavLink>
           </li>
         </ul>
       )}
-      <ul className="mainNav__items ">
-        <li className="mainNav__item">
+      <ul className='mainNav__items '>
+        <li className='mainNav__item'>
           <NavLink
             className={`mainNav__navLink m-navLink ${(isActive) =>
               isActive && 'active'}`}
-            to="./profile"
+            to='./profile'
           >
             {' '}
-            <button className="m-button"> Profile </button>
+            <button className='m-button'> Profile </button>
           </NavLink>
         </li>
-        <li className="mainNav__item">
+        <li className='mainNav__item'>
           <NavLink
             className={`mainNav__navLink m-navLink ${(isActive) =>
               isActive && 'active'}`}
-            to="./gear/inventory"
+            to='./gear/inventory'
           >
-            <button className="m-button">Gear</button>
+            <button className='m-button'>Gear</button>
           </NavLink>
         </li>
-        {user?.admin?.userType === 'admin' && (
-          <li className="mainNav__item">
+        {Boolean(
+          user?.admin?.userType === 'admin' || user?.admin?.userType === 'teacher'
+        ) && (
+          <li className='mainNav__item'>
             <NavLink
               className={`mainNav__navLink m-navLink ${(isActive) =>
                 isActive && 'active'}`}
-              to="./users"
+              to='./users'
             >
-              <button className="m-button">Users</button>
+              <button className='m-button'>Users</button>
             </NavLink>
           </li>
         )}
       </ul>
-    </nav>) : null
+    </nav>
+  ) : null
 }

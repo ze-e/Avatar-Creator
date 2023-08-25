@@ -6,10 +6,12 @@ import { DataContext } from 'contexts/DataContext'
 // import { ModalContext } from 'contexts/ModalContext'
 // import { ModalShare } from 'components/Modal/ModalTypes'
 import { NavLink, useNavigate } from 'react-router-dom'
-export default function Avatar ({ avatar, fullName, userSubtitle, userLevel, userId, gear, edit }) {
+export default function Avatar ({ avatar, fullName, userSubtitle, userLevel, userType, userId, gear, edit }) {
   const { state } = useContext(DataContext)
   // const { setModalOpen, setModalContent, setModalStyle } = useContext(ModalContext)
   const navigate = useNavigate()
+
+  const showUserType = (field) => userType === 'admin' ? 'A' : userType === 'teacher' ? 'T' : field
 
   useEffect(() => {
     if (!userId) return
@@ -18,8 +20,8 @@ export default function Avatar ({ avatar, fullName, userSubtitle, userLevel, use
       avatar: getAvatarData(state.avatarData, 'full', avatar),
       gear: gear ? getGearData(state.itemData, Object.values(gear)) : null,
       title: fullName,
-      subtitle: userSubtitle,
-      level: userLevel
+      subtitle: showUserType(userSubtitle),
+      level: showUserType(userLevel)
     })
   }, [avatar, state, gear, userId])
 
@@ -103,5 +105,6 @@ Avatar.propTypes = {
   userId: PropTypes.string,
   fullName: PropTypes.string,
   userSubtitle: PropTypes.string,
-  userLevel: PropTypes.string
+  userLevel: PropTypes.string,
+  userType: PropTypes.string
 }

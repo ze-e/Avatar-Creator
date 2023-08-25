@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { capitalize, checkPlural } from 'utils/string'
-import { UserApi } from 'api'
+import { TeacherApi } from 'api'
 import SETTINGS from 'config/constants'
-export default function UserItem ({ userData, reload }) {
+export default function UserItem ({ teacherData, userData, reload, isStudentOfTeacher }) {
   const [amount, setAmount] = useState(0)
   const [loading, setLoading] = useState(false)
 
@@ -12,7 +12,8 @@ export default function UserItem ({ userData, reload }) {
   const [coolDownFunc, setCoolDownFunc] = useState(null)
 
   const checkCooldownTime = (updatedAt, cooldownTime = SETTINGS.UNDO_TIME) => {
-    const timeDifferenceInMs = (new Date().getMinutes() - new Date(updatedAt).getMinutes())
+    const timeDifferenceInMs =
+      new Date().getMinutes() - new Date(updatedAt).getMinutes()
     const timeToUndoOver = cooldownTime - timeDifferenceInMs
     if (timeToUndoOver <= cooldownTime) {
       return timeToUndoOver
@@ -38,7 +39,7 @@ export default function UserItem ({ userData, reload }) {
     if (token) {
       setLoading(true)
       try {
-        await UserApi.gainXP(token, userData._id, { amount })
+        await TeacherApi.gainXP(token, userData._id, { amount })
         setAmount(0)
         checkCooldownAndUpdate()
         reload()
@@ -54,7 +55,7 @@ export default function UserItem ({ userData, reload }) {
     if (token) {
       setLoading(true)
       try {
-        await UserApi.undo(token, userData._id, { key })
+        await TeacherApi.undo(token, userData._id, { key })
         setLoading(false)
         setCooldownTime(0)
         clearTimeout(coolDownFunc)
@@ -66,10 +67,42 @@ export default function UserItem ({ userData, reload }) {
     }
   }
 
+  async function addStudent () {
+    const token = JSON.parse(localStorage.getItem('token'))
+    if (token) {
+      setLoading(true)
+      try {
+        await TeacherApi.addStudent(token, userData._id, { teacherId: teacherData._id })
+        setLoading(false)
+        reload()
+      } catch (e) {
+        console.log(`error during add student ${e}`)
+      }
+    }
+  }
+
+  async function removeStudent () {
+    const token = JSON.parse(localStorage.getItem('token'))
+    if (token) {
+      setLoading(true)
+      try {
+        await TeacherApi.removeStudent(token, userData._id, {
+          teacherId: teacherData._id
+        })
+        setLoading(false)
+        reload()
+      } catch (e) {
+        console.log(`error during remove student ${e}`)
+      }
+    }
+  }
+
   function getDisplayData () {
     const include = ['name', 'level', 'xp', 'gold']
     return Object.entries(userData.data)
-      .map(d => { return { key: d[0], value: d[1] } })
+      .map((d) => {
+        return { key: d[0], value: d[1] }
+      })
       .filter((i) => include.includes(i.key))
   }
 
@@ -95,10 +128,11 @@ export default function UserItem ({ userData, reload }) {
           </p>
         ))}
       </div>
-      {cooldownTime > 0 ? (
+      {Boolean(cooldownTime > 0 && userData.admin.userType === 'user') ? (
         <div>
           <p>
-            Please wait {cooldownTime > 60 ? Math.round(cooldownTime / 60) : cooldownTime}{' '}
+            Please wait{' '}
+            {cooldownTime > 60 ? Math.round(cooldownTime / 60) : cooldownTime}{' '}
             {cooldownTime > 60
               ? checkPlural('hour', Math.round(cooldownTime / 60))
               : checkPlural('minute', cooldownTime)}{' '}
@@ -115,28 +149,47 @@ export default function UserItem ({ userData, reload }) {
           </button>
         </div>
       ) : (
-        <form
-          onSubmit={(e) => {
-            handleSubmit(e, amount)
-          }}
-        >
-          <input
-            type='number'
-            min={1}
-            max={100}
-            value={amount}
-            onChange={(e) => setAmount(e.target.value)}
-          />
-          <button type='submit' disabled={loading}>
-            {!loading ? 'Add XP' : 'Loading...'}
-          </button>
-        </form>
+        <>
+          <form
+            className='m-flex'
+            onSubmit={(e) => {
+              handleSubmit(e, amount)
+            }}
+          >
+            <input
+              type='number'
+              min={1}
+              max={100}
+              value={amount}
+              onChange={(e) => setAmount(e.target.value)}
+            />
+            <button type='submit' disabled={loading}>
+              {!loading ? 'Add XP' : 'Loading...'}
+            </button>
+          </form>
+          {isStudentOfTeacher ? (
+            <button
+              className='m-button'
+              type='button'
+              disabled={loading}
+              onClick={removeStudent}
+            >
+              {!loading ? 'Remove from students' : 'Loading...'}
+            </button>
+          ) : (
+            <button type='button' disabled={loading} onClick={addStudent}>
+              {!loading ? 'Add to students' : 'Loading...'}
+            </button>
+          )}
+        </>
       )}
     </div>
   )
 }
 
 UserItem.propTypes = {
+  teacherData: PropTypes.object,
   userData: PropTypes.object.isRequired,
-  reload: PropTypes.func
+  reload: PropTypes.func,
+  isStudentOfTeacher: PropTypes.bool
 }

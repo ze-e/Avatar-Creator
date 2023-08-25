@@ -7,11 +7,12 @@ import { UserContext } from 'contexts/UserContext'
 const ProtectedRoute = ({ Component }) => {
   const { user } = useContext(UserContext)
 
-  return user?.admin?.userType === 'admin' ? (
-    Component
-  ) : (
-    <Navigate to="/login" />
-  )
+  return user?.admin?.userType === 'admin' ||
+    user?.admin?.userType === 'teacher' ? (
+        Component
+      ) : (
+      <Navigate to="/login" />
+      )
 }
 
 export default ProtectedRoute
