@@ -11,7 +11,7 @@ export default function Avatar ({ avatar, fullName, userSubtitle, userLevel, use
   // const { setModalOpen, setModalContent, setModalStyle } = useContext(ModalContext)
   const navigate = useNavigate()
 
-  const showUserType = (field) => userType === 'admin' ? 'A' : userType === 'teacher' ? 'T' : field
+  const showUserType = (field, abbreviation) => userType === 'admin' ? abbreviation?.admin ? 'A' : 'Admin' : userType === 'teacher' ? abbreviation?.teacher ? 'T' : 'Teacher' : field
 
   useEffect(() => {
     if (!userId) return
@@ -21,7 +21,7 @@ export default function Avatar ({ avatar, fullName, userSubtitle, userLevel, use
       gear: gear ? getGearData(state.itemData, Object.values(gear)) : null,
       title: fullName,
       subtitle: showUserType(userSubtitle),
-      level: showUserType(userLevel)
+      level: showUserType(userLevel, { teacher: true })
     })
   }, [avatar, state, gear, userId])
 
