@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React, { useState, useEffect, useContext } from 'react'
 import UserItem from './UserItem/UserItem'
 import { UserApi } from 'api'
@@ -9,7 +8,7 @@ export default function UserListView () {
   const [studentfilter, setStudentfilter] = useState(false)
   const { user } = useContext(UserContext)
 
-  async function getUsers() {
+  async function getUsers () {
     const token = JSON.parse(localStorage.getItem('token'))
     if (token) {
       try {
@@ -28,14 +27,14 @@ export default function UserListView () {
 
   return (
     <>
-      <div className="m-flex">
-        {user.admin.userType === "teacher" && (
+      <div className='m-flex'>
+        {user.admin.userType === 'teacher' && (
           <>
-            <label htmlFor="studentFilter">
-              Show {studentfilter ? "all users" : "only my students"}
+            <label htmlFor='studentFilter'>
+              Show {studentfilter ? 'all users' : 'only my students'}
             </label>
             <input
-              type="checkbox"
+              type='checkbox'
               checked={studentfilter}
               onChange={() => setStudentfilter(!studentfilter)}
             />
@@ -47,11 +46,11 @@ export default function UserListView () {
           users
             .filter((i) =>
               studentfilter
-                ? i.admin.userType === "user" && i.studentData.teacher === user._id
-                : i.admin.userType === "user"
+                ? i.admin.userType === 'user' && i.studentData.teacher === user._id
+                : i.admin.userType === 'user'
             )
             .map((u) => (
-              <li key={u.admin.userName} className={"userListView__listItem"}>
+              <li key={u.admin.userName} className={'userListView__listItem'}>
                 <UserItem teacherData={user} userId={u._id} />
               </li>
             ))
@@ -60,5 +59,5 @@ export default function UserListView () {
         )}
       </ul>
     </>
-  );
+  )
 }

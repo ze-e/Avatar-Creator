@@ -1,11 +1,10 @@
-/* eslint-disable */
 import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { capitalize, checkPlural } from 'utils/string'
 import { UserApi, TeacherApi } from 'api'
-import SETTINGS from "config/constants";
+import SETTINGS from 'config/constants'
 export default function UserItem ({ userId, teacherData }) {
-  const [amount, setAmount] = useState(0);
+  const [amount, setAmount] = useState(0)
   const [loading, setLoading] = useState(false)
   const [userData, setUserData] = useState({})
 
@@ -46,9 +45,9 @@ export default function UserItem ({ userId, teacherData }) {
           userData._id,
           { amount },
           {
-            teacherId: teacherData?._id,
+            teacherId: teacherData?._id
           }
-        );
+        )
         setAmount(0)
         checkCooldownAndUpdate()
         loadUser()
@@ -59,17 +58,17 @@ export default function UserItem ({ userId, teacherData }) {
     }
   }
 
-  async function loadUser() {
+  async function loadUser () {
     setUserData({})
-    const token = JSON.parse(localStorage.getItem("token"));
+    const token = JSON.parse(localStorage.getItem('token'))
     if (token) {
-      setLoading(true);
+      setLoading(true)
       try {
-        const res = await UserApi.getUserById(userId);
-        setUserData(res);
-        setLoading(false);
+        const res = await UserApi.getUserById(userId)
+        setUserData(res)
+        setLoading(false)
       } catch (e) {
-        console.log(`error loading user ${e}`);
+        console.log(`error loading user ${e}`)
       }
     }
   }
@@ -84,9 +83,9 @@ export default function UserItem ({ userId, teacherData }) {
           userData._id,
           { key },
           {
-            teacherId: teacherData?._id,
+            teacherId: teacherData?._id
           }
-        );
+        )
         setLoading(false)
         setCooldownTime(0)
         clearTimeout(coolDownFunc)
@@ -98,20 +97,20 @@ export default function UserItem ({ userId, teacherData }) {
     }
   }
 
-  async function addStudent() {
-    const token = JSON.parse(localStorage.getItem("token"));
+  async function addStudent () {
+    const token = JSON.parse(localStorage.getItem('token'))
     if (token) {
-      setLoading(true);
+      setLoading(true)
       try {
         await TeacherApi.addStudent(token, userData._id, {
-          teacherId: teacherData?._id,
-        });
-        setLoading(false);
+          teacherId: teacherData?._id
+        })
+        setLoading(false)
       } catch (e) {
-        console.log(`error during add student ${e}`);
+        console.log(`error during add student ${e}`)
       }
     }
-    loadUser();
+    loadUser()
   }
 
   async function removeStudent () {
@@ -127,11 +126,11 @@ export default function UserItem ({ userId, teacherData }) {
         console.log(`error during remove student ${e}`)
       }
     }
-    loadUser();
+    loadUser()
   }
 
-  function getDisplayData() {
-    if (!userData?.data) return
+  function getDisplayData () {
+    if (!userData?.data) return null
     else {
       const include = ['name', 'level', 'xp', 'gold']
       return Object.entries(userData.data)
@@ -144,31 +143,36 @@ export default function UserItem ({ userId, teacherData }) {
 
   const displayData = getDisplayData()
 
-const isStudentOfTeacher = userData?.studentData?.teacher === teacherData._id;
+  const isStudentOfTeacher = userData?.studentData?.teacher === teacherData._id
 
   useEffect(() => {
-    if (userData && userData?.admin?.lastUpdated !== null) checkCooldownAndUpdate();
+    if (userData && userData?.admin?.lastUpdated !== null) checkCooldownAndUpdate()
   }, [userData?.admin?.lastUpdated])
-
 
   useEffect(() => {
     loadUser(userId)
-  }, [userId]);
+  }, [userId])
+
+  const renderButton = (text, onClick, loading, className) => (
+    <button className={className} type='button' disabled={loading} onClick={onClick}>
+      {!loading ? text : 'Loading...'}
+    </button>
+  )
 
   return (
     <div>
       {Boolean(displayData && userData) && (
         <>
-          <div className={"userListView__labelList"}>
+          <div className={'userListView__labelList'}>
             {displayData.map((k) => (
-              <em className={"userListView__label"} key={k.key}>
+              <em className={'userListView__label'} key={k.key}>
                 {capitalize(k.key)}
               </em>
             ))}
           </div>
-          <div className={"userListView__valueList"}>
+          <div className={'userListView__valueList'}>
             {displayData.map((v, i) => (
-              <p className={"userListView__value"} key={i}>
+              <p className={'userListView__value'} key={i}>
                 {v.value}
               </p>
             ))}
@@ -177,18 +181,11 @@ const isStudentOfTeacher = userData?.studentData?.teacher === teacherData._id;
       )}
 
       {isStudentOfTeacher ? (
-        <button type="button" disabled={loading} onClick={removeStudent}>
-          {!loading ? "Remove from my students" : "Loading..."}
-        </button>
+        renderButton('Remove from my students', removeStudent, loading)
+      ) : userData?.studentData?.teacher ? (
+        <p>Student is part of another class</p>
       ) : (
-        <button
-          className="m-button"
-          type="button"
-          disabled={loading}
-          onClick={addStudent}
-        >
-          {!loading ? "Add to my students" : "Loading..."}
-        </button>
+        renderButton('Add to my students', addStudent, loading, 'm-button')
       )}
 
       {Boolean(cooldownTime > 0) ? (
@@ -196,23 +193,23 @@ const isStudentOfTeacher = userData?.studentData?.teacher === teacherData._id;
           {isStudentOfTeacher && (
             <>
               <p>
-                Please wait{" "}
+                Please wait{' '}
                 {cooldownTime > 60
                   ? Math.round(cooldownTime / 60)
-                  : cooldownTime}{" "}
+                  : cooldownTime}{' '}
                 {cooldownTime > 60
-                  ? checkPlural("hour", Math.round(cooldownTime / 60))
-                  : checkPlural("minute", cooldownTime)}{" "}
+                  ? checkPlural('hour', Math.round(cooldownTime / 60))
+                  : checkPlural('minute', cooldownTime)}{' '}
                 to add xp again
               </p>
               <button
-                type="button"
+                type='button'
                 disabled={loading}
                 onClick={() => {
-                  if (!loading) undo(["xp", "gold", "level"]);
+                  if (!loading) undo(['xp', 'gold', 'level'])
                 }}
               >
-                {!loading ? "Undo" : "Loading..."}
+                {!loading ? 'Undo' : 'Loading...'}
               </button>
             </>
           )}
@@ -221,27 +218,27 @@ const isStudentOfTeacher = userData?.studentData?.teacher === teacherData._id;
         <>
           {isStudentOfTeacher && (
             <form
-              className="m-flex"
+              className='m-flex'
               onSubmit={(e) => {
-                handleSubmit(e, amount);
+                handleSubmit(e, amount)
               }}
             >
               <input
-                type="number"
+                type='number'
                 min={1}
                 max={100}
                 value={amount}
                 onChange={(e) => setAmount(e.target.value)}
               />
-              <button type="submit" disabled={loading}>
-                {!loading ? "Add XP" : "Loading..."}
+              <button type='submit' disabled={loading}>
+                {!loading ? 'Add XP' : 'Loading...'}
               </button>
             </form>
           )}
         </>
       )}
     </div>
-  );
+  )
 }
 
 UserItem.propTypes = {

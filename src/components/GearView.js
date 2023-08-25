@@ -34,5 +34,5 @@ export default function GearView () {
       </div>
       <Outlet />
     </div>
-  );
+  )
 }
