@@ -1,5 +1,6 @@
 import avatar from './avatarData'
 import gear from './gearData'
+import badge from './badgeData'
 import { levelTable } from './gameData'
 
 export const avatarData = {
@@ -260,6 +261,15 @@ export const itemData = [
     location: 'legs',
     src: gear.legs4,
     cost: 10
+  }
+]
+
+export const badgeData = [
+  {
+    id: '60b2888e-1b11-419d-a970-89312ac10e6g',
+    name: 'test',
+    description: 'display this badge on your profile!',
+    src: badge.test
   }
 ]
 
