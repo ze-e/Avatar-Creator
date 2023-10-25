@@ -101,12 +101,54 @@ const removeStudent = async (token, userId, teacherId) => {
   }
 }
 
+const addBadge = async (token, userId, badgeId) => {
+  try {
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`
+      }
+    }
+
+    const res = await axiosInstance.patch(
+      `/students/${userId}/addBadge`,
+      badgeId,
+      config
+    )
+    return res.data
+  } catch (error) {
+    console.error('Error adding badge', error)
+  }
+}
+
+const removeBadge = async (token, userId, badgeId) => {
+  try {
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`
+      }
+    }
+
+    const res = await axiosInstance.patch(
+      `/students/${userId}/removeBadge`,
+      badgeId,
+      config
+    )
+    return res.data
+  } catch (error) {
+    console.error('Error removing badge', error)
+  }
+}
+
 const teacherApi = {
   getAllStudents,
   gainXP,
   undo,
   addStudent,
-  removeStudent
+  removeStudent,
+  addBadge,
+  removeBadge
 }
 
 export default teacherApi

@@ -5,13 +5,17 @@ import InputField from 'components/InputField/InputField'
 import DisplayField from 'components/DisplayField/DisplayField'
 import { UserContext } from 'contexts/UserContext'
 import AvatarChange from 'components/Avatar/AvatarChange'
+import Badge from 'components/Badge/Badge'
 import { UserApi } from 'api'
 import { Link } from 'react-router-dom'
+import { DataContext } from 'contexts/DataContext'
+import { getBadgeData } from 'utils/badge'
 export default function ProfileInfo ({ data, publicView = false }) {
   const { user, reloadUser } = useContext(UserContext)
+  const { state } = useContext(DataContext)
 
   function profiledata () {
-    const exclude = ['img', 'type', 'level', 'xp', 'gold', 'gear', 'inventory', 'avatar']
+    const exclude = ['img', 'type', 'level', 'xp', 'gold', 'gear', 'inventory', 'avatar', 'badges']
     return Object.entries(data)
       .map((i) => {
         return { key: i[0], value: i[1] }
@@ -43,7 +47,7 @@ export default function ProfileInfo ({ data, publicView = false }) {
           <Link to="/profile">
             <button>Edit Profile</button>
           </Link>
-          <br/>
+          <br />
         </>
       ) : (
         <AvatarChange />
@@ -51,6 +55,14 @@ export default function ProfileInfo ({ data, publicView = false }) {
       <div className="profileInfo__data m-flex">
         <ul className="profileInfo__list">{profiledata()}</ul>
       </div>
+      <h2>Badges:</h2>
+      <ul className="profileInfo__badges m-flex">
+        {data.badges.map((b) => (
+          <div key={b}>
+            <Badge badge={getBadgeData(state.badgeData, b)} key={b} />
+          </div>
+        ))}
+      </ul>
     </div>
   )
 }

@@ -266,8 +266,26 @@ export const itemData = [
 
 export const badgeData = [
   {
-    id: '60b2888e-1b11-419d-a970-89312ac10e6g',
+    id: '60b2888e-1b11-419d-a970-89312ac10e61',
     name: 'test',
+    description: 'display this badge on your profile!',
+    src: badge.test
+  },
+  {
+    id: '60b2888e-1b11-419d-a970-89312ac10e62',
+    name: 'test2',
+    description: 'display this badge on your profile!',
+    src: badge.test
+  },
+  {
+    id: '60b2888e-1b11-419d-a970-89312ac10e63',
+    name: 'test3',
+    description: 'display this badge on your profile!',
+    src: badge.test
+  },
+  {
+    id: '60b2888e-1b11-419d-a970-89312ac10e64',
+    name: 'test4',
     description: 'display this badge on your profile!',
     src: badge.test
   }

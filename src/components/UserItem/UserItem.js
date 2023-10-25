@@ -1,12 +1,18 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
+import { ModalContext } from 'contexts/ModalContext'
+import { ModalBadge } from 'components/Modal/ModalTypes'
 import PropTypes from 'prop-types'
 import { capitalize, checkPlural } from 'utils/string'
 import { UserApi, TeacherApi } from 'api'
 import SETTINGS from 'config/constants'
+import { DataContext } from 'contexts/DataContext'
+import { getBadgeData } from 'utils/badge'
 export default function UserItem ({ userId, teacherData }) {
   const [amount, setAmount] = useState(0)
   const [loading, setLoading] = useState(false)
   const [userData, setUserData] = useState({})
+  const { setModalOpen, setModalContent } = useContext(ModalContext)
+  const { state } = useContext(DataContext)
 
   // cooldown
   const [cooldownTime, setCooldownTime] = useState(0)
@@ -142,6 +148,9 @@ export default function UserItem ({ userId, teacherData }) {
   }
 
   const displayData = getDisplayData()
+  const badgeNames = userData?.data?.badges.map((b) =>
+    getBadgeData(state.badgeData, b)?.name
+  )
 
   const isStudentOfTeacher = userData?.studentData?.teacher === teacherData._id
 
@@ -169,13 +178,17 @@ export default function UserItem ({ userId, teacherData }) {
                 {capitalize(k.key)}
               </em>
             ))}
+            <em className={'userListView__label'}>Badges:</em>
           </div>
           <div className={'userListView__valueList'}>
-            {displayData.map((v, i) => (
-              <p className={'userListView__value'} key={i}>
-                {v.value}
-              </p>
+            {displayData.map((v) => (
+              <>
+                <p className={'userListView__value'} key={v.key}>
+                  {v.value}
+                </p>
+              </>
             ))}
+            <p className={'userListView__value'}>{badgeNames.map((b, i) => i === badgeNames.length - 1 ? b : b + ', ')}</p>
           </div>
         </>
       )}
@@ -203,7 +216,7 @@ export default function UserItem ({ userId, teacherData }) {
                 to add xp again
               </p>
               <button
-                type='button'
+                type="button"
                 disabled={loading}
                 onClick={() => {
                   if (!loading) undo(['xp', 'gold', 'level'])
@@ -217,23 +230,63 @@ export default function UserItem ({ userId, teacherData }) {
       ) : (
         <>
           {isStudentOfTeacher && (
-            <form
-              className='m-flex'
-              onSubmit={(e) => {
-                handleSubmit(e, amount)
-              }}
-            >
-              <input
-                type='number'
-                min={1}
-                max={100}
-                value={amount}
-                onChange={(e) => setAmount(e.target.value)}
-              />
-              <button type='submit' disabled={loading}>
-                {!loading ? 'Add XP' : 'Loading...'}
+            <>
+              <form
+                className="m-flex"
+                onSubmit={(e) => {
+                  handleSubmit(e, amount)
+                }}
+              >
+                <input
+                  type="number"
+                  min={1}
+                  max={100}
+                  value={amount}
+                  onChange={(e) => setAmount(e.target.value)}
+                />
+                <button type="submit" disabled={loading}>
+                  {!loading ? 'Add XP' : 'Loading...'}
+                </button>
+              </form>
+              <button
+                onClick={() => {
+                  setModalOpen(true)
+                  setModalContent(
+                    <ModalBadge
+                      userId={userData?._id}
+                      userBadges={userData?.data.badges}
+                      close={() => {
+                        loadUser()
+                        setModalOpen(false)
+                        setModalContent(null)
+                      }}
+                    />
+                  )
+                }}
+              >
+                Add Badge
               </button>
-            </form>
+              {userData?.data.badges.length > 0 && <button
+                onClick={() => {
+                  setModalOpen(true)
+                  setModalContent(
+                    <ModalBadge
+                      userId={userData?._id}
+                      userBadges={userData?.data.badges}
+                      modalFunction="remove"
+                      close={() => {
+                        loadUser()
+                        setModalOpen(false)
+                        setModalContent(null)
+                      }
+                      }
+                    />
+                  )
+                }}
+              >
+                Remove Badge
+              </button>}
+            </>
           )}
         </>
       )}

@@ -188,7 +188,7 @@ export function drawAvatarFull ({ canvas, avatar, gear, title, subtitle, level }
     }
 
     // draw text
-    buildBadge(canvas, ctx)
+    buildBubble(canvas, ctx)
     buildText(canvas, ctx)
   }
 
@@ -238,7 +238,7 @@ export function drawAvatarFull ({ canvas, avatar, gear, title, subtitle, level }
   }
 }
 
-function buildBadge (canvas, ctx) {
+function buildBubble (canvas, ctx) {
   ctx.globalAlpha = 0.8
   // Draw the grey rectangle with rounded corners and a black border
   ctx.fillStyle = '#d3d3d3'

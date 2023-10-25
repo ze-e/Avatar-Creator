@@ -1,13 +1,15 @@
 import {
   itemData,
   avatarData,
-  gameData
+  gameData,
+  badgeData
 } from '../data/sampleData'
 
 export const initialState = {
   avatarData,
   itemData,
-  gameData
+  gameData,
+  badgeData
 }
 
 function DataReducer (state, action) {

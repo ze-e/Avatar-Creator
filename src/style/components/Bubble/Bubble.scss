@@ -1,0 +1,17 @@
+.bubble {
+  text-align: center;
+  padding: 4px;
+  background-color: #E3E3E3;
+  border: 2px solid black;
+  border-radius: 10px;
+  opacity: 0.8;
+  line-height: 1;
+  }
+
+.bubble__text_normal {
+  font-weight: normal;
+}
+
+.bubble__text_bold {
+  font-weight: bold;
+}
