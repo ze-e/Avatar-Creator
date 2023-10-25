@@ -1,4 +1,5 @@
 import React, { useState, useContext } from 'react'
+import showToast from 'utils/toast'
 import PropTypes from 'prop-types'
 import { ModalContext } from 'contexts/ModalContext'
 import { ModalLogin } from 'components/Modal/ModalTypes'
@@ -7,7 +8,6 @@ import { UserApi } from 'api'
 export default function ModalRegister () {
   const [isValid, setIsValid] = useState(false)
   const [loading, setLoading] = useState(false)
-  const [error, setError] = useState('')
   const { setModalOpen, setModalContent } = useContext(ModalContext)
 
   function openLogin () {
@@ -30,10 +30,11 @@ export default function ModalRegister () {
         email,
         password
       })
-      if (!res) return 'Could not register new user'
+      if (!res) return showToast({ text: `Could not register new user ${e}` })
+
       else return null
     } catch (e) {
-      return `Error connecting to server ${e}`
+      return showToast({ text: 'Error connecting to server' })
     }
   }
 
@@ -47,7 +48,7 @@ export default function ModalRegister () {
           if (!error) {
             openLogin()
           } else {
-            setError(error)
+            showToast({ text: error })
           }
         }
         setLoading(false)
@@ -82,7 +83,6 @@ export default function ModalRegister () {
           maxLength={15}
         />
       </div>
-      <p className="m-error">{typeof error === 'string' && error}</p>
       <button className="m-modalButton" type="submit" disabled={!isValid || loading}>
         {!loading ? 'Register' : 'Loading...'}
       </button>

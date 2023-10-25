@@ -4,11 +4,11 @@ import { ModalContext } from 'contexts/ModalContext'
 import { ModalRegister } from 'components/Modal/ModalTypes'
 import { UserApi } from 'api'
 import { UserContext } from 'contexts/UserContext'
+import showToast from 'utils/toast'
 
 export default function ModalLogin () {
   const [loading, setLoading] = useState(false)
   const [isValid, setIsValid] = useState(false)
-  const [error, setError] = useState('')
   const { setUser } = useContext(UserContext)
   const { setModalOpen, setModalContent } = useContext(ModalContext)
   const navigate = useNavigate()
@@ -20,7 +20,6 @@ export default function ModalLogin () {
 
   async function login (e) {
     setLoading(true)
-    setError('')
     if (e.target.checkValidity() === true) {
       const userInput = e.target[0]
       const passwordInput = e.target[1]
@@ -37,9 +36,11 @@ export default function ModalLogin () {
             setModalOpen(false)
             navigate('/profile')
           }
+        } else if (res.status !== 200 && res.data.error) {
+          showToast({ text: res.data.error })
         }
       } catch (e) {
-        setError(e)
+        if (e) showToast({ text: e })
       }
     }
     setLoading(false)
@@ -73,7 +74,6 @@ export default function ModalLogin () {
           maxLength={15}
         />
       </div>
-      <p className="m-error">{typeof error === 'string' && error}</p>
       <button
         className="m-modalButton"
         type="submit"

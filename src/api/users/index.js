@@ -51,6 +51,7 @@ const loginUser = async ({ userName, password }) => {
     return res.data
   } catch (error) {
     console.error('Error logging in:', error)
+    return error.response
   }
 }
 
