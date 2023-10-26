@@ -6,6 +6,7 @@
   position: relative;
   width: 150px;
   height: 150px;
+  background-color: rgba(255, 255, 255,0.8);
 
   &.highlight {
     outline-color: lime;
@@ -22,5 +23,9 @@
 
   &__text {
     @include absolute-text;
+
+    h3, p {
+      margin: 0;
+    }
   }
 }

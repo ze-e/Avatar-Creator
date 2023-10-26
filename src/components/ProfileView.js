@@ -27,9 +27,9 @@ export default function ProfileView () {
         )}
         <div className="profileView__info">
           {user.data && (
-            <div className="profileView__info">
-              <ProfileInfo data={user.data} />
-            </div>
+            // <div className="profileView__info">
+            <ProfileInfo data={user.data} />
+            // </div>
           )}
         </div>
       </div>

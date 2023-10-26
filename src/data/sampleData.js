@@ -173,7 +173,7 @@ export const itemData = [
   },
   {
     id: '3d301693-1f5d-4108-8e0d-2c624901a9f0',
-    name: 'double edged sword',
+    name: 'double sword',
     location: 'RHand',
     src: gear.rHand4,
     cost: 10

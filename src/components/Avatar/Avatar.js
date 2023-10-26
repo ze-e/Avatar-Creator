@@ -85,7 +85,10 @@ export default function Avatar ({ avatar, fullName, userSubtitle, userLevel, use
             <button onClick={share}>🔗</button>
           </div>
           <div className="m-flexCenter">
-            <button className="m-button" onClick={downloadImage}>
+            <button
+              className="m-button m-margin-bottom"
+              onClick={downloadImage}
+            >
               Download Image
             </button>
           </div>

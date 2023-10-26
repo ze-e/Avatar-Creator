@@ -34,11 +34,12 @@
   bottom: 0;
   left: 0;
   width: 80%;
-  color: white;
-  -webkit-text-stroke: 1px black;
-  text-stroke: 1px black;
-  text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.5);
+  color: black;
+  text-shadow: 2px 2px 3 rgba(0, 0, 0, 0.5);
   opacity: 0.8;
   z-index: 2;
   padding: 4px;
+  width: 100%;
+  transform: scale(90%);
+  text-overflow: ellipsis;
 }

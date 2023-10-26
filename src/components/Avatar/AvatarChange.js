@@ -28,15 +28,21 @@ export default function AvatarChange () {
 
   return (
     <div className="m-flex">
-      <h4>Change Class:</h4>
+      <h4>Class&nbsp;:</h4>
       <EditButton
-        beforeEdit={
-          <p>{user.data.type}</p>
-        }
+        beforeEdit={<p> &nbsp; {user.data.type} &nbsp;</p>}
         afterEdit={
-          <div className='m-flex'>
-            <select id="picklist" value={selectedOption} onChange={handleOptionChange}>
-              {avatarData?.full?.map(a => <option key={a.id} value={a.id}>{capitalize(a.name)}</option>)}
+          <div className="m-flex">
+            <select
+              id="picklist"
+              value={selectedOption}
+              onChange={handleOptionChange}
+            >
+              {avatarData?.full?.map((a) => (
+                <option key={a.id} value={a.id}>
+                  {capitalize(a.name)}
+                </option>
+              ))}
             </select>
           </div>
         }

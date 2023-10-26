@@ -38,9 +38,9 @@ export default function PublicProfileView () {
           )}
           <div className="profileView__info">
             {user.data && (
-              <div className="profileView__info">
-                <ProfileInfo data={user.data} publicView={true} />
-              </div>
+            // <div className="profileView__info">
+              <ProfileInfo data={user.data} publicView={true} />
+            // </div>
             )}
           </div>
         </div>

@@ -26,13 +26,13 @@ export default function GearView () {
         )}
         <div className="gearView__info">
           {user.data && (
-            <div className="gearView__info">
-              <GearInfo />
-            </div>
+            // <div className="gearView__info">
+            <GearInfo />
+            // </div>
           )}
         </div>
       </div>
-      <div className="m-panel">
+      <div className="m-panel m-margin-top">
         <Outlet />
       </div>
     </div>

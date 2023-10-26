@@ -21,17 +21,17 @@ export default function GearStore () {
   return (
     <>
       <h3>Gold: ${user.data.gold}</h3>
-      <ul className="m-flex-wrap">
-        {state.itemData.map((item) => (
-          <li className="gear-item" key={item.id}>
-            <GearItem
-              data={item}
-              handleClick={() => buy(item)}
-              highlight={user.data.inventory.includes(item.id)}
-            />
-          </li>
-        ))}
-      </ul>
+        <ul className="m-flex-wrap">
+          {state.itemData.map((item) => (
+            <li className="gear-item" key={item.id}>
+              <GearItem
+                data={item}
+                handleClick={() => buy(item)}
+                highlight={user.data.inventory.includes(item.id)}
+              />
+            </li>
+          ))}
+        </ul>
     </>
   )
 }

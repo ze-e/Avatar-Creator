@@ -10,7 +10,7 @@ export default function GearItem ({ data, handleClick, highlight }) {
       <img className="gearItem__img" src={data.src} alt={data.name} />
       <div className="gearItem__text">
         <h3 className="gearItem__name">{data.name}</h3>
-        <div className="gearItem__location">{data.location}</div>
+        <p className="gearItem__location">{data.location}</p>
       </div>
     </div>
   )

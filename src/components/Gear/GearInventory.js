@@ -35,12 +35,13 @@ export default function GearInventory () {
   }
 
   return (
+
     <ul className="m-flex-wrap">
       {inventoryData().map((item) => (
         <li key={item.data.id}>
           <GearItem data={item.data} type='inventory' handleClick={() => item.equipped ? unequipItem(item) : equipItem(item)} highlight={item.equipped} />
         </li>
       ))}
-    </ul>
+      </ul>
   )
 }

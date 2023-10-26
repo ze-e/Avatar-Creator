@@ -16,6 +16,13 @@
 
   &__info {
     margin-left: 24px;
-    max-width: 600px;
+    //max-width: 600px;
+
+    //
+    flex: auto;
+
+    @include small-screen {
+        margin-left: 0;
+    }
   }
 }
