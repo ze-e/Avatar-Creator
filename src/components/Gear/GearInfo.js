@@ -43,7 +43,7 @@ export default function GearInfo () {
   }
 
   return (
-    <div className="profileInfo">
+    <div className="profileInfo m-panel">
       <div className="m-flex profileInfo__intro">
         <div>
           <h2 className="profileInfo__title">Equipped</h2>

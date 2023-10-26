@@ -20,9 +20,9 @@ export default function GearStore () {
   return (
     <>
       <h3>Gold: ${user.data.gold}</h3>
-      <ul>
+      <ul className="m-flex-wrap">
         {state.itemData.map((item) => (
-          <li key={item.id}>
+          <li className="gear-item" key={item.id}>
             <em>${item.cost}</em> {item.name}{' '}
             {user.data.inventory.includes(item.id) && (
               <em> -- owned x{count(user.data.inventory, item.id)}</em>

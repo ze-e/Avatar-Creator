@@ -33,7 +33,7 @@ export default function ProfileInfo ({ data, publicView = false }) {
   }
 
   return (
-    <div className="profileInfo">
+    <div className="profileInfo m-panel">
       <div className="m-flex profileInfo__intro">
         <div>
           <h2 className="profileInfo__title">{`${data.name}${

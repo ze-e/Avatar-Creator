@@ -32,7 +32,9 @@ export default function GearView () {
           )}
         </div>
       </div>
-      <Outlet />
+      <div className="m-panel">
+        <Outlet />
+      </div>
     </div>
   )
 }

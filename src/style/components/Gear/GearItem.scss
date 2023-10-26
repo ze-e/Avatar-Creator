@@ -1,0 +1,26 @@
+@import "../../mixins";
+
+.gearItem {
+  margin: 8px;
+  outline: 3px solid #36213eff;
+  position: relative;
+  width: 150px;
+  height: 150px;
+
+  &.highlight {
+    outline-color: lime;
+  }
+
+  @include small-screen {
+    width: 100px;
+    height: 100px;
+  }
+
+  &__img {
+    @include absolute-image;
+  }
+
+  &__text {
+    @include absolute-text;
+  }
+}

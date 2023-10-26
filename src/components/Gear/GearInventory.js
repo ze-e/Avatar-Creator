@@ -4,6 +4,7 @@ import { DataContext } from 'contexts/DataContext'
 
 import { getGearData } from 'utils/avatar'
 import { UserApi } from 'api'
+import GearItem from './GearItem'
 
 export default function GearInventory () {
   const { state } = useContext(DataContext)
@@ -25,21 +26,19 @@ export default function GearInventory () {
     }
   }
 
+  async function unequipItem (item) {
+    const token = JSON.parse(localStorage.getItem('token'))
+    if (token) {
+      await UserApi.unequipItem(token, user._id, { item: item.data })
+      reloadUser()
+    }
+  }
+
   return (
-    <ul>
+    <ul className="m-flex-wrap">
       {inventoryData().map((item) => (
         <li key={item.data.id}>
-          {item.data.name}{' '}
-          {item.equipped ? (
-            <em> -- equipped</em>
-          ) : (
-            <button
-              type="button"
-              onClick={ () => equipItem(item) }
-            >
-              Equip
-            </button>
-          )}
+          <GearItem data={item.data} type='inventory' handleClick={() => item.equipped ? unequipItem(item) : equipItem(item)} highlight={item.equipped} />
         </li>
       ))}
     </ul>
