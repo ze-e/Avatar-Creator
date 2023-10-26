@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-export default function GearItem ({ data, type = 'store', handleClick, highlight }) {
+export default function GearItem ({ data, handleClick, highlight }) {
   return (
     <div
       className={`gearItem ${highlight && 'highlight'}`}
@@ -18,7 +18,6 @@ export default function GearItem ({ data, type = 'store', handleClick, highlight
 
 GearItem.propTypes = {
   data: PropTypes.object.isRequired,
-  type: PropTypes.string,
   handleClick: PropTypes.func.isRequired,
   highlight: PropTypes.bool
 }

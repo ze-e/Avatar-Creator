@@ -105,7 +105,6 @@ const addToInventory = async (token, userId, item) => {
       }
     }
 
-    console.log(item)
     const res = await axiosInstance.patch(`/user/${userId}/inventory`, item, config)
     return res.data
   } catch (error) {

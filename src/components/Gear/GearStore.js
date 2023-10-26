@@ -1,8 +1,9 @@
 import React, { useContext } from 'react'
 import { UserContext } from 'contexts/UserContext'
 import { DataContext } from 'contexts/DataContext'
-import { canBuyItem, count } from 'utils/item'
+import { canBuyItem } from 'utils/item'
 import { UserApi } from 'api'
+import GearItem from './GearItem'
 
 export default function GearStore () {
   const { user, reloadUser } = useContext(UserContext)
@@ -23,13 +24,11 @@ export default function GearStore () {
       <ul className="m-flex-wrap">
         {state.itemData.map((item) => (
           <li className="gear-item" key={item.id}>
-            <em>${item.cost}</em> {item.name}{' '}
-            {user.data.inventory.includes(item.id) && (
-              <em> -- owned x{count(user.data.inventory, item.id)}</em>
-            )}{' '}
-            <button type="button" onClick={() => buy(item)}>
-              Buy
-            </button>
+            <GearItem
+              data={item}
+              handleClick={() => buy(item)}
+              highlight={user.data.inventory.includes(item.id)}
+            />
           </li>
         ))}
       </ul>
