@@ -142,6 +142,26 @@ export function drawAvatarFull ({ canvas, avatar, gear, title, subtitle, level }
         buildImage(canvas, ctx)
       }
     })
+
+    // draw share button
+    const rectWidth = 100
+    const rectPath = createRoundedRectanglePath(rectWidth)
+    ctx.strokeStyle = 'black'
+    ctx.lineWidth = 2
+    ctx.translate(100, 100) // Translate the context to a new position
+    ctx.stroke(rectPath)
+    // Draw the text 'share' in black in the center of the rect
+    ctx.fillStyle = 'black'
+    ctx.font = 'bold 24px Arial'
+    ctx.textAlign = 'center'
+    ctx.textBaseline = 'middle'
+    ctx.fillText('share', rectWidth / 2, rectWidth / 2)
+
+    // Add a click event to the rectangle
+    canvas.addEventListener('click', () => {
+      alert('working')
+    })
+
     // remove loading screen
     removeLoading(ctx, loading)
   }
@@ -258,6 +278,22 @@ function buildBubble (canvas, ctx) {
   ctx.fill()
   ctx.stroke()
   ctx.globalAlpha = 1.0
+}
+
+function createRoundedRectanglePath (w) {
+  const path = new Path2D()
+  const cornerRadius = 10
+  path.moveTo(cornerRadius, 0)
+  path.lineTo(w - cornerRadius, 0)
+  path.arcTo(w, 0, w, cornerRadius, cornerRadius)
+  path.lineTo(w, w - cornerRadius)
+  path.arcTo(w, w, w - cornerRadius, w, cornerRadius)
+  path.lineTo(cornerRadius, w)
+  path.arcTo(0, w, 0, w - cornerRadius, cornerRadius)
+  path.lineTo(0, cornerRadius)
+  path.arcTo(0, 0, cornerRadius, 0, cornerRadius)
+
+  return path
 }
 
 export function drawHex ({
