@@ -13,26 +13,6 @@ export default function Avatar ({ avatar, fullName, userSubtitle, userLevel, use
 
   const showUserType = (field, abbreviation) => userType === 'admin' ? abbreviation?.admin ? 'A' : 'Admin' : userType === 'teacher' ? abbreviation?.teacher ? 'T' : 'Teacher' : field
 
-  useEffect(() => {
-    if (!userId) return
-    drawAvatarFull({
-      canvas: document.getElementById('canvas'),
-      avatar: getAvatarData(state.avatarData, 'full', avatar),
-      gear: gear ? getGearData(state.itemData, Object.values(gear)) : null,
-      title: fullName,
-      subtitle: showUserType(userSubtitle),
-      level: showUserType(userLevel, { teacher: true })
-    })
-  }, [avatar, state, gear, userId])
-
-  // const openShareModal = () => {
-  //   setModalOpen(true)
-  //   setModalStyle('small')
-  //   const canvas = document.querySelector('canvas')
-  //   const data = canvas.toDataURL('image/png')
-  //   setModalContent(<ModalShare imageLink={data} imageName={fullName} />)
-  // }
-
   const share = () => {
     const routeURL = `${window.location.origin}/user/${userId}`
 
@@ -46,6 +26,27 @@ export default function Avatar ({ avatar, fullName, userSubtitle, userLevel, use
         console.error('Error copying to clipboard:', error)
       })
   }
+
+  useEffect(() => {
+    if (!userId) return
+    drawAvatarFull({
+      canvas: document.getElementById('canvas'),
+      avatar: getAvatarData(state.avatarData, 'full', avatar),
+      gear: gear ? getGearData(state.itemData, Object.values(gear)) : null,
+      title: fullName,
+      subtitle: showUserType(userSubtitle),
+      level: showUserType(userLevel, { teacher: true }),
+      share
+    })
+  }, [avatar, state, gear, userId])
+
+  // const openShareModal = () => {
+  //   setModalOpen(true)
+  //   setModalStyle('small')
+  //   const canvas = document.querySelector('canvas')
+  //   const data = canvas.toDataURL('image/png')
+  //   setModalContent(<ModalShare imageLink={data} imageName={fullName} />)
+  // }
 
   async function downloadImage () {
     const canvas = document.querySelector('canvas')
