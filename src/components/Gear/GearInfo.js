@@ -23,18 +23,19 @@ export default function GearInfo () {
         return { key: i[0], value: i[1] }
       })
       .map((j) => (
-        <li className="profileInfo__listItem" key={j.key}>
+        <li className="profileInfo__listItem m-flex" key={j.key}>
           <em>{j.key[0].toUpperCase() + j.key.substring(1)}</em> :{' '}
           {getGearData(state.itemData, j.value)?.name}
           {j.value !== '' && (
             <>
-              <br />{' '}
               <button
+                className="m-error m-input-button"
                 type="button"
-                onClick={ () => unequipItem(getGearData(state.itemData, j.value))
+                onClick={() =>
+                  unequipItem(getGearData(state.itemData, j.value))
                 }
               >
-                Remove
+                X
               </button>
             </>
           )}

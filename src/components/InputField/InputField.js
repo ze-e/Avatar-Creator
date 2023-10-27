@@ -45,9 +45,8 @@ export default function InputField ({ itemData, onSubmit }) {
         </form>
       ) : (
         <div className="m-flex">
-          <span style={{ marginRight: '12px', marginLeft: '12px' }}>
+          <span>
             {itemData.key === 'birthday' ? formattedDate(state) : state}
-            {/* {state} */}
           </span>
           <button
             type="button"
