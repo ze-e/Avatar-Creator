@@ -264,8 +264,10 @@ export function drawAvatarFull ({ canvas, avatar, gear, title, subtitle, level, 
     ctx.fillText(level, 20, 50)
 
     // share
-    ctx.font = 'normal 24px sans-serif'
-    ctx.fillText('🔗', canvas.width - 48, 35)
+    if (handleShare) {
+      ctx.font = 'normal 24px sans-serif'
+      ctx.fillText('🔗', canvas.width - 48, 35)
+    }
   }
 }
 
