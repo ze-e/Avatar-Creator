@@ -36,7 +36,7 @@ export default function Avatar ({ avatar, fullName, userSubtitle, userLevel, use
       title: fullName,
       subtitle: showUserType(userSubtitle),
       level: showUserType(userLevel, { teacher: true }),
-      share
+      handleShare: share
     })
   }, [avatar, state, gear, userId])
 
