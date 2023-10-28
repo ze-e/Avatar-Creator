@@ -35,8 +35,7 @@ export default function Avatar ({ avatar, fullName, userSubtitle, userLevel, use
       gear: gear ? getGearData(state.itemData, Object.values(gear)) : null,
       title: fullName,
       subtitle: showUserType(userSubtitle),
-      level: showUserType(userLevel, { teacher: true }),
-      handleShare: share
+      level: showUserType(userLevel, { teacher: true })
     })
   }, [avatar, state, gear, userId])
 
@@ -83,7 +82,7 @@ export default function Avatar ({ avatar, fullName, userSubtitle, userLevel, use
             {/* <button className="button" onClick={openShareModal}>
           🔗
         </button> */}
-            {/* <button onClick={share}>🔗</button> */}
+            <button onClick={share}>🔗</button>
           </div>
           <div className="m-flexCenter">
             <button

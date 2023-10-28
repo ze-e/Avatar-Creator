@@ -1,4 +1,3 @@
-/* eslint-disable */
 export function drawLine (from, to, line, scrollX) {
   if (!from || !to || !line) return
   const fT = from.offsetTop + from.offsetHeight / 2
@@ -110,7 +109,7 @@ export function drawAvatarBody ({ body, head, hand, foot, gear }) {
   }
 }
 
-export function drawAvatarFull ({ canvas, avatar, gear, title, subtitle, level, handleShare = () => null }) {
+export function drawAvatarFull ({ canvas, avatar, gear, title, subtitle, level, handleShare }) {
   if (!canvas) return
   const ctx = canvas.getContext('2d')
   canvas.width = 400
@@ -188,26 +187,28 @@ export function drawAvatarFull ({ canvas, avatar, gear, title, subtitle, level, 
       })
     }
 
-    // draw text
     buildBubble(canvas.width, canvas.height, 380, 50, ctx)
-    const shareButton = buildBubble(canvas.width, 65, 45, 45, ctx)
 
+    // build share button
+    if (handleShare) {
+      // draw text
+      const shareButton = buildBubble(canvas.width, 65, 45, 45, ctx)
 
-    // add event listeners to button
-    canvas.addEventListener("click", function (e) {
-      if (ctx.isPointInPath(shareButton, e.offsetX, e.offsetY)) {
-        handleShare()
-      }
-    })
+      // add event listeners to button
+      canvas.addEventListener('click', function (e) {
+        if (ctx.isPointInPath(shareButton, e.offsetX, e.offsetY)) {
+          handleShare()
+        }
+      })
 
-    canvas.addEventListener("mousemove", function (e) {
-      if (ctx.isPointInPath(shareButton, e.offsetX, e.offsetY)) {
-        canvas.style.cursor = "pointer";
-      } else {
-        canvas.style.cursor = "default";
-      }
-    });
-
+      canvas.addEventListener('mousemove', function (e) {
+        if (ctx.isPointInPath(shareButton, e.offsetX, e.offsetY)) {
+          canvas.style.cursor = 'pointer'
+        } else {
+          canvas.style.cursor = 'default'
+        }
+      })
+    }
     // add text
     buildText(canvas, ctx)
   }
@@ -244,69 +245,69 @@ export function drawAvatarFull ({ canvas, avatar, gear, title, subtitle, level, 
 
   function buildText (canvas, ctx) {
     // char info
-    ctx.fillStyle = "black";
-    ctx.font = "bold 20px sans-serif";
-    ctx.font = "bold 20px Monda";
-    ctx.textAlign = "center";
-    ctx.fillText(title, canvas.width / 2, canvas.height - 42);
+    ctx.fillStyle = 'black'
+    ctx.font = 'bold 20px sans-serif'
+    ctx.font = 'bold 20px Monda'
+    ctx.textAlign = 'center'
+    ctx.fillText(title, canvas.width / 2, canvas.height - 42)
 
-    ctx.font = "normal 20px sans-serif";
-    ctx.font = "normal 20px Monda";
-    ctx.textAlign = "center";
-    ctx.fillText(subtitle, canvas.width / 2, canvas.height - 22);
+    ctx.font = 'normal 20px sans-serif'
+    ctx.font = 'normal 20px Monda'
+    ctx.textAlign = 'center'
+    ctx.fillText(subtitle, canvas.width / 2, canvas.height - 22)
 
     // level
-    ctx.fillStyle = "black";
-    ctx.font = "bold 46px sans-serif";
-    ctx.font = "bold 46px Monda";
-    ctx.textAlign = "left";
-    ctx.fillText(level, 20, 50);
+    ctx.fillStyle = 'black'
+    ctx.font = 'bold 46px sans-serif'
+    ctx.font = 'bold 46px Monda'
+    ctx.textAlign = 'left'
+    ctx.fillText(level, 20, 50)
 
     // share
-    ctx.font = "normal 24px sans-serif";
-    ctx.fillText("🔗", canvas.width - 48, 35);
+    ctx.font = 'normal 24px sans-serif'
+    ctx.fillText('🔗', canvas.width - 48, 35)
   }
 }
 
-function buildBubble(posX, posY, width, height, ctx) {
-  const path = new Path2D();
+function buildBubble (posX, posY, width, height, ctx) {
+  const path = new Path2D()
 
-  ctx.globalAlpha = 0.8;
+  ctx.globalAlpha = 0.8
   // Draw the grey rectangle with rounded corners and a black border
-  ctx.fillStyle = "#d3d3d3";
-  ctx.strokeStyle = "black";
-  ctx.lineWidth = 2;
-  // ctx.beginPath();
+  ctx.fillStyle = '#d3d3d3'
+  ctx.strokeStyle = 'black'
+  ctx.lineWidth = 2
+  // ctx.beginPath()
   // lower right top
-  path.moveTo(posX - 10, posY - 16);
+  path.moveTo(posX - 10, posY - 16)
   // top right bottom
-  path.lineTo(posX - 10, posY - height);
+  path.lineTo(posX - 10, posY - height)
   // top left top
   path.quadraticCurveTo(
     posX - 10,
     posY - height - 10,
     posX - 20,
     posY - height - 10
-  );
+  )
 
   // top left bottom
-  path.lineTo(posX - width, posY - height - 10);
+  path.lineTo(posX - width, posY - height - 10)
 
   path.quadraticCurveTo(
     posX - (width + 10),
     posY - height - 10,
     posX - (width + 10),
     posY - height
-  );
+  )
 
-  path.lineTo(posX - (width + 10), posY - 16);
-  path.quadraticCurveTo(posX - (width + 10), posY - 10, posX - width, posY - 10);
-  path.lineTo(posX - 20, posY - 10);
-  path.quadraticCurveTo(posX - 10, posY - 10, posX - 10, posY - 16);
-  path.closePath();
-  ctx.fill(path);
-  ctx.stroke(path);
-  ctx.globalAlpha = 1.0;
+  path.lineTo(posX - (width + 10), posY - 16)
+  path.quadraticCurveTo(posX - (width + 10), posY - 10, posX - width, posY - 10)
+  path.lineTo(posX - 20, posY - 10)
+  path.quadraticCurveTo(posX - 10, posY - 10, posX - 10, posY - 16)
+  path.closePath()
+  ctx.fill(path)
+  ctx.stroke(path)
+  ctx.globalAlpha = 1.0
 
   return path
 }
