@@ -83,7 +83,7 @@ export default function Avatar ({ avatar, fullName, userSubtitle, userLevel, use
             {/* <button className="button" onClick={openShareModal}>
           🔗
         </button> */}
-            <button onClick={share}>🔗</button>
+            {/* <button onClick={share}>🔗</button> */}
           </div>
           <div className="m-flexCenter">
             <button

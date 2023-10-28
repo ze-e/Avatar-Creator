@@ -1,4 +1,4 @@
-
+/* eslint-disable */
 export function drawLine (from, to, line, scrollX) {
   if (!from || !to || !line) return
   const fT = from.offsetTop + from.offsetHeight / 2
@@ -143,25 +143,6 @@ export function drawAvatarFull ({ canvas, avatar, gear, title, subtitle, level }
       }
     })
 
-    // draw share button
-    const rectWidth = 100
-    const rectPath = createRoundedRectanglePath(rectWidth)
-    ctx.strokeStyle = 'black'
-    ctx.lineWidth = 2
-    ctx.translate(100, 100) // Translate the context to a new position
-    ctx.stroke(rectPath)
-    // Draw the text 'share' in black in the center of the rect
-    ctx.fillStyle = 'black'
-    ctx.font = 'bold 24px Arial'
-    ctx.textAlign = 'center'
-    ctx.textBaseline = 'middle'
-    ctx.fillText('share', rectWidth / 2, rectWidth / 2)
-
-    // Add a click event to the rectangle
-    canvas.addEventListener('click', () => {
-      alert('working')
-    })
-
     // remove loading screen
     removeLoading(ctx, loading)
   }
@@ -208,7 +189,8 @@ export function drawAvatarFull ({ canvas, avatar, gear, title, subtitle, level }
     }
 
     // draw text
-    buildBubble(canvas, ctx)
+    buildBubble(canvas.width, canvas.height, 380, 50, ctx)
+    buildBubble(canvas.width, 65,  45, 45, ctx)
     buildText(canvas, ctx)
   }
 
@@ -227,7 +209,13 @@ export function drawAvatarFull ({ canvas, avatar, gear, title, subtitle, level }
     ctx.lineTo(canvas.width - cornerRadius, 0)
     ctx.arcTo(canvas.width, 0, canvas.width, cornerRadius, cornerRadius)
     ctx.lineTo(canvas.width, canvas.height - cornerRadius)
-    ctx.arcTo(canvas.width, canvas.height, canvas.width - cornerRadius, canvas.height, cornerRadius)
+    ctx.arcTo(
+      canvas.width,
+      canvas.height,
+      canvas.width - cornerRadius,
+      canvas.height,
+      cornerRadius
+    )
     ctx.lineTo(cornerRadius, canvas.height)
     ctx.arcTo(0, canvas.height, 0, canvas.height - cornerRadius, cornerRadius)
     ctx.lineTo(0, cornerRadius)
@@ -258,42 +246,44 @@ export function drawAvatarFull ({ canvas, avatar, gear, title, subtitle, level }
   }
 }
 
-function buildBubble (canvas, ctx) {
-  ctx.globalAlpha = 0.8
+
+function buildBubble(posX, posY, width, height, ctx) {
+  ctx.globalAlpha = 0.8;
   // Draw the grey rectangle with rounded corners and a black border
-  ctx.fillStyle = '#d3d3d3'
-  ctx.strokeStyle = 'black'
-  ctx.lineWidth = 2
-  ctx.beginPath()
-  ctx.moveTo(10, canvas.height - 16)
-  ctx.lineTo(10, canvas.height - 50)
-  ctx.quadraticCurveTo(10, canvas.height - 60, 20, canvas.height - 60)
-  ctx.lineTo(380, canvas.height - 60)
-  ctx.quadraticCurveTo(390, canvas.height - 60, 390, canvas.height - 50)
-  ctx.lineTo(390, canvas.height - 16)
-  ctx.quadraticCurveTo(390, canvas.height - 10, 380, canvas.height - 10)
-  ctx.lineTo(20, canvas.height - 10)
-  ctx.quadraticCurveTo(10, canvas.height - 10, 10, canvas.height - 16)
-  ctx.closePath()
-  ctx.fill()
-  ctx.stroke()
-  ctx.globalAlpha = 1.0
-}
+  ctx.fillStyle = "#d3d3d3";
+  ctx.strokeStyle = "black";
+  ctx.lineWidth = 2;
+  ctx.beginPath();
+  // lower right top
+  ctx.moveTo(posX - 10, posY - 16);
+  // top right bottom
+  ctx.lineTo(posX - 10, posY - height);
+  // top left top
+  ctx.quadraticCurveTo(
+    posX - 10,
+    posY - height - 10,
+    posX - 20,
+    posY - height - 10
+  );
 
-function createRoundedRectanglePath (w) {
-  const path = new Path2D()
-  const cornerRadius = 10
-  path.moveTo(cornerRadius, 0)
-  path.lineTo(w - cornerRadius, 0)
-  path.arcTo(w, 0, w, cornerRadius, cornerRadius)
-  path.lineTo(w, w - cornerRadius)
-  path.arcTo(w, w, w - cornerRadius, w, cornerRadius)
-  path.lineTo(cornerRadius, w)
-  path.arcTo(0, w, 0, w - cornerRadius, cornerRadius)
-  path.lineTo(0, cornerRadius)
-  path.arcTo(0, 0, cornerRadius, 0, cornerRadius)
+  // top left bottom
+  ctx.lineTo(posX - width, posY - height - 10);
 
-  return path
+  ctx.quadraticCurveTo(
+    posX - (width + 10),
+    posY - height - 10,
+    posX - (width + 10),
+    posY - height
+  );
+
+  ctx.lineTo(posX - (width + 10), posY - 16);
+  ctx.quadraticCurveTo(posX - (width + 10), posY - 10, posX - width, posY - 10);
+  ctx.lineTo(posX - 20, posY - 10);
+  ctx.quadraticCurveTo(posX - 10, posY - 10, posX - 10, posY - 16);
+  ctx.closePath();
+  ctx.fill();
+  ctx.stroke();
+  ctx.globalAlpha = 1.0;
 }
 
 export function drawHex ({
@@ -348,10 +338,10 @@ export function drawHex ({
   ${!teacherview && !!glow && '<g filter="url(#glow)">'}
     <polygon points="723,314 543,625.769145 183,625.769145 3,314 183,2.230855 543,2.230855 723,314" fill="none" stroke="${borderColor}" stroke-width="${borderWidth}" />
   ${!teacherview && !!innerShadow && '<g filter="url(#innerShadow)">'}
-    
+
     <polygon points="723,314 543,625.769145 183,625.769145 3,314 183,2.230855 543,2.230855 723,314" fill="${color}" stroke="none" style="inset 39px 5px 15px 5px rgba(0,0,0,0.5)" />           
   ${!teacherview && !!innerShadow && '</g>'}
-  
+
   ${!!bgImage && `${`<polygon points="723,314 543,625.769145 183,625.769145 3,314 183,2.230855 543,2.230855 723,314" fill="url(#${bgImage})" opacity="0.75"/>`}`}          
   ${!teacherview && !!glow && '</g>'}
   ${!teacherview && !!innerShadow && '</g>'}
