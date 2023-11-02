@@ -34,9 +34,9 @@ export default function ModalRegister () {
         email,
         password
       })
-      if (!res) return showToast({ text: `Could not register new user ${e}` })
-
-      else return null
+      if (res.status !== 200 && res.data.error) {
+        showToast({ text: res.data.error })
+      } else return null
     } catch (e) {
       return showToast({ text: 'Error connecting to server' })
     }
@@ -45,70 +45,70 @@ export default function ModalRegister () {
   return (
     <form
       onSubmit={async (e) => {
-        e.preventDefault();
-        setLoading(true);
+        e.preventDefault()
+        setLoading(true)
         if (e.target.checkValidity() === true) {
-          const error = await register(e);
+          const error = await register(e)
           if (!error) {
-            openLogin();
+            openLogin()
           } else {
-            showToast({ text: error });
+            showToast({ text: error })
           }
         }
-        setLoading(false);
+        setLoading(false)
       }}
       onChange={(e) => {
-        setIsValid(e.target.checkValidity());
+        setIsValid(e.target.checkValidity())
       }}
     >
-      <div className="m-flexColumnCenter">
-        <h2 className="m-title-stroke-black modal__header">Create New User</h2>
+      <div className='m-flexColumnCenter'>
+        <h2 className='m-title-stroke-black modal__header'>Create New User</h2>
         <input
-          name="name"
-          placeholder="Enter username"
+          name='name'
+          placeholder='Enter username'
           required
           minLength={3}
           maxLength={15}
         />
         <input
-          name="email"
-          type="email"
-          placeholder="Enter email"
+          name='email'
+          type='email'
+          placeholder='Enter email'
           required
           minLength={3}
           maxLength={100}
         />
         <input
-          name="password"
-          type="password"
-          placeholder="Enter password"
+          name='password'
+          type='password'
+          placeholder='Enter password'
           required
           minLength={3}
           maxLength={15}
         />
         <input
-          name="password2"
-          type="password2"
-          placeholder="Re-Enter password"
+          name='password2'
+          type='password'
+          placeholder='Re-Enter password'
           required
           minLength={3}
           maxLength={15}
         />
       </div>
       <button
-        className="m-modalButton"
-        type="submit"
+        className='m-modalButton'
+        type='submit'
         disabled={!isValid || loading}
       >
-        {!loading ? "Register" : "Loading..."}
+        {!loading ? 'Register' : 'Loading...'}
       </button>
-      <span className="modal__link_container">
-        <a className="modal__link" onClick={() => openLogin()}>
+      <span className='modal__link_container'>
+        <a className='modal__link' onClick={() => openLogin()}>
           Or Login An Existing User
         </a>
       </span>
     </form>
-  );
+  )
 }
 
 ModalRegister.propTypes = {

@@ -18,9 +18,9 @@ export default function ModalLogin () {
     setModalContent(<ModalRegister />)
   }
 
-  function openForgotPassword() {
-    setModalOpen(true);
-    setModalContent(<ModalForgotPassword />);
+  function openForgotPassword () {
+    setModalOpen(true)
+    setModalContent(<ModalForgotPassword />)
   }
 
   async function login (e) {
@@ -54,48 +54,48 @@ export default function ModalLogin () {
   return (
     <form
       onSubmit={(e) => {
-        e.preventDefault();
-        login(e);
+        e.preventDefault()
+        login(e)
       }}
       onChange={(e) => {
-        setIsValid(e.target.checkValidity());
+        setIsValid(e.target.checkValidity())
       }}
     >
-      <div className="m-flexColumnCenter">
-        <h2 className="m-title-stroke-black modal__header">Log In</h2>
+      <div className='m-flexColumnCenter'>
+        <h2 className='m-title-stroke-black modal__header'>Log In</h2>
         <input
-          name="name"
-          placeholder="Enter username or email"
+          name='name'
+          placeholder='Enter username or email'
           required
           minLength={3}
           maxLength={100}
         />
         <input
-          name="password"
-          type="password"
-          placeholder="Enter password"
+          name='password'
+          type='password'
+          placeholder='Enter password'
           required
           minLength={3}
           maxLength={15}
         />
       </div>
       <button
-        className="m-modalButton"
-        type="submit"
+        className='m-modalButton'
+        type='submit'
         disabled={!isValid || loading}
       >
         {!loading ? 'Submit' : 'Loading...'}
       </button>
-      <span className="modal__link_container">
-        <a className="modal__link" onClick={() => openRegister()}>
-          Or Create a New User
+      <span className='modal__link_container'>
+        <a className='modal__link' onClick={() => openRegister()}>
+          Create New User
         </a>
       </span>
-      <span className="modal__link_container">
-        <a className="modal__link" onClick={() => openForgotPassword()}>
+      <span className='modal__link_container'>
+        <a className='modal__link' onClick={() => openForgotPassword()}>
           Forgot Password?
         </a>
       </span>
     </form>
-  );
+  )
 }

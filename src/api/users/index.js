@@ -37,6 +37,7 @@ const registerUser = async ({ userName, email, password }) => {
     return res.data
   } catch (error) {
     console.error('Error registering user:', error)
+    return error.response
   }
 }
 
