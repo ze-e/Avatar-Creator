@@ -1,7 +1,7 @@
 import React, { useState, useContext } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { ModalContext } from 'contexts/ModalContext'
-import { ModalRegister } from 'components/Modal/ModalTypes'
+import { ModalRegister, ModalForgotPassword } from 'components/Modal/ModalTypes'
 import { UserApi } from 'api'
 import { UserContext } from 'contexts/UserContext'
 import showToast from 'utils/toast'
@@ -16,6 +16,11 @@ export default function ModalLogin () {
   function openRegister () {
     setModalOpen(true)
     setModalContent(<ModalRegister />)
+  }
+
+  function openForgotPassword() {
+    setModalOpen(true);
+    setModalContent(<ModalForgotPassword />);
   }
 
   async function login (e) {
@@ -49,11 +54,11 @@ export default function ModalLogin () {
   return (
     <form
       onSubmit={(e) => {
-        e.preventDefault()
-        login(e)
+        e.preventDefault();
+        login(e);
       }}
       onChange={(e) => {
-        setIsValid(e.target.checkValidity())
+        setIsValid(e.target.checkValidity());
       }}
     >
       <div className="m-flexColumnCenter">
@@ -86,6 +91,11 @@ export default function ModalLogin () {
           Or Create a New User
         </a>
       </span>
+      <span className="modal__link_container">
+        <a className="modal__link" onClick={() => openForgotPassword()}>
+          Forgot Password?
+        </a>
+      </span>
     </form>
-  )
+  );
 }

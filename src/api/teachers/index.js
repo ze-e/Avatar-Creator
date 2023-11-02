@@ -141,6 +141,23 @@ const removeBadge = async (token, userId, badgeId) => {
   }
 }
 
+const forgotStudentPassword = async (studentId) => {
+  try {
+    const config = {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }
+    const response = await axiosInstance.get(
+      `/students/${studentId}/forgotPassword`,
+      config
+    )
+    return response.message
+  } catch (error) {
+    console.error('Error fetching users:', error)
+  }
+}
+
 const teacherApi = {
   getAllStudents,
   gainXP,
@@ -148,7 +165,8 @@ const teacherApi = {
   addStudent,
   removeStudent,
   addBadge,
-  removeBadge
+  removeBadge,
+  forgotStudentPassword
 }
 
 export default teacherApi

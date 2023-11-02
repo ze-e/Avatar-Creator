@@ -21,10 +21,14 @@ export default function ModalRegister () {
     const userInput = e.target[0]
     const emailInput = e.target[1]
     const passwordInput = e.target[2]
+    const password2Input = e.target[3]
     const userName = userInput.value
     const email = emailInput.value
     const password = passwordInput.value
+    const password2 = password2Input.value
+
     try {
+      if (password !== password2) throw new Error('Passwords do not match')
       const res = await UserApi.registerUser({
         userName,
         email,
@@ -41,20 +45,20 @@ export default function ModalRegister () {
   return (
     <form
       onSubmit={async (e) => {
-        e.preventDefault()
-        setLoading(true)
+        e.preventDefault();
+        setLoading(true);
         if (e.target.checkValidity() === true) {
-          const error = await register(e)
+          const error = await register(e);
           if (!error) {
-            openLogin()
+            openLogin();
           } else {
-            showToast({ text: error })
+            showToast({ text: error });
           }
         }
-        setLoading(false)
+        setLoading(false);
       }}
       onChange={(e) => {
-        setIsValid(e.target.checkValidity())
+        setIsValid(e.target.checkValidity());
       }}
     >
       <div className="m-flexColumnCenter">
@@ -82,9 +86,21 @@ export default function ModalRegister () {
           minLength={3}
           maxLength={15}
         />
+        <input
+          name="password2"
+          type="password2"
+          placeholder="Re-Enter password"
+          required
+          minLength={3}
+          maxLength={15}
+        />
       </div>
-      <button className="m-modalButton" type="submit" disabled={!isValid || loading}>
-        {!loading ? 'Register' : 'Loading...'}
+      <button
+        className="m-modalButton"
+        type="submit"
+        disabled={!isValid || loading}
+      >
+        {!loading ? "Register" : "Loading..."}
       </button>
       <span className="modal__link_container">
         <a className="modal__link" onClick={() => openLogin()}>
@@ -92,7 +108,7 @@ export default function ModalRegister () {
         </a>
       </span>
     </form>
-  )
+  );
 }
 
 ModalRegister.propTypes = {
