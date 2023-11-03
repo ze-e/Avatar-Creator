@@ -154,31 +154,35 @@ const unequipItem = async (token, userId, item) => {
 }
 
 // password reset
-const forgotPassword = async () => {
+const forgotPassword = async (email) => {
   try {
     const config = {
       headers: {
         'Content-Type': 'application/json'
       }
     }
-    const response = await axiosInstance.get('/user/forgotPassword', config)
-    return response.message
+    return await axiosInstance.post('/user/forgotPassword', email, config)
   } catch (error) {
-    console.error('Error fetching users:', error)
+    console.error('Error generating forgotten password:', error)
+    return error.response.data.error
   }
 }
 
-const resetPassword = async (id, token) => {
+const resetPassword = async (password, token) => {
   try {
     const config = {
       headers: {
         'Content-Type': 'application/json'
       }
     }
-    const response = await axiosInstance.get(`/user/${id}resetPassword/${token}`, config)
-    return response.message
+    return await axiosInstance.get(
+      `/user/resetPassword/${token}`,
+      { password },
+      config
+    )
   } catch (error) {
     console.error('Error fetching users:', error)
+    return error.response.data.error
   }
 }
 const userAPi = {

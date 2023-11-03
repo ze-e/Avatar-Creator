@@ -2,27 +2,26 @@ import React, { useState, useContext } from 'react'
 import { ModalContext } from 'contexts/ModalContext'
 import { UserApi } from 'api'
 import showToast from 'utils/toast'
+import ModalResetPassword from './ModalResetPassword'
 
 export default function ForgotPassword () {
   const [loading, setLoading] = useState(false)
   const [isValid, setIsValid] = useState(false)
-  const { setModalOpen } = useContext(ModalContext)
+  const { setModalContent } = useContext(ModalContext)
 
   async function forgotPassword (e) {
     setLoading(true)
     if (e.target.checkValidity() === true) {
       const emailInput = e.target[0]
       const email = emailInput.value
-      try {
-        await UserApi.forgotPassword(email)
+      const res = await UserApi.forgotPassword({ email })
+      if (res?.status === 200) {
         showToast({
-          text: 'Check your email for a password reset link',
+          text: res.data.message,
           style: { background: 'green' }
         })
-        setModalOpen(false)
-      } catch (e) {
-        if (e) showToast({ text: e })
-      }
+        setModalContent(<ModalResetPassword />)
+      } else showToast({ text: res })
     }
     setLoading(false)
   }
