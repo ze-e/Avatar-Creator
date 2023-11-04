@@ -18,15 +18,21 @@ export default function ModalResetPassword () {
       const password = passwordInput.value
       const password2 = password2Input.value
       const token = tokenInput.value
-      if (password !== password2) throw new Error('Passwords do not match')
-      const res = await UserApi.resetPassword(password, token)
+      if (password !== password2) {
+        showToast({ text: 'Passwords do not match' })
+        setLoading(false)
+        return
+      }
+      const res = await UserApi.resetPassword(token, password)
       if (res?.status === 200) {
         showToast({
           text: res.data.message,
           style: { background: 'green' }
         })
         setModalContent(<ModalLogin />)
-      } else showToast({ text: res })
+      } else {
+        showToast({ text: res })
+      }
     }
     setLoading(false)
   }
@@ -53,7 +59,7 @@ export default function ModalResetPassword () {
         />
         <input
           name='password2'
-          type='password2'
+          type='password'
           placeholder='Re-Enter password'
           required
           minLength={3}
@@ -65,7 +71,7 @@ export default function ModalResetPassword () {
           placeholder='Token'
           required
           minLength={3}
-          maxLength={15}
+          maxLength={1000}
         />
       </div>
       <button

@@ -28,7 +28,11 @@ export default function ModalRegister () {
     const password2 = password2Input.value
 
     try {
-      if (password !== password2) throw new Error('Passwords do not match')
+      if (password !== password2) {
+        showToast({ text: 'Passwords do not match' })
+        setLoading(false)
+        return
+      }
       const res = await UserApi.registerUser({
         userName,
         email,
@@ -40,6 +44,7 @@ export default function ModalRegister () {
     } catch (e) {
       return showToast({ text: 'Error connecting to server' })
     }
+    setLoading(false)
   }
 
   return (

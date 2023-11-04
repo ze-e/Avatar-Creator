@@ -164,25 +164,31 @@ const forgotPassword = async (email) => {
     return await axiosInstance.post('/user/forgotPassword', email, config)
   } catch (error) {
     console.error('Error generating forgotten password:', error)
-    return error.response.data.error
+    return (
+      error.response.data.error ||
+      error.response.data ||
+      error.response ||
+      error ||
+      'Unknown error'
+    )
   }
 }
 
-const resetPassword = async (password, token) => {
+const resetPassword = async (token, password) => {
   try {
     const config = {
       headers: {
         'Content-Type': 'application/json'
       }
     }
-    return await axiosInstance.get(
+    return await axiosInstance.post(
       `/user/resetPassword/${token}`,
       { password },
       config
     )
   } catch (error) {
-    console.error('Error fetching users:', error)
-    return error.response.data.error
+    console.error('Error resetting password:', error)
+    return error?.response?.data?.error || error?.response?.data || error?.response || error || 'Unknown error'
   }
 }
 const userAPi = {
