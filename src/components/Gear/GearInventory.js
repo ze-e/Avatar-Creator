@@ -37,11 +37,11 @@ export default function GearInventory () {
   return (
 
     <ul className="m-flex-wrap">
-      {inventoryData().map((item) => (
+      {inventoryData().length > 0 ? inventoryData().map((item) => (
         <li key={item.data.id}>
           <GearItem data={item.data} type='inventory' handleClick={() => item.equipped ? unequipItem(item) : equipItem(item)} highlight={item.equipped} />
         </li>
-      ))}
+      )) : <p>No items in inventory! Navigate to the store to buy some items!</p>}
       </ul>
   )
 }

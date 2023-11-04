@@ -109,8 +109,9 @@ export function drawAvatarBody ({ body, head, hand, foot, gear }) {
   }
 }
 
-export function drawAvatarFull ({ canvas, avatar, gear, title, subtitle, level, handleShare }) {
-  if (!canvas) return
+export function drawAvatarFull ({ canvas, avatar, gear, title, subtitle, level, handleShare, handleLoaded }) {
+  // main function
+  if (!canvas) return false
   const ctx = canvas.getContext('2d')
   canvas.width = 400
   canvas.height = 400
@@ -118,9 +119,6 @@ export function drawAvatarFull ({ canvas, avatar, gear, title, subtitle, level, 
   if (gear !== null) {
     Object.keys(gear).forEach((k) => gear[k] == null && delete gear[k])
   }
-
-  // show loading screen
-  const loading = showLoading(canvas, ctx)
 
   // load
   const avatarImg = new Image()
@@ -141,40 +139,12 @@ export function drawAvatarFull ({ canvas, avatar, gear, title, subtitle, level, 
         buildImage(canvas, ctx)
       }
     })
-
-    // remove loading screen
-    removeLoading(ctx, loading)
   }
 
-  function showLoading (canvas, ctx) {
-    // Create the loading element
-    const loading = {
-      x: canvas.width / 2 - 100, // Rectangle x-coordinate
-      y: canvas.height / 2 - 50, // Rectangle y-coordinate
-      width: 200,
-      height: 100,
-      text: 'Loading'
-    }
+  // callback after canvas is loaded
+  handleLoaded()
 
-    // Draw the rectangle
-    ctx.fillStyle = '#ffffff'
-    ctx.fillRect(loading.x, loading.y, loading.width, loading.height)
-
-    // Draw the text
-    ctx.font = '24px Arial'
-    ctx.fillStyle = '#000000'
-    ctx.textAlign = 'center'
-    ctx.textBaseline = 'middle'
-    ctx.fillText(loading.text, canvas.width / 2, canvas.height / 2)
-
-    return loading // Return the loading element
-  }
-
-  function removeLoading (ctx, loading) {
-    // Clear only the area occupied by the loading element
-    ctx.clearRect(loading.x, loading.y, loading.width, loading.height)
-  }
-
+  // functions
   function buildImage (canvas, ctx) {
     // draw bg
     buildBG(canvas, ctx)
@@ -269,49 +239,54 @@ export function drawAvatarFull ({ canvas, avatar, gear, title, subtitle, level, 
       ctx.fillText('🔗', canvas.width - 48, 35)
     }
   }
-}
 
-function buildBubble (posX, posY, width, height, ctx) {
-  const path = new Path2D()
+  function buildBubble (posX, posY, width, height, ctx) {
+    const path = new Path2D()
 
-  ctx.globalAlpha = 0.8
-  // Draw the grey rectangle with rounded corners and a black border
-  ctx.fillStyle = '#d3d3d3'
-  ctx.strokeStyle = 'black'
-  ctx.lineWidth = 2
-  // ctx.beginPath()
-  // lower right top
-  path.moveTo(posX - 10, posY - 16)
-  // top right bottom
-  path.lineTo(posX - 10, posY - height)
-  // top left top
-  path.quadraticCurveTo(
-    posX - 10,
-    posY - height - 10,
-    posX - 20,
-    posY - height - 10
-  )
+    ctx.globalAlpha = 0.8
+    // Draw the grey rectangle with rounded corners and a black border
+    ctx.fillStyle = '#d3d3d3'
+    ctx.strokeStyle = 'black'
+    ctx.lineWidth = 2
+    // ctx.beginPath()
+    // lower right top
+    path.moveTo(posX - 10, posY - 16)
+    // top right bottom
+    path.lineTo(posX - 10, posY - height)
+    // top left top
+    path.quadraticCurveTo(
+      posX - 10,
+      posY - height - 10,
+      posX - 20,
+      posY - height - 10
+    )
 
-  // top left bottom
-  path.lineTo(posX - width, posY - height - 10)
+    // top left bottom
+    path.lineTo(posX - width, posY - height - 10)
 
-  path.quadraticCurveTo(
-    posX - (width + 10),
-    posY - height - 10,
-    posX - (width + 10),
-    posY - height
-  )
+    path.quadraticCurveTo(
+      posX - (width + 10),
+      posY - height - 10,
+      posX - (width + 10),
+      posY - height
+    )
 
-  path.lineTo(posX - (width + 10), posY - 16)
-  path.quadraticCurveTo(posX - (width + 10), posY - 10, posX - width, posY - 10)
-  path.lineTo(posX - 20, posY - 10)
-  path.quadraticCurveTo(posX - 10, posY - 10, posX - 10, posY - 16)
-  path.closePath()
-  ctx.fill(path)
-  ctx.stroke(path)
-  ctx.globalAlpha = 1.0
+    path.lineTo(posX - (width + 10), posY - 16)
+    path.quadraticCurveTo(
+      posX - (width + 10),
+      posY - 10,
+      posX - width,
+      posY - 10
+    )
+    path.lineTo(posX - 20, posY - 10)
+    path.quadraticCurveTo(posX - 10, posY - 10, posX - 10, posY - 16)
+    path.closePath()
+    ctx.fill(path)
+    ctx.stroke(path)
+    ctx.globalAlpha = 1.0
 
-  return path
+    return path
+  }
 }
 
 export function drawHex ({
@@ -327,7 +302,7 @@ export function drawHex ({
 }) {
   if (svg) {
     svg.innerHTML = ''
-    svg.innerHTML += `<svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="-50 -50 900 900" width="150%" height="150%" style="transform: translate(-12%, -20%);">
+    svg.innerHTML += `<svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="-50 -50 900 900" width="150%" height="150%" style="transform: translate(-12%, -20%)">
   ${
     !!bgImage &&
     `<defs>

@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 import { drawAvatarFull } from 'utils/visualEffect'
 import { getAvatarData, getGearData } from 'utils/avatar'
@@ -10,6 +10,7 @@ export default function Avatar ({ avatar, fullName, userSubtitle, userLevel, use
   const { state } = useContext(DataContext)
   // const { setModalOpen, setModalContent, setModalStyle } = useContext(ModalContext)
   const navigate = useNavigate()
+  const [loading, setLoading] = useState(true)
 
   const showUserType = (field, abbreviation) => userType === 'admin' ? abbreviation?.admin ? 'A' : 'Admin' : userType === 'teacher' ? abbreviation?.teacher ? 'T' : 'Teacher' : field
 
@@ -35,7 +36,8 @@ export default function Avatar ({ avatar, fullName, userSubtitle, userLevel, use
       gear: gear ? getGearData(state.itemData, Object.values(gear)) : null,
       title: fullName,
       subtitle: showUserType(userSubtitle),
-      level: showUserType(userLevel, { teacher: true })
+      level: showUserType(userLevel, { teacher: true }),
+      handleLoaded: () => setLoading(false)
     })
   }, [avatar, state, gear, userId])
 
@@ -65,28 +67,31 @@ export default function Avatar ({ avatar, fullName, userSubtitle, userLevel, use
   return (
     <>
       {userId ? (
-        <div className="avatar">
-          <canvas id="canvas"></canvas>
+        <div className='avatar'>
+          {loading && <div className='avatar__canvasLoading'>Loading...</div>}
+          <canvas id='canvas'></canvas>
           {!!edit && (
-            <div className="m-abs-upper-left">
+            <div className='m-abs-upper-left'>
               <NavLink
                 className={`mainNav__link m-navLink ${(isActive) =>
                   isActive && 'active'}`}
-                to="profile"
+                to='profile'
               >
-                <button className="m-button">Edit </button>
+                <button className='m-button'>Edit </button>
               </NavLink>
             </div>
           )}
-          <div className="m-abs-upper-right">
-            {/* <button className="button" onClick={openShareModal}>
+          <div className='m-abs-upper-right'>
+            {/* <button className='button' onClick={openShareModal}>
           🔗
         </button> */}
-            <button onClick={share} style={{ fontSize: '18px' }}>🔗</button>
+            <button onClick={share} style={{ fontSize: '18px' }}>
+              🔗
+            </button>
           </div>
-          <div className="m-flexCenter">
+          <div className='m-flexCenter'>
             <button
-              className="m-button m-margin-bottom"
+              className='m-button m-margin-bottom'
               onClick={downloadImage}
             >
               Download Image
