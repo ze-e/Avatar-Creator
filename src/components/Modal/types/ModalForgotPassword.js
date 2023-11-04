@@ -21,9 +21,11 @@ export default function ForgotPassword () {
           style: { background: 'green' }
         })
         setModalContent(<ModalResetPassword />)
-      } else showToast({ text: res })
+      } else {
+        showToast({ text: res })
+        setLoading(false)
+      }
     }
-    setLoading(false)
   }
 
   return (
