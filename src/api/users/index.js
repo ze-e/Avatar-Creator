@@ -161,7 +161,7 @@ const forgotPassword = async (email) => {
         'Content-Type': 'application/json'
       }
     }
-    return await axiosInstance.post('/user/forgotPassword', email, config)
+    return await axiosInstance.patch('/user/forgotPassword', email, config)
   } catch (error) {
     console.error('Error generating forgotten password:', error)
     return (
@@ -181,7 +181,7 @@ const resetPassword = async (token, password) => {
         'Content-Type': 'application/json'
       }
     }
-    return await axiosInstance.post(
+    return await axiosInstance.patch(
       `/user/resetPassword/${token}`,
       { password },
       config
