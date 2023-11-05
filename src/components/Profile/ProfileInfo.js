@@ -44,9 +44,9 @@ export default function ProfileInfo ({ data, publicView = false }) {
       </div>
       {publicView ? (
         <>
-          <Link to="/profile">
+        {user?.data && <Link to="/profile">
             <button>Edit Profile</button>
-          </Link>
+          </Link>}
           <br />
         </>
       ) : (
