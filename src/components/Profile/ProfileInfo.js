@@ -37,16 +37,18 @@ export default function ProfileInfo ({ data, publicView = false }) {
       <div className="m-flex profileInfo__intro">
         <div>
           <h2 className="profileInfo__title">{`${data.name}${
-            data.epiphet && ' the '
+            data.epiphet && " the "
           }${data.epiphet}`}</h2>
           <h3 className="profileInfo__subtitle">{`(Lv. ${data.level} ${data.type} ${data.job})`}</h3>
         </div>
       </div>
       {publicView ? (
         <>
-        {user?.data && <Link to="/profile">
-            <button>Edit Profile</button>
-          </Link>}
+          {user?.data && (
+            <Link to="/profile">
+              <button>Edit Profile</button>
+            </Link>
+          )}
           <br />
         </>
       ) : (
@@ -55,17 +57,20 @@ export default function ProfileInfo ({ data, publicView = false }) {
       <div className="profileInfo__data m-flex">
         <ul className="profileInfo__list">{profiledata()}</ul>
       </div>
-      <h2>Badges:</h2>
-        {data.badges.length > 0 && <ul className="profileInfo__badges m-flex">
-          {data.badges.map((b) => (
-            <div key={b}>
-              <Badge badge={getBadgeData(state.badgeData, b)} key={b} />
-            </div>
-          ))}
-        </ul>
-        }
+      {data.badges.length > 0 && (
+        <>
+          <h2>Badges:</h2>
+          <ul className="profileInfo__badges m-flex">
+            {data.badges.map((b) => (
+              <div key={b}>
+                <Badge badge={getBadgeData(state.badgeData, b)} key={b} />
+              </div>
+            ))}
+          </ul>
+        </>
+      )}
     </div>
-  )
+  );
 }
 
 ProfileInfo.propTypes = {
