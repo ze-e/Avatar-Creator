@@ -56,13 +56,14 @@ export default function ProfileInfo ({ data, publicView = false }) {
         <ul className="profileInfo__list">{profiledata()}</ul>
       </div>
       <h2>Badges:</h2>
-      <ul className="profileInfo__badges m-flex">
-        {data.badges.map((b) => (
-          <div key={b}>
-            <Badge badge={getBadgeData(state.badgeData, b)} key={b} />
-          </div>
-        ))}
-      </ul>
+        {data.badges.length > 0 && <ul className="profileInfo__badges m-flex">
+          {data.badges.map((b) => (
+            <div key={b}>
+              <Badge badge={getBadgeData(state.badgeData, b)} key={b} />
+            </div>
+          ))}
+        </ul>
+        }
     </div>
   )
 }
